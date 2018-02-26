@@ -2,15 +2,15 @@
 
 namespace SettlementRandomizer
 {
-    internal class SettlementRole
+    public class SettlementRole
     {
-        internal string Name { get; set; }
-        internal List<Specialty> Specialties { get; set; }
+        public string Name { get; set; }
+        public List<Specialty> Specialties { get; set; }
     }
 
-    internal class Specialty
+    public class Specialty
     {
-        internal string Name { get; set; }
-        internal int Modifier { get; set; }
+        public string Name { get; set; }
+        public int Modifier { get; set; }
     }
 }

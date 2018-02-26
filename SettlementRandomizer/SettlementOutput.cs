@@ -22,16 +22,21 @@ namespace SettlementRandomizer {
             this.GenerationEnvironment = null;
             
             #line 8 ""
-            this.Write(@"<!DOCTYPE html>
-<html>
-    <head>
-        <title>Random Settlement</title>
-        <link href=""settlement.css"" rel=""stylesheet"">
-    </head>
-    <body>
-        <div class=""container transparent"">
-            <h1>Name</h1>
-            <p class=""general"">Size: ");
+            this.Write("<!DOCTYPE html>\n<html>\n    <head>\n        <title>Random Settlement</title>\n      " +
+                    "  <link href=\"settlement.css\" rel=\"stylesheet\">\n    </head>\n    <body>\n        <" +
+                    "div class=\"container transparent\">\n            <h1>");
+            
+            #line default
+            #line hidden
+            
+            #line 16 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture( Settle.Name ));
+            
+            #line default
+            #line hidden
+            
+            #line 16 ""
+            this.Write("</h1>\n            <p class=\"general\">Size: ");
             
             #line default
             #line hidden
@@ -43,143 +48,154 @@ namespace SettlementRandomizer {
             #line hidden
             
             #line 17 ""
+            this.Write("</p>\n            <p class=\"general\">Role: ");
+            
+            #line default
+            #line hidden
+            
+            #line 18 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture( Settle.Role ));
+            
+            #line default
+            #line hidden
+            
+            #line 18 ""
             this.Write("</p>\n            <p class=\"general\">Population: ");
             
             #line default
             #line hidden
             
-            #line 18 ""
+            #line 19 ""
             this.Write(this.ToStringHelper.ToStringWithCulture( Settle.Population ));
             
             #line default
             #line hidden
             
-            #line 18 ""
-            this.Write("</p>\n            <p class=\"general span\">Oblast: ");
+            #line 19 ""
+            this.Write("</p>\n            <p class=\"general\">Oblast: ");
             
             #line default
             #line hidden
             
-            #line 19 ""
+            #line 20 ""
             this.Write(this.ToStringHelper.ToStringWithCulture( Settle.NearestCity ));
             
             #line default
             #line hidden
             
-            #line 19 ""
+            #line 20 ""
             this.Write("</p>\n            <div class=\"lg-block\">\n                <h2>Demographics</h2>\n   " +
                     "             <ul>\n                    ");
             
             #line default
             #line hidden
             
-            #line 23 ""
+            #line 24 ""
  foreach (KeyValuePair<string, int> kvp in Settle.Demographics) { 
             
             #line default
             #line hidden
             
-            #line 24 ""
+            #line 25 ""
             this.Write("                        <li>");
             
             #line default
             #line hidden
             
-            #line 24 ""
+            #line 25 ""
             this.Write(this.ToStringHelper.ToStringWithCulture( kvp.Key ));
             
             #line default
             #line hidden
             
-            #line 24 ""
+            #line 25 ""
             this.Write(": ");
             
             #line default
             #line hidden
             
-            #line 24 ""
+            #line 25 ""
             this.Write(this.ToStringHelper.ToStringWithCulture( kvp.Value ));
             
             #line default
             #line hidden
             
-            #line 24 ""
+            #line 25 ""
             this.Write("</li>\n                    ");
             
             #line default
             #line hidden
             
-            #line 25 ""
+            #line 26 ""
  } 
             
             #line default
             #line hidden
             
-            #line 26 ""
+            #line 27 ""
             this.Write("                </ul>\n            </div>\n            <div class=\"lg-block\">\n     " +
                     "           <h2>Tech Levels</h2>\n                <ul>\n                    ");
             
             #line default
             #line hidden
             
-            #line 31 ""
+            #line 32 ""
  foreach (KeyValuePair<string, int> kvp in Settle.TechLevels) { 
             
             #line default
             #line hidden
             
-            #line 32 ""
+            #line 33 ""
             this.Write("                        <li>");
             
             #line default
             #line hidden
             
-            #line 32 ""
+            #line 33 ""
             this.Write(this.ToStringHelper.ToStringWithCulture( kvp.Key ));
             
             #line default
             #line hidden
             
-            #line 32 ""
+            #line 33 ""
             this.Write(": ");
             
             #line default
             #line hidden
             
-            #line 32 ""
+            #line 33 ""
             this.Write(this.ToStringHelper.ToStringWithCulture( kvp.Value ));
             
             #line default
             #line hidden
             
-            #line 32 ""
+            #line 33 ""
             this.Write("</li>\n                    ");
             
             #line default
             #line hidden
             
-            #line 33 ""
+            #line 34 ""
  } 
             
             #line default
             #line hidden
             
-            #line 34 ""
+            #line 35 ""
             this.Write("                </ul>\n            </div>\n            <!-- list of NPC tables -->\n" +
                     "            ");
             
             #line default
             #line hidden
             
-            #line 37 ""
+            #line 38 ""
  foreach (PersonData npc in Settle.NPCs) { 
             
             #line default
             #line hidden
             
-            #line 38 ""
-            this.Write("                <table class=\"block\">\n                    <tr class=\"heading\">\n  " +
-                    "                      <td><b>");
+            #line 39 ""
+            this.Write("                <div class=\"block\">\n                        <div class=\"row\"><b>");
             
             #line default
             #line hidden
@@ -191,187 +207,221 @@ namespace SettlementRandomizer {
             #line hidden
             
             #line 40 ""
-            this.Write("</b></td>\n                        <td></td>\n                    </tr>\n           " +
-                    "         <tr class=\"demographics\">\n                        <td>");
+            this.Write("</b></div>\n                        <div class=\"row\">");
             
             #line default
             #line hidden
             
-            #line 44 ""
+            #line 41 ""
             this.Write(this.ToStringHelper.ToStringWithCulture( npc.Age ));
             
             #line default
             #line hidden
             
-            #line 44 ""
+            #line 41 ""
             this.Write(" ");
             
             #line default
             #line hidden
             
-            #line 44 ""
+            #line 41 ""
             this.Write(this.ToStringHelper.ToStringWithCulture( npc.Gender ));
             
             #line default
             #line hidden
             
-            #line 44 ""
-            this.Write("</td>\n                        <td>");
-            
-            #line default
-            #line hidden
-            
-            #line 45 ""
-            this.Write(this.ToStringHelper.ToStringWithCulture( npc.Race ));
-            
-            #line default
-            #line hidden
-            
-            #line 45 ""
+            #line 41 ""
             this.Write(" ");
             
             #line default
             #line hidden
             
-            #line 45 ""
+            #line 41 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture( npc.Race ));
+            
+            #line default
+            #line hidden
+            
+            #line 41 ""
+            this.Write(" ");
+            
+            #line default
+            #line hidden
+            
+            #line 41 ""
             this.Write(this.ToStringHelper.ToStringWithCulture( npc.Subrace != ""? "(" + npc.Subrace + ")" : "" ));
             
             #line default
             #line hidden
             
-            #line 45 ""
-            this.Write(" </td>\n                    </tr>\n                    <tr class=\"data\">\n          " +
-                    "              <td>");
+            #line 41 ""
+            this.Write(" </div>\n                        <div class=\"row\">Religiosity: ");
             
             #line default
             #line hidden
             
-            #line 48 ""
+            #line 42 ""
             this.Write(this.ToStringHelper.ToStringWithCulture( npc.Religion ));
             
             #line default
             #line hidden
             
-            #line 48 ""
-            this.Write("</td>\n                        <td>");
+            #line 42 ""
+            this.Write("</div>\n                        <div class=\"row\">Profession: ");
             
             #line default
             #line hidden
             
-            #line 49 ""
+            #line 43 ""
             this.Write(this.ToStringHelper.ToStringWithCulture( npc.Profession ));
             
             #line default
             #line hidden
             
-            #line 49 ""
-            this.Write("</td>\n                    </tr>\n                    <tr class=\"data\">\n           " +
-                    "             <td>");
+            #line 43 ""
+            this.Write("</div>\n                        <div>Personality: ");
             
             #line default
             #line hidden
             
-            #line 52 ""
+            #line 44 ""
             this.Write(this.ToStringHelper.ToStringWithCulture( npc.Personality ));
             
             #line default
             #line hidden
             
-            #line 52 ""
-            this.Write("</td>\n                    </tr>\n                </table>\n            ");
+            #line 44 ""
+            this.Write("</div>\n                   \n                </div>\n            ");
             
             #line default
             #line hidden
             
-            #line 55 ""
+            #line 47 ""
  } 
             
             #line default
             #line hidden
             
-            #line 56 ""
+            #line 48 ""
             this.Write("            <div class=\"items\">\n                <h2>Weapons</h2>\n                " +
                     "<ul>\n                    ");
             
             #line default
             #line hidden
             
-            #line 59 ""
+            #line 51 ""
  foreach (string item in Settle.AvailableItems["Crafting:Weapons"]) { 
             
             #line default
             #line hidden
             
-            #line 60 ""
+            #line 52 ""
             this.Write("                        <li>");
             
             #line default
             #line hidden
             
-            #line 60 ""
+            #line 52 ""
             this.Write(this.ToStringHelper.ToStringWithCulture( item ));
             
             #line default
             #line hidden
             
-            #line 60 ""
+            #line 52 ""
             this.Write("</li>\n                    ");
             
             #line default
             #line hidden
             
-            #line 61 ""
+            #line 53 ""
  } 
             
             #line default
             #line hidden
             
-            #line 62 ""
+            #line 54 ""
             this.Write("                </ul>\n                <h2>Armor</h2>\n                <ul>\n       " +
                     "                 ");
             
             #line default
             #line hidden
             
-            #line 65 ""
+            #line 57 ""
  foreach (string item in Settle.AvailableItems["Crafting:Armor"]) { 
             
             #line default
             #line hidden
             
-            #line 66 ""
+            #line 58 ""
             this.Write("                            <li>");
             
             #line default
             #line hidden
             
-            #line 66 ""
+            #line 58 ""
             this.Write(this.ToStringHelper.ToStringWithCulture( item ));
             
             #line default
             #line hidden
             
-            #line 66 ""
+            #line 58 ""
             this.Write("</li>\n                        ");
             
             #line default
             #line hidden
             
-            #line 67 ""
+            #line 59 ""
  } 
             
             #line default
             #line hidden
             
-            #line 68 ""
+            #line 60 ""
             this.Write("                </ul>\n                <h2>Ornamental</h2>\n                <ul>\n  " +
                     "                      ");
             
             #line default
             #line hidden
             
-            #line 71 ""
+            #line 63 ""
  foreach (string item in Settle.AvailableItems["Crafting:Ornamental"]) { 
+            
+            #line default
+            #line hidden
+            
+            #line 64 ""
+            this.Write("                            <li>");
+            
+            #line default
+            #line hidden
+            
+            #line 64 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture( item ));
+            
+            #line default
+            #line hidden
+            
+            #line 64 ""
+            this.Write("</li>\n                        ");
+            
+            #line default
+            #line hidden
+            
+            #line 65 ""
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 66 ""
+            this.Write("                </ul>\n            </div>\n            <div class=\"items\">\n        " +
+                    "        <h2>Arcane Spells</h2>\n                <ul>\n                        ");
+            
+            #line default
+            #line hidden
+            
+            #line 71 ""
+ foreach (string item in Settle.AvailableItems["Arcane:Spells"]) { 
             
             #line default
             #line hidden
@@ -401,51 +451,51 @@ namespace SettlementRandomizer {
             #line hidden
             
             #line 74 ""
-            this.Write("                </ul>\n            </div>\n            <div class=\"items\">\n        " +
-                    "        <h2>Arcane Spells</h2>\n                <ul>\n                        ");
-            
-            #line default
-            #line hidden
-            
-            #line 79 ""
- foreach (string item in Settle.AvailableItems["Arcane:Spells"]) { 
-            
-            #line default
-            #line hidden
-            
-            #line 80 ""
-            this.Write("                            <li>");
-            
-            #line default
-            #line hidden
-            
-            #line 80 ""
-            this.Write(this.ToStringHelper.ToStringWithCulture( item ));
-            
-            #line default
-            #line hidden
-            
-            #line 80 ""
-            this.Write("</li>\n                        ");
-            
-            #line default
-            #line hidden
-            
-            #line 81 ""
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 82 ""
             this.Write("                </ul>\n                <h2>Enchanting</h2>\n                <ul>\n  " +
                     "                      ");
             
             #line default
             #line hidden
             
-            #line 85 ""
+            #line 77 ""
  foreach (string item in Settle.AvailableItems["Arcane:Enchanting"]) { 
+            
+            #line default
+            #line hidden
+            
+            #line 78 ""
+            this.Write("                            <li>");
+            
+            #line default
+            #line hidden
+            
+            #line 78 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture( item ));
+            
+            #line default
+            #line hidden
+            
+            #line 78 ""
+            this.Write("</li>\n                        ");
+            
+            #line default
+            #line hidden
+            
+            #line 79 ""
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 80 ""
+            this.Write("                </ul>\n            </div>\n            <div class=\"items\">\n        " +
+                    "        <h2>Divine Spells</h2>\n                <ul>\n                        ");
+            
+            #line default
+            #line hidden
+            
+            #line 85 ""
+ foreach (string item in Settle.AvailableItems["Divine:Spells"]) { 
             
             #line default
             #line hidden
@@ -475,51 +525,51 @@ namespace SettlementRandomizer {
             #line hidden
             
             #line 88 ""
-            this.Write("                </ul>\n            </div>\n            <div class=\"items\">\n        " +
-                    "        <h2>Divine Spells</h2>\n                <ul>\n                        ");
-            
-            #line default
-            #line hidden
-            
-            #line 93 ""
- foreach (string item in Settle.AvailableItems["Divine:Spells"]) { 
-            
-            #line default
-            #line hidden
-            
-            #line 94 ""
-            this.Write("                            <li>");
-            
-            #line default
-            #line hidden
-            
-            #line 94 ""
-            this.Write(this.ToStringHelper.ToStringWithCulture( item ));
-            
-            #line default
-            #line hidden
-            
-            #line 94 ""
-            this.Write("</li>\n                        ");
-            
-            #line default
-            #line hidden
-            
-            #line 95 ""
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 96 ""
             this.Write("                </ul>\n                <h2>Potions</h2>\n                <ul>\n     " +
                     "                   ");
             
             #line default
             #line hidden
             
-            #line 99 ""
+            #line 91 ""
  foreach (string item in Settle.AvailableItems["Potions:All"]) { 
+            
+            #line default
+            #line hidden
+            
+            #line 92 ""
+            this.Write("                            <li>");
+            
+            #line default
+            #line hidden
+            
+            #line 92 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture( item ));
+            
+            #line default
+            #line hidden
+            
+            #line 92 ""
+            this.Write("</li>\n                        ");
+            
+            #line default
+            #line hidden
+            
+            #line 93 ""
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 94 ""
+            this.Write("                </ul>\n            </div>\n            <div class=\"items\">\n        " +
+                    "        <h2>Lodging</h2>\n                <ul>\n                        ");
+            
+            #line default
+            #line hidden
+            
+            #line 99 ""
+ foreach (string item in Settle.AvailableItems["Lodging:All"]) { 
             
             #line default
             #line hidden
@@ -550,13 +600,13 @@ namespace SettlementRandomizer {
             
             #line 102 ""
             this.Write("                </ul>\n            </div>\n            <div class=\"items\">\n        " +
-                    "        <h2>Lodging</h2>\n                <ul>\n                        ");
+                    "        <h2>Specialty Items</h2>\n                <ul>\n                        ");
             
             #line default
             #line hidden
             
             #line 107 ""
- foreach (string item in Settle.AvailableItems["Lodging:All"]) { 
+ foreach (string item in Settle.AvailableItems["Items:Specialty"]) { 
             
             #line default
             #line hidden
@@ -586,131 +636,68 @@ namespace SettlementRandomizer {
             #line hidden
             
             #line 110 ""
-            this.Write("                </ul>\n                <h2>Transport</h2>\n                <ul>\n   " +
-                    "                     ");
+            this.Write("                </ul>\n            </div>\n            ");
             
             #line default
             #line hidden
             
-            #line 113 ""
- foreach (string item in Settle.AvailableItems["Transport:All"]) { 
-            
-            #line default
-            #line hidden
-            
-            #line 114 ""
-            this.Write("                            <li>");
-            
-            #line default
-            #line hidden
-            
-            #line 114 ""
-            this.Write(this.ToStringHelper.ToStringWithCulture( item ));
-            
-            #line default
-            #line hidden
-            
-            #line 114 ""
-            this.Write("</li>\n                        ");
-            
-            #line default
-            #line hidden
-            
-            #line 115 ""
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 116 ""
-            this.Write("                </ul>\n            </div>\n            <div class=\"items\">\n        " +
-                    "        <h2>Specialty Items</h2>\n                <ul>\n                        ");
-            
-            #line default
-            #line hidden
-            
-            #line 121 ""
- foreach (string item in Settle.AvailableItems["Items:Specialty"]) { 
-            
-            #line default
-            #line hidden
-            
-            #line 122 ""
-            this.Write("                            <li>");
-            
-            #line default
-            #line hidden
-            
-            #line 122 ""
-            this.Write(this.ToStringHelper.ToStringWithCulture( item ));
-            
-            #line default
-            #line hidden
-            
-            #line 122 ""
-            this.Write("</li>\n                        ");
-            
-            #line default
-            #line hidden
-            
-            #line 123 ""
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 124 ""
-            this.Write("                </ul>\n            </div>\n            <div class=\"items\">\n        " +
-                    "        <ul>\n                    ");
-            
-            #line default
-            #line hidden
-            
-            #line 128 ""
+            #line 112 ""
  if (ShowCommonItems) { 
             
             #line default
             #line hidden
             
-            #line 129 ""
-            this.Write("                    ");
+            #line 113 ""
+            this.Write("            <div class=\"items\">\n                <h2>Common Items</h2>\n           " +
+                    "     <ul>\n                    \n                    ");
             
             #line default
             #line hidden
             
-            #line 129 ""
+            #line 117 ""
  foreach (string item in Settle.AvailableItems["Items:General"]) { 
             
             #line default
             #line hidden
             
-            #line 130 ""
+            #line 118 ""
             this.Write("                            <li>");
             
             #line default
             #line hidden
             
-            #line 130 ""
+            #line 118 ""
             this.Write(this.ToStringHelper.ToStringWithCulture( item ));
             
             #line default
             #line hidden
             
-            #line 130 ""
+            #line 118 ""
             this.Write("</li>\n                    ");
             
             #line default
             #line hidden
             
-            #line 131 ""
- } } 
+            #line 119 ""
+ } 
             
             #line default
             #line hidden
             
-            #line 132 ""
-            this.Write("                </ul>\n            </div>\n\n            \n        </div>\n    </body>" +
-                    "\n</html>\n");
+            #line 120 ""
+            this.Write("                </ul>\n            </div>\n            ");
+            
+            #line default
+            #line hidden
+            
+            #line 122 ""
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 123 ""
+            this.Write("            \n        </div>\n    </body>\n</html>\n");
             
             #line default
             #line hidden

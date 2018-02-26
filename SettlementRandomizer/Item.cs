@@ -1,8 +1,8 @@
 ﻿namespace SettlementRandomizer
 {
-    internal class Item
+    public class Item
     {
-        internal string Name { get; set; }
-        internal int Rank { get; set; }
+        public string Name { get; set; }
+        public int Rank { get; set; }
     }
 }

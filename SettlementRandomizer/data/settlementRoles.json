@@ -3,15 +3,15 @@
         "Name": "subsistence",
         "Specialties": [
             {
-                "Name": "arcane",
+                "Name": "Arcane",
                 "Modifier": -4 
             },
             {
-                "Name": "divine",
+                "Name": "Divine",
                 "Modifier": -4
             },
             {
-                "Name": "items",
+                "Name": "Items",
                 "Modifier": -2
             }
         ]
@@ -20,19 +20,19 @@
         "Name": "hermit",
         "Specialties": [
             {
-                "Name": "potions",
+                "Name": "Potions",
                 "Modifier": 1
             },
             {
-                "Name": "divine",
+                "Name": "Divine",
                 "Modifier": 1
             },
             {
-                "Name": "items",
+                "Name": "Items",
                 "Modifier": -4
             },
             {
-                "Name": "lodging",
+                "Name": "Lodging",
                 "Modifier": -2
             }
         ]
@@ -41,19 +41,19 @@
         "Name": "trapper",
         "Specialties": [
             {
-                "Name": "arcane",
+                "Name": "Arcane",
                 "Modifier": -4 
             },
             {
-                "Name": "divine",
+                "Name": "Divine",
                 "Modifier": -2
             },
             {
-                "Name": "items",
+                "Name": "Items",
                 "Modifier": -2
             },
             {
-                "Name": "crafting",
+                "Name": "Crafting",
                 "Modifier": 1
             }
         ]
@@ -61,7 +61,7 @@
     {
         "Name": "extraction",
         "Specialties": [
-            { "Name": "crafting", "Modifier": 1 },
+            { "Name": "Crafting", "Modifier": 1 },
         ]
     },
     {

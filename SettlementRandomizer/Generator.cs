@@ -40,19 +40,22 @@ namespace SettlementRandomizer
 
         internal Settlement GenerateSettlement(string size, string nearestCity)
         {
-            var nearest = cities.First(x => x.Name == nearestCity);
+            var nearest = cities.First(x => x.Name.ToLower() == nearestCity.ToLower());
             var name = nearest.GetName();
-            var sInfo = settlements.First(x => x.Name == size);
+            var sInfo = settlements.First(x => x.Name.ToLower() == size.ToLower());
             var pop = sInfo.GetPopulation(random.NextDouble());
             var demographics = sInfo.GetDemographics(nearest, pop);
             var sNPCs = sInfo.GetNPCs(nearest, npcGenerator);
             var role = sInfo.GetRole(random.NextDouble());
-            var tech = ApplyRole(sInfo, roles.First(x => x.Name == role));
+            var tech = ApplyRole(sInfo, roles.First(x => x.Name.ToLower() == role.ToLower()));
             var sItems = new Dictionary<string, List<string>>();
             foreach (KeyValuePair<string,int> kv in tech)
             {
-                var data = items.First(x => x.Category == kv.Key);
-                sItems[kv.Key+$":{data.Subcategory}"] = data.AvailableItems(kv.Value).Select(x => x.Name).ToList();
+                var data = items.Where(x => x.Category == kv.Key);
+                foreach (ItemData item in data) {
+                    sItems[kv.Key + $":{item.Subcategory}"] = item.AvailableItems(kv.Value).Select(x => x.Name).ToList();    
+                }
+
             }
             return new Settlement()
             {

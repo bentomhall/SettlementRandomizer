@@ -2,13 +2,13 @@
 using System.Linq;
 namespace SettlementRandomizer
 {
-    internal class ItemData
+    public class ItemData
     {
-        internal string Category { get; set; }
-        internal string Subcategory { get; set; }
-        internal List<Item> Items { get; set; }
+        public string Category { get; set; }
+        public string Subcategory { get; set; }
+        public List<Item> Items { get; set; }
 
-        internal IEnumerable<Item> AvailableItems(int rank)
+        public IEnumerable<Item> AvailableItems(int rank)
         {
             return Items.Where(x => x.Rank <= rank);
         }

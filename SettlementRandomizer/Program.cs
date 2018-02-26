@@ -7,8 +7,10 @@ namespace SettlementRandomizer
     {
         static void Main(string[] args)
         {
+            var gen = new SettlementGenerator();/*
             Console.WriteLine("Welcome to the random settlement generator");
-            Console.Write("Please select a size of city to generate\nValid sizes are Isolated, Hamlet, Thorpe, Village, Town, Shrine, or Castle");
+            Console.WriteLine("Please select a size of city to generate");
+            Console.Write("Valid sizes are Isolated, Hamlet, Thorpe, Village, Town, Shrine, or Castle: ");
             var size = Console.ReadLine();
             Console.Write("Enter the number of settlements to generate: ");
             var nInput = Console.ReadLine();
@@ -18,8 +20,8 @@ namespace SettlementRandomizer
             }
             Console.Write("What is the nearest city? ");
             var nearest = Console.ReadLine();
-            var gen = new SettlementGenerator();
-            gen.Create(size, number, nearest);
+            gen.Create(size, number, nearest);*/
+            gen.Create("thorpe", 1, "Kaelthia");
         }   
     }
 

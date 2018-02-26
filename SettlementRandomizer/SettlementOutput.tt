@@ -13,10 +13,11 @@
     </head>
     <body>
         <div class="container transparent">
-            <h1>Name</h1>
+            <h1><#= Settle.Name #></h1>
             <p class="general">Size: <#= Settle.Size #></p>
+            <p class="general">Role: <#= Settle.Role #></p>
             <p class="general">Population: <#= Settle.Population #></p>
-            <p class="general span">Oblast: <#= Settle.NearestCity #></p>
+            <p class="general">Oblast: <#= Settle.NearestCity #></p>
             <div class="lg-block">
                 <h2>Demographics</h2>
                 <ul>
@@ -35,23 +36,14 @@
             </div>
             <!-- list of NPC tables -->
             <# foreach (PersonData npc in Settle.NPCs) { #>
-                <table class="block">
-                    <tr class="heading">
-                        <td><b><#= npc.Name #></b></td>
-                        <td></td>
-                    </tr>
-                    <tr class="demographics">
-                        <td><#= npc.Age #> <#= npc.Gender #></td>
-                        <td><#= npc.Race #> <#= npc.Subrace != ""? "(" + npc.Subrace + ")" : "" #> </td>
-                    </tr>
-                    <tr class="data">
-                        <td><#= npc.Religion #></td>
-                        <td><#= npc.Profession #></td>
-                    </tr>
-                    <tr class="data">
-                        <td><#= npc.Personality #></td>
-                    </tr>
-                </table>
+                <div class="block">
+                        <div class="row"><b><#= npc.Name #></b></div>
+                        <div class="row"><#= npc.Age #> <#= npc.Gender #> <#= npc.Race #> <#= npc.Subrace != ""? "(" + npc.Subrace + ")" : "" #> </div>
+                        <div class="row">Religiosity: <#= npc.Religion #></div>
+                        <div class="row">Profession: <#= npc.Profession #></div>
+                        <div>Personality: <#= npc.Personality #></div>
+                   
+                </div>
             <# } #>
             <div class="items">
                 <h2>Weapons</h2>
@@ -108,12 +100,6 @@
                             <li><#= item #></li>
                         <# } #>
                 </ul>
-                <h2>Transport</h2>
-                <ul>
-                        <# foreach (string item in Settle.AvailableItems["Transport:All"]) { #>
-                            <li><#= item #></li>
-                        <# } #>
-                </ul>
             </div>
             <div class="items">
                 <h2>Specialty Items</h2>
@@ -123,15 +109,17 @@
                         <# } #>
                 </ul>
             </div>
+            <# if (ShowCommonItems) { #>
             <div class="items">
+                <h2>Common Items</h2>
                 <ul>
-                    <# if (ShowCommonItems) { #>
+                    
                     <# foreach (string item in Settle.AvailableItems["Items:General"]) { #>
                             <li><#= item #></li>
-                    <# } } #>
+                    <# } #>
                 </ul>
             </div>
-
+            <# } #>
             
         </div>
     </body>
