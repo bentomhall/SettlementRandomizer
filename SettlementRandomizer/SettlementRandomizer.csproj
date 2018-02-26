@@ -13,4 +13,18 @@
     <ProjectReference Include="..\..\NPCRandomizer\NPCRandomizer\NPCRandomizer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="data\city_data.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="data\itemRanks.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="data\settlementRoles.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="data\settlementTypes.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

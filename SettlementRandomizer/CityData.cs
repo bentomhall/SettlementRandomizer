@@ -14,9 +14,10 @@ namespace SettlementRandomizer
         internal string Terrain { get; set; }
         internal List<NPCRandomizer.NamedRange> Races { get; set; }
         internal int Tech { get; set; }
-        internal int NameParts { get; set; }
+        internal List<string> Prefixes { get; set; }
+        internal List<string> Infixes { get; set; }
+        internal List<string> Suffixes { get; set; }
         internal string Combiner { get; set; }
-        internal List<string> Components { get; set; }
 
         internal string GetRace()
         {
@@ -28,12 +29,10 @@ namespace SettlementRandomizer
         internal string GetName()
         {
             var textInfo = new CultureInfo("en-US", false).TextInfo;
-            var name = random.Choice(Components);
-            for (int i = 1; i < NameParts; i++)
-            {
-                name += Combiner + random.Choice(Components);
-            }
-            return textInfo.ToTitleCase(name);
+            var prefix = Prefixes.Count == 0 ? "" : random.Choice(Prefixes)+Combiner;
+            var infix = Infixes.Count == 0 ? "" : random.Choice(Infixes) + Combiner;
+            var suffix = random.Choice(Suffixes);
+            return textInfo.ToTitleCase(prefix+infix+suffix);
         }
     }
 }

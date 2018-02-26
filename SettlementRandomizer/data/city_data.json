@@ -34,9 +34,10 @@
       }
     ],
     "Tech": 4,
-    "NameParts": 2,
-    "Combiner": " ",
-    "Components": ["Ulaan", "Yagaan", "Ulbar Shar", "Shar", "Khuren", "Khokh", "Yagaan Khokh", "Nogoon", "Tsagaan", "Khar", "Saaral", "Khot", "Arui", "Tsaiz"]
+    "Prefixes": [  ],
+    "Infixes": [ "Ulaan", "Yagaan", "Ulbar Shar", "Shar", "Khuren", "Khokh", "Yagaan Khokh", "Nogoon", "Tsagaan" ],
+    "Suffixes": [ "Khar", "Saaral", "Khot", "Arui", "Tsaiz" ],
+    "Combiner": " "
   },
   {
     "Name": "Pilvin Koti",
@@ -63,9 +64,10 @@
       }
     ],
     "Tech": 2,
-    "NameParts": 2,
-    "Combiner": " ",
-    "Components": ["valkoinen", "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen", "vihreae", "harmaa", "ruskea", "vaeri", "metsae", "koti", "virta", "vuori"]
+    "Prefixes": [],
+    "Infixes": [ "valkoinen", "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen", "vihreae", "harmaa", "ruskea" ],
+    "Suffixes": [ "vaeri", "metsae", "koti", "virta", "vuori" ],
+    "Combiner": " "
   },
   {
     "Name": "Sin-eater's Maw",
@@ -97,9 +99,10 @@
       }
     ],
     "Tech": 2,
-    "NameParts": 1,
-    "Combiner": " ",
-    "Components": ["Amity", "Calm", "Charity", "Clarity", "Clemency", "Constance", "Faith", "Fidelity", "Fortitude", "Honor", "Justice", "Loyalty", "Unity", "Truth"]
+    "Prefixes": [],
+    "Infixes": [ "Amity", "Calm", "Charity", "Clarity", "Clemency", "Constance", "Faith", "Fidelity", "Fortitude", "Honor", "Justice", "Loyalty", "Unity", "Truth" ],
+    "Suffixes": ["Flame", "Hammer", "Shield", "Sword", "Bulwark", "Hold", "Fortress"],
+    "Combiner": "'s "
   },
   {
     "Name": "Gor'osh",
@@ -126,9 +129,10 @@
       }
     ],
     "Tech": 3,
-    "NameParts": 2,
-    "Combiner": "'",
-    "Components": ["gor", "osh", "dubh", "geal", "ban", "fionn", "dearg", "ruadh", "buidhe", "gorm", "uaine", "glas", "donn", "liath", "coille", "bhaile", "loch", "abhainn", "tur", "daigneach"]
+    "Prefixes": [],
+    "Infixes": [ "gor", "dubh", "geal", "ban", "fionn", "dearg", "ruadh", "buidhe", "gorm", "uaine", "glas", "donn", "liath" ],
+    "Suffixes": [ "osh", "coille", "bhaile", "loch", "abhainn", "tur", "daigneach" ],
+    "Combiner": "'"
   },
   {
     "Name": "Baile Craan",
@@ -155,9 +159,10 @@
       }
     ],
     "Tech": 3,
-    "NameParts": 2,
-    "Combiner": "",
-    "Components": ["aber", "avon", "axe", "ay", "beck", "river", "ford", "brad", "carden", "white", "shep", "craig", "dale", "holm", "mont", "inver", "lyn"]
+    "Prefixes": [ "aber", "craig", "mont", "" ],
+    "Infixes": [ "river", "ford", "brad", "carden", "white", "shep", "inver", "nath", "" ],
+    "Suffixes": [ "avon", "axe", "ay", "y", "beck", "dale", "holm", "lyn" ],
+    "Combiner": ""
   },
   {
     "Name": "Kaelthia",
@@ -189,9 +194,10 @@
       }
     ],
     "Tech": 4,
-    "NameParts": 2,
-    "Combiner": "",
-    "Components": [ "aber", "avon", "axe", "ay", "beck", "river", "ford", "brad", "carden", "white", "shep", "craig", "dale", "holm", "mont", "inver", "lyn" ]
+    "Prefixes": [ "aber", "craig", "mont", "" ],
+    "Infixes": [ "river", "ford", "brad", "carden", "white", "shep", "inver", "nath", "" ],
+    "Suffixes": [ "avon", "axe", "ay", "y", "beck", "dale", "holm", "lyn" ],
+    "Combiner": ""  
   },
   {
     "Name": "Yuuras Zaali",
@@ -223,10 +229,10 @@
       }
     ],
     "Tech": 3,
-
-    "NameParts": 2,
-    "Combiner": "",
-    "Components": [ "aber", "avon", "axe", "ay", "beck", "river", "ford", "brad", "carden", "white", "shep", "craig", "dale", "holm", "mont", "inver", "lyn" ]
+    "Prefixes": [ "aber", "craig", "mont", "" ],
+    "Infixes": [ "river", "ford", "brad", "carden", "white", "shep", "inver", "nath", "" ],
+    "Suffixes": [ "avon", "axe", "ay", "y", "beck", "dale", "holm", "lyn" ],
+    "Combiner": ""  
   },
   {
     "Name": "Rauviz",
@@ -258,10 +264,10 @@
       }
     ],
     "Tech": 4,
-
-    "NameParts": 2,
-    "Combiner": "",
-    "Components": [ "aber", "avon", "axe", "ay", "beck", "river", "ford", "brad", "carden", "white", "shep", "craig", "dale", "holm", "mont", "inver", "lyn" ]
+    "Prefixes": [ "aber", "craig", "mont", "" ],
+    "Infixes": [ "river", "ford", "brad", "carden", "white", "shep", "inver", "nath", "" ],
+    "Suffixes": [ "avon", "axe", "ay", "y", "beck", "dale", "holm", "lyn" ],
+    "Combiner": ""
   },
   {
     "Name": "Fort Hope",
@@ -298,10 +304,10 @@
       }
     ],
     "Tech": 3,
-
-    "NameParts": 2,
-    "Combiner": "-",
-    "Components": [ "sheep", "cattle", "grass", "river", "wind", "hill", "stink", "blow", "run", "giant"]
+    "Prefixes": [ "sheep", "cattle", "grass", "river", "wind", "hill" ],
+    "Infixes": [ "stink", "blow", "run", "giant" ],
+    "Suffixes": ["tribe", "camp", "home"],
+    "Combiner": " "
   },
   {
     "Name": "Byarshia",
@@ -328,9 +334,10 @@
       }
     ],
     "Tech": 4,
-    "NameParts": 3,
-    "Combiner": "",
-    "Components": [ "gor", "osh", "dubh", "geal", "ban", "fionn", "dearg", "ruadh", "buidhe", "gorm", "uaine", "glas", "donn", "liath", "coille", "bhaile", "craig", "dale", "holm", "mont", "inver", "lyn", "valkoinen", "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen", "vihreae" ]
+    "Prefixes": [ "gor", "dubh", "geal", "ban", "fionn", "dearg", "ruadh", "buidhe", "gorm", "uaine", "glas", "donn", "liath", "valkoinen", "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen" ],
+    "Suffixes": [ "dale", "holm", "mont", "inver", "lyn", "vihreae" ],
+    "Infixes": [ "osh", "coille", "bhaile", "craig" ],
+    "Combiner": "'"
   },
   {
     "Name": "Lyodnoir",
@@ -357,9 +364,11 @@
       }
     ],
     "Tech": 4,
-    "NameParts": 1,
-    "Combiner": "",
-    "Components": [ "gor", "osh", "dubh", "geal", "ban", "fionn", "dearg", "ruadh", "buidhe", "gorm", "uaine", "glas", "donn", "liath", "coille", "bhaile", "craig", "dale", "holm", "mont", "inver", "lyn", "valkoinen", "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen", "vihreae" ]
+    "Prefixes": [ "gor", "dubh", "geal", "ban", "fionn", "dearg", "ruadh", "buidhe", "gorm", "uaine", "glas", "donn", "liath", "valkoinen", "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen" ],
+    "Suffixes": [ "dale", "holm", "mont", "inver", "lyn", "vihreae" ],
+    "Infixes": [ "osh", "coille", "bhaile", "craig" ],
+    "Combiner": "'"
+
   },
   {
     "Name": "Byss",
@@ -386,9 +395,10 @@
       }
     ],
     "Tech": 3,
-    "NameParts": 3,
-    "Combiner": "",
-    "Components": [ "frourio", "potami", "dasos","thalassa", "craig", "dale", "holm", "mont", "inver", "lyn", "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen", "vihreae" ]
+    "Prefixes": [ "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen", "vihreae" ],
+    "Infixes": [ "craig", "dale", "holm", "mont", "inver", "lyn", "", "", "", "", "", "" ],
+    "Suffixes": [ "frourio", "potami", "dasos", "thalassa" ],
+    "Combiner": "'o'"
   },
   {
     "Name": "Fuar Uulan",
@@ -420,10 +430,10 @@
       }
     ],
     "Tech": 4,
-    "NameParts": 3,
-    "Combiner": " ",
-    "Components": [ "Ulaan", "Yagaan", "Ulbar Shar", "Shar", "Khuren", "Khokh", "Yagaan Khokh", "Nogoon", "Tsagaan", "Khar", "Saaral", "Khot", "Arui", "Tsaiz" ]
-
+    "Prefixes": [],
+    "Infixes": [ "Ulaan", "Yagaan", "Ulbar Shar", "Shar", "Khuren", "Khokh", "Yagaan Khokh", "Nogoon", "Tsagaan" ],
+    "Suffixes": [ "Khar", "Saaral", "Khot", "Arui", "Tsaiz" ],
+    "Combiner": " "
   },
   {
     "Name": "Ar Salem Dolem",
@@ -450,9 +460,10 @@
       }
     ],
     "Tech": 2,
-    "NameParts": 3,
-    "Combiner": " ",
-    "Components": [ "Phoa", "Praa", "Meas", "Kha Maot", "So-w", "krohom", "kiev", "baitong", "teuk krewt", "svay", "thnout", "brisot", "psa", "hvang", "khnat", "preichheu", "tonle"]
+    "Prefixes": [ "Phoa", "Praa", "Meas", "Kha Maot", "So", "krohom", "kiev", "baitong", "teuk krewt", "svay" ],
+    "Suffixes": [ "thnout", "brisot", "psa", "hvang" ],
+    "Infixes": [ "khnat", "preichheu", "tonle", "sraat" ],
+    "Combiner": " "
   },
   {
     "Name": "Srassa Saat",
@@ -484,9 +495,10 @@
       }
     ],
     "Tech": 1,
-    "NameParts": 3,
-    "Combiner": " ",
-    "Components": [ "Phoa", "Praa", "Meas", "Kha Maot", "So-w", "krohom", "kiev", "baitong", "teuk krewt", "svay", "thnout", "brisot", "psa", "hvang", "khnat", "preichheu", "tonle" ]
+    "Prefixes": [ "Phoa", "Praa", "Meas", "Kha Maot", "So", "krohom", "kiev", "baitong", "teuk krewt", "svay" ],
+    "Suffixes": [ "thnout", "brisot", "psa", "hvang" ],
+    "Infixes": [ "khnat", "preichheu", "tonle", "sraat" ],
+    "Combiner": " "
   },
   {
     "Name": "Sha'Slar",
@@ -513,9 +525,10 @@
       }
     ],
     "Tech": 3,
-    "NameParts": 2,
-    "Combiner": " ",
-    "Components": [ "Phoa", "Praa", "Meas", "Kha Maot", "So-w", "krohom", "kiev", "baitong", "teuk krewt", "svay", "thnout", "brisot", "psa", "hvang", "khnat", "preichheu", "tonle" ]
+    "Prefixes": [ "Phoa", "Praa", "Meas", "Kha Maot", "So", "krohom", "kiev", "baitong", "teuk krewt", "svay" ],
+    "Suffixes": [ "thnout", "brisot", "psa", "hvang" ],
+    "Infixes": [ "khnat", "preichheu", "tonle", "sraat" ],
+    "Combiner": " "
   },
   {
     "Name": "Asa'Ka",
@@ -542,9 +555,10 @@
       }
     ],
     "Tech": 4,
-    "NameParts": 2,
-    "Combiner": "'",
-    "Components": [ "Phoa", "Praa", "Meas", "Kha Maot", "So-w", "krohom", "kiev", "baitong", "teuk krewt", "svay", "thnout", "brisot", "psa", "hvang", "khnat", "preichheu", "tonle" ]
+    "Prefixes": [ "Phoa", "Praa", "Meas", "Kha Maot", "So", "krohom", "kiev", "baitong", "teuk krewt", "svay" ],
+    "Suffixes": [ "thnout", "brisot", "psa", "hvang" ],
+    "Infixes": [ "khnat", "preichheu", "tonle", "sraat" ],
+    "Combiner": "'"  
   },
   {
     "Name": "Kel'al'ar",
@@ -576,9 +590,9 @@
       }
     ],
     "Tech": 3,
-    "NameParts": 3,
-    "Combiner": "'",
-    "Components": [ "Phoa", "Praa", "Meas", "Kha Maot", "So-w", "krohom", "kiev", "baitong", "teuk krewt", "svay", "thnout", "brisot", "psa", "hvang", "khnat", "preichheu", "tonle" ]
+    "Prefixes": [ "Phoa", "Praa", "Meas", "Kha Maot", "So", "krohom", "kiev", "baitong", "teuk krewt", "svay" ],
+    "Suffixes": [ "thnout", "brisot", "psa", "hvang" ],
+    "Infixes": [ "khnat", "preichheu", "tonle", "sraat" ],
+    "Combiner": "'"
   }
-
 ]

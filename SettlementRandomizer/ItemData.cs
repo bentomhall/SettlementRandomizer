@@ -8,7 +8,7 @@ namespace SettlementRandomizer
         internal string Subcategory { get; set; }
         internal List<Item> Items { get; set; }
 
-        IEnumerable<Item> AvailableItems(int rank)
+        internal IEnumerable<Item> AvailableItems(int rank)
         {
             return Items.Where(x => x.Rank <= rank);
         }
