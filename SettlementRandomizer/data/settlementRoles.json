@@ -1,0 +1,95 @@
+[
+    {
+        "Name": "subsistence",
+        "Specialties": [
+            {
+                "Name": "arcane",
+                "Modifier": -4 
+            },
+            {
+                "Name": "divine",
+                "Modifier": -4
+            },
+            {
+                "Name": "items",
+                "Modifier": -2
+            }
+        ]
+    },
+    {
+        "Name": "hermit",
+        "Specialties": [
+            {
+                "Name": "potions",
+                "Modifier": 1
+            },
+            {
+                "Name": "divine",
+                "Modifier": 1
+            },
+            {
+                "Name": "items",
+                "Modifier": -4
+            },
+            {
+                "Name": "lodging",
+                "Modifier": -2
+            }
+        ]
+    },
+        {
+        "Name": "trapper",
+        "Specialties": [
+            {
+                "Name": "arcane",
+                "Modifier": -4 
+            },
+            {
+                "Name": "divine",
+                "Modifier": -2
+            },
+            {
+                "Name": "items",
+                "Modifier": -2
+            },
+            {
+                "Name": "crafting",
+                "Modifier": 1
+            }
+        ]
+    },
+    {
+        "Name": "extraction",
+        "Specialties": [
+            { "Name": "crafting", "Modifier": 1 },
+        ]
+    },
+    {
+        "Name": "agriculture",
+        "Specialties": [
+        ]
+    },
+    {
+        "Name": "trading",
+        "Specialties": [
+            {"Name": "Items", "Modifier": 1},
+            {"Name": "Potions", "Modifier": 1}
+        ]
+    },
+    {
+        "Name": "research",
+        "Specialties": [
+            {"Name": "Arcane", "Modifier": 1}
+        ]
+    },
+    {
+        "Name": "development",
+        "Specialties": [
+            {"Name": "Crafting", "Modifier": 2}
+        ]
+    },
+    {
+        "Name": "none",
+        "Specialties": []
+    }
+]

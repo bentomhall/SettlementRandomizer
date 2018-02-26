@@ -1,0 +1,584 @@
+[
+  {
+    "Name": "Hammerfell",
+    "Nation": "Independent",
+    "Population": 7500,
+    "Size": "City",
+    "Region": "Frozen Coast",
+    "Terrain": "Underground",
+    "Races": [
+      {
+        "Name": "dwarf",
+        "Start": 0.0,
+        "Stop": 0.6
+      },
+      {
+        "Name": "gnome",
+        "Start": 0.6,
+        "Stop": 0.8
+      },
+      {
+        "Name": "soul-forged",
+        "Start": 0.8,
+        "Stop": 0.96
+      },
+      {
+        "Name": "azer",
+        "Start": 0.96,
+        "Stop": 0.98
+      },
+      {
+        "Name": "deep gnome",
+        "Start": 0.98,
+        "Stop": 1.0
+      }
+    ],
+    "Tech": 4,
+    "NameParts": 2,
+    "Combiner": " ",
+    "Components": ["Ulaan", "Yagaan", "Ulbar Shar", "Shar", "Khuren", "Khokh", "Yagaan Khokh", "Nogoon", "Tsagaan", "Khar", "Saaral", "Khot", "Arui", "Tsaiz"]
+  },
+  {
+    "Name": "Pilvin Koti",
+    "Nation": "Independent",
+    "Size": "Town",
+    "Region": "Orc-Lands",
+    "Terrain": "Forest",
+    "Population": 800,
+    "Races": [
+      {
+        "Name": "wood elf",
+        "Start": 0.0,
+        "Stop": 0.8
+      },
+      {
+        "Name": "human",
+        "Start": 0.8,
+        "Stop": 0.95
+      },
+      {
+        "Name": "orc",
+        "Start": 0.95,
+        "Stop": 1.0
+      }
+    ],
+    "Tech": 2,
+    "NameParts": 2,
+    "Combiner": " ",
+    "Components": ["valkoinen", "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen", "vihreae", "harmaa", "ruskea", "vaeri", "metsae", "koti", "virta", "vuori"]
+  },
+  {
+    "Name": "Sin-eater's Maw",
+    "Nation": "Independent",
+    "Population": 750,
+    "Size": "Town",
+    "Region": "Orc-Lands",
+    "Terrain": "Mountains",
+    "Races": [
+      {
+        "Name": "human",
+        "Start": 0.0,
+        "Stop": 0.7
+      },
+      {
+        "Name": "wood elf",
+        "Start": 0.7,
+        "Stop": 0.85
+      },
+      {
+        "Name": "halfling",
+        "Start": 0.85,
+        "Stop": 0.9
+      },
+      {
+        "Name": "dwarf",
+        "Start": 0.9,
+        "Stop": 1.0
+      }
+    ],
+    "Tech": 2,
+    "NameParts": 1,
+    "Combiner": " ",
+    "Components": ["Amity", "Calm", "Charity", "Clarity", "Clemency", "Constance", "Faith", "Fidelity", "Fortitude", "Honor", "Justice", "Loyalty", "Unity", "Truth"]
+  },
+  {
+    "Name": "Gor'osh",
+    "Nation": "Remnant Dynasty",
+    "Population": 4000,
+    "Size": "City",
+    "Region": "Orc-Lands",
+    "Terrain": "Plain/Forest",
+    "Races": [
+      {
+        "Name": "orc",
+        "Start": 0.0,
+        "Stop": 0.7
+      },
+      {
+        "Name": "dragonborn",
+        "Start": 0.7,
+        "Stop": 0.95
+      },
+      {
+        "Name": "goblin",
+        "Start": 0.95,
+        "Stop": 1
+      }
+    ],
+    "Tech": 3,
+    "NameParts": 2,
+    "Combiner": "'",
+    "Components": ["gor", "osh", "dubh", "geal", "ban", "fionn", "dearg", "ruadh", "buidhe", "gorm", "uaine", "glas", "donn", "liath", "coille", "bhaile", "loch", "abhainn", "tur", "daigneach"]
+  },
+  {
+    "Name": "Baile Craan",
+    "Nation": "Council",
+    "Region": "Orc-Lands",
+    "Size": "City",
+    "Terrain": "Forest/Mountains",
+    "Population": 4000,
+    "Races": [
+      {
+        "Name": "human",
+        "Start": 0.0,
+        "Stop": 0.5
+      },
+      {
+        "Name": "wood elf",
+        "Start": 0.5,
+        "Stop": 0.9
+      },
+      {
+        "Name": "dwarf",
+        "Start": 0.9,
+        "Stop": 1.0
+      }
+    ],
+    "Tech": 3,
+    "NameParts": 2,
+    "Combiner": "",
+    "Components": ["aber", "avon", "axe", "ay", "beck", "river", "ford", "brad", "carden", "white", "shep", "craig", "dale", "holm", "mont", "inver", "lyn"]
+  },
+  {
+    "Name": "Kaelthia",
+    "Nation": "Council",
+    "Region": "Sea of Grass",
+    "Size": "Capital",
+    "Terrain": "Mountains",
+    "Population": 20000,
+    "Races": [
+      {
+        "Name": "human",
+        "Start": 0.0,
+        "Stop": 0.4
+      },
+      {
+        "Name": "halfling",
+        "Start": 0.4,
+        "Stop": 0.7
+      },
+      {
+        "Name": "dwarf",
+        "Start": 0.7,
+        "Stop": 0.9
+      },
+      {
+        "Name": "high elf",
+        "Start": 0.9,
+        "Stop": 1.0
+      }
+    ],
+    "Tech": 4,
+    "NameParts": 2,
+    "Combiner": "",
+    "Components": [ "aber", "avon", "axe", "ay", "beck", "river", "ford", "brad", "carden", "white", "shep", "craig", "dale", "holm", "mont", "inver", "lyn" ]
+  },
+  {
+    "Name": "Yuuras Zaali",
+    "Nation": "Council",
+    "Population": 2000,
+    "Region": "Sea of Grass",
+    "Size": "Town",
+    "Terrain": "Coast/Plain",
+    "Races": [
+      {
+        "Name": "human",
+        "Start": 0,
+        "Stop": 0.4
+      },
+      {
+        "Name": "halfling",
+        "Start": 0.4,
+        "Stop": 0.7
+      },
+      {
+        "Name": "high elf",
+        "Start": 0.7,
+        "Stop": 0.95
+      },
+      {
+        "Name": "goblin",
+        "Start": 0.95,
+        "Stop": 1.0
+      }
+    ],
+    "Tech": 3,
+
+    "NameParts": 2,
+    "Combiner": "",
+    "Components": [ "aber", "avon", "axe", "ay", "beck", "river", "ford", "brad", "carden", "white", "shep", "craig", "dale", "holm", "mont", "inver", "lyn" ]
+  },
+  {
+    "Name": "Rauviz",
+    "Nation": "Council",
+    "Population": 10000,
+    "Region": "Sea of Grass",
+    "Size": "City",
+    "Terrain": "Coast/Plain",
+    "Races": [
+      {
+        "Name": "human",
+        "Start": 0,
+        "Stop": 0.5
+      },
+      {
+        "Name": "halfling",
+        "Start": 0.5,
+        "Stop": 0.9
+      },
+      {
+        "Name": "half elf",
+        "Start": 0.9,
+        "Stop": 0.95
+      },
+      {
+        "Name": "dwarf",
+        "Start": 0.95,
+        "Stop": 1.0
+      }
+    ],
+    "Tech": 4,
+
+    "NameParts": 2,
+    "Combiner": "",
+    "Components": [ "aber", "avon", "axe", "ay", "beck", "river", "ford", "brad", "carden", "white", "shep", "craig", "dale", "holm", "mont", "inver", "lyn" ]
+  },
+  {
+    "Name": "Fort Hope",
+    "Nation": "Windwalker Collective",
+    "Population": 3000,
+    "Region": "Sea of Grass",
+    "Size": "Town",
+    "Terrain": "Hills",
+    "Races": [
+      {
+        "Name": "goblin",
+        "Start": 0,
+        "Stop": 0.8
+      },
+      {
+        "Name": "human",
+        "Start": 0.8,
+        "Stop": 0.85
+      },
+      {
+        "Name": "wood elf",
+        "Start": 0.85,
+        "Stop": 0.90
+      },
+      {
+        "Name": "dragonborn",
+        "Start": 0.9,
+        "Stop": 0.95
+      },
+      {
+        "Name": "high elf",
+        "Start": 0.95,
+        "Stop": 1.0
+      }
+    ],
+    "Tech": 3,
+
+    "NameParts": 2,
+    "Combiner": "-",
+    "Components": [ "sheep", "cattle", "grass", "river", "wind", "hill", "stink", "blow", "run", "giant"]
+  },
+  {
+    "Name": "Byarshia",
+    "Nation": "Remnant Dynasty",
+    "Population": 5000,
+    "Size": "City",
+    "Region": "Sea of Grass",
+    "Terrain": "Plain/Hills",
+    "Races": [
+      {
+        "Name": "goblin",
+        "Start": 0.0,
+        "Stop": 0.6
+      },
+      {
+        "Name": "dragonborn",
+        "Start": 0.6,
+        "Stop": 0.85
+      },
+      {
+        "Name": "orc",
+        "Start": 0.85,
+        "Stop": 1
+      }
+    ],
+    "Tech": 4,
+    "NameParts": 3,
+    "Combiner": "",
+    "Components": [ "gor", "osh", "dubh", "geal", "ban", "fionn", "dearg", "ruadh", "buidhe", "gorm", "uaine", "glas", "donn", "liath", "coille", "bhaile", "craig", "dale", "holm", "mont", "inver", "lyn", "valkoinen", "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen", "vihreae" ]
+  },
+  {
+    "Name": "Lyodnoir",
+    "Nation": "Remnant Dynasty",
+    "Population": 12000,
+    "Size": "Capital",
+    "Region": "Nocthian Plateau",
+    "Terrain": "Mountains",
+    "Races": [
+      {
+        "Name": "dragonborn",
+        "Start": 0.0,
+        "Stop": 0.5
+      },
+      {
+        "Name": "orc",
+        "Start": 0.5,
+        "Stop": 0.75
+      },
+      {
+        "Name": "goblin",
+        "Start": 0.75,
+        "Stop": 1
+      }
+    ],
+    "Tech": 4,
+    "NameParts": 1,
+    "Combiner": "",
+    "Components": [ "gor", "osh", "dubh", "geal", "ban", "fionn", "dearg", "ruadh", "buidhe", "gorm", "uaine", "glas", "donn", "liath", "coille", "bhaile", "craig", "dale", "holm", "mont", "inver", "lyn", "valkoinen", "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen", "vihreae" ]
+  },
+  {
+    "Name": "Byss",
+    "Nation": "Byssia",
+    "Population": 7500,
+    "Size": "Capital",
+    "Region": "Lost Coast",
+    "Terrain": "Coast/Jungle",
+    "Races": [
+      {
+        "Name": "human",
+        "Start": 0.0,
+        "Stop": 0.33
+      },
+      {
+        "Name": "half elf",
+        "Start": 0.33,
+        "Stop": 0.66
+      },
+      {
+        "Name": "wood elf",
+        "Start": 0.66,
+        "Stop": 1
+      }
+    ],
+    "Tech": 3,
+    "NameParts": 3,
+    "Combiner": "",
+    "Components": [ "frourio", "potami", "dasos","thalassa", "craig", "dale", "holm", "mont", "inver", "lyn", "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen", "vihreae" ]
+  },
+  {
+    "Name": "Fuar Uulan",
+    "Nation": "Council",
+    "Population": 10000,
+    "Region": "Moon's Vengeance",
+    "Size": "City",
+    "Terrain": "Mountains/Underground",
+    "Races": [
+      {
+        "Name": "dwarf",
+        "Start": 0,
+        "Stop": 0.65
+      },
+      {
+        "Name": "human",
+        "Start": 0.65,
+        "Stop": 0.85
+      },
+      {
+        "Name": "halfling",
+        "Start": 0.85,
+        "Stop": 0.95
+      },
+      {
+        "Name": "orc",
+        "Start": 0.95,
+        "Stop": 1.0
+      }
+    ],
+    "Tech": 4,
+    "NameParts": 3,
+    "Combiner": " ",
+    "Components": [ "Ulaan", "Yagaan", "Ulbar Shar", "Shar", "Khuren", "Khokh", "Yagaan Khokh", "Nogoon", "Tsagaan", "Khar", "Saaral", "Khot", "Arui", "Tsaiz" ]
+
+  },
+  {
+    "Name": "Ar Salem Dolem",
+    "Nation": "Stone Throne",
+    "Population": 5000,
+    "Region": "Jungle of Fangs",
+    "Size": "Capital",
+    "Terrain": "Mountains",
+    "Races": [
+      {
+        "Name": "human",
+        "Start": 0,
+        "Stop": 0.45
+      },
+      {
+        "Name": "half elf",
+        "Start": 0.45,
+        "Stop": 0.95
+      },
+      {
+        "Name": "yuan-ti",
+        "Start": 0.95,
+        "Stop": 1.0
+      }
+    ],
+    "Tech": 2,
+    "NameParts": 3,
+    "Combiner": " ",
+    "Components": [ "Phoa", "Praa", "Meas", "Kha Maot", "So-w", "krohom", "kiev", "baitong", "teuk krewt", "svay", "thnout", "brisot", "psa", "hvang", "khnat", "preichheu", "tonle"]
+  },
+  {
+    "Name": "Srassa Saat",
+    "Nation": "Stone Throne",
+    "Population": 200,
+    "Region": "Jungle of Fangs",
+    "Size": "Village",
+    "Terrain": "Jungle/Coast",
+    "Races": [
+      {
+        "Name": "human",
+        "Start": 0,
+        "Stop": 0.5
+      },
+      {
+        "Name": "half elf",
+        "Start": 0.5,
+        "Stop": 0.8
+      },
+      {
+        "Name": "yuan-ti",
+        "Start": 0.8,
+        "Stop": 0.995
+      },
+      {
+        "Name": "kobold",
+        "Start": 0.995,
+        "Stop": 1.0
+      }
+    ],
+    "Tech": 1,
+    "NameParts": 3,
+    "Combiner": " ",
+    "Components": [ "Phoa", "Praa", "Meas", "Kha Maot", "So-w", "krohom", "kiev", "baitong", "teuk krewt", "svay", "thnout", "brisot", "psa", "hvang", "khnat", "preichheu", "tonle" ]
+  },
+  {
+    "Name": "Sha'Slar",
+    "Nation": "Stone Throne",
+    "Population": 7000,
+    "Region": "Jungle of Fangs",
+    "Size": "City",
+    "Terrain": "Jungle",
+    "Races": [
+      {
+        "Name": "human",
+        "Start": 0,
+        "Stop": 0.4
+      },
+      {
+        "Name": "half elf",
+        "Start": 0.4,
+        "Stop": 0.8
+      },
+      {
+        "Name": "yuan-ti",
+        "Start": 0.8,
+        "Stop": 1.0
+      }
+    ],
+    "Tech": 3,
+    "NameParts": 2,
+    "Combiner": " ",
+    "Components": [ "Phoa", "Praa", "Meas", "Kha Maot", "So-w", "krohom", "kiev", "baitong", "teuk krewt", "svay", "thnout", "brisot", "psa", "hvang", "khnat", "preichheu", "tonle" ]
+  },
+  {
+    "Name": "Asa'Ka",
+    "Population": 10000,
+    "Nation": "Stone Throne",
+    "Region": "Jungle of Fangs",
+    "Size": "City",
+    "Terrain": "Plains/Jungle",
+    "Races": [
+      {
+        "Name": "human",
+        "Start": 0,
+        "Stop": 0.5
+      },
+      {
+        "Name": "half elf",
+        "Start": 0.5,
+        "Stop": 0.9
+      },
+      {
+        "Name": "yuan-ti",
+        "Start": 0.9,
+        "Stop": 1.0
+      }
+    ],
+    "Tech": 4,
+    "NameParts": 2,
+    "Combiner": "'",
+    "Components": [ "Phoa", "Praa", "Meas", "Kha Maot", "So-w", "krohom", "kiev", "baitong", "teuk krewt", "svay", "thnout", "brisot", "psa", "hvang", "khnat", "preichheu", "tonle" ]
+  },
+  {
+    "Name": "Kel'al'ar",
+    "Nation": "Stone Throne",
+    "Population": 9000,
+    "Region": "Jungle of Fangs",
+    "Size": "City",
+    "Terrain": "Jungle/Mountains",
+    "Races": [
+      {
+        "Name": "human",
+        "Start": 0,
+        "Stop": 0.4
+      },
+      {
+        "Name": "half elf",
+        "Start": 0.4,
+        "Stop": 0.8
+      },
+      {
+        "Name": "dwarf",
+        "Start": 0.8,
+        "Stop": 0.85
+      },
+      {
+        "Name": "yuan-ti",
+        "Start": 0.85,
+        "Stop": 1.0
+      }
+    ],
+    "Tech": 3,
+    "NameParts": 3,
+    "Combiner": "'",
+    "Components": [ "Phoa", "Praa", "Meas", "Kha Maot", "So-w", "krohom", "kiev", "baitong", "teuk krewt", "svay", "thnout", "brisot", "psa", "hvang", "khnat", "preichheu", "tonle" ]
+  }
+
+]

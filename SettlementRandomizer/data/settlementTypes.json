@@ -1,0 +1,187 @@
+[
+    {
+        "Name": "Isolated",
+        "Population": 5,
+        "NPCs": ["owner"],
+        "TechCaps": {
+            "Crafting": 0,
+            "Potions": 0,
+            "Divine": 0,
+            "Arcane": 0,
+            "Items": 0,
+            "Lodging": 1
+        },
+        "Roles": [
+            {
+                "Name": "subsistence",
+                "Start": 0.0,
+                "Stop": 0.8
+            },
+            {
+                "Name": "trapper",
+                "Start": 0.8,
+                "Stop": 0.9
+            },
+            {
+                "Name": "hermit",
+                "Start": 0.9,
+                "Stop": 1.0
+            }
+        ]
+    },
+    {
+        "Name": "hamlet",
+        "Population": 100,
+        "NPCs": ["tavern-keep", "priest", "smith"],
+        "TechCaps": {
+            "Crafting": 1,
+            "Potions": 0,
+            "Divine": 1,
+            "Arcane": 0,
+            "Items": 0,
+            "Lodging": 1
+        },
+        "Roles": [
+            {"Name": "subsistence", "Start": 0.0, "Stop": 0.80},
+            {"Name": "extraction", "Start": 0.80, "Stop": 1.0},
+        ]
+    },
+    {
+        "Name": "thorpe",
+        "Population": 500,
+        "NPCs": ["inn-keep", "priest", "smith", "headman", "hedge-mage"],
+        "TechCaps": {
+            "Crafting": 2,
+            "Potions": 1,
+            "Divine": 1,
+            "Arcane": 1,
+            "Items": 2,
+            "Lodging": 2
+        },
+        "Roles": [
+            { "Name": "agriculture", "Start": 0.0, "Stop": 0.5},
+            { "Name": "extraction", "Start": 0.50, "Stop": 1.0},
+        ]
+    },
+    {
+        "Name": "Village",
+        "Population": 1000,
+        "NPCs": ["inn-keep", "priest", "smith", "headman", "hedge-mage", "trader"],
+        "TechCaps": {
+            "Crafting": 2,
+            "Potions": 2,
+            "Divine": 2,
+            "Arcane": 1,
+            "Items": 2,
+            "Lodging": 2
+        },
+        "Roles": [
+            { "Name": "agriculture", "Start": 0.0, "Stop": 0.3},
+            { "Name": "extraction", "Start": 0.30, "Stop": 0.80},
+            { "Name": "trading", "Start": 0.8, "Stop": 1.0}
+        ]
+    },
+    {
+        "Name": "Town",
+        "Population": 3000,
+        "NPCs": ["inn-keep", "priest", "tavern-keep", "priest", "mage", "mayor", "trade", "special crafter", "weapon smith", "armor smith", "stable-keep"],
+        "TechCaps": {
+            "Crafting": 3,
+            "Potions": 3,
+            "Divine": 3,
+            "Arcane": 3,
+            "Items": 3,
+            "Lodging": 3
+        },
+        "Roles": [
+            { "Name": "agriculture", "Start": 0.0, "Stop": 0.3},
+            { "Name": "extraction", "Start": 0.30, "Stop": 0.60},
+            { "Name": "trading", "Start": 0.6, "Stop": 1.0}
+        ]
+    },
+    {
+        "Name": "Estate",
+        "Population": 150,
+        "NPCs": ["master", "head maid", "majordomo", "guard chief"],
+        "TechCaps": {
+            "Crafting": 1,
+            "Potions": 2,
+            "Divine": 2,
+            "Arcane": 1,
+            "Items": 2,
+            "Lodging": 3
+        },
+        "Roles": [
+            {
+                "Name": "agriculture",
+                "Start": 0.0,
+                "Stop": 1.0
+            }
+        ]
+    },
+        {
+        "Name": "Arcane Center",
+        "Population": 20,
+        "NPCs": ["high magus", "junior magus", "apprentice magus", "guard captain"],
+        "TechCaps": {
+            "Crafting": 1,
+            "Potions": 3,
+            "Divine": 0,
+            "Arcane": 3,
+            "Items": 1,
+            "Lodging": 1
+        },
+        "Roles": [
+            { "Name": "research", "Start": 0.0, "Stop": 0.5},
+            { "Name": "development", "Start": 0.50, "Stop": 1.0}
+        ]
+    },
+        {
+        "Name": "Religious Center",
+        "Population": 100,
+        "NPCs": ["hierophant", "priest", "acolyte", "templar", "guard captain"],
+        "TechCaps": {
+            "Crafting": 3,
+            "Potions": 4,
+            "Divine": 4,
+            "Arcane": 0,
+            "Items": 0,
+            "Lodging": 2
+        },
+        "Roles": [
+            { "Name": "none", "Start": 0.0, "Stop": 1.0}
+        ]
+    },
+        {
+        "Name": "Manufactory",
+        "Population": 500,
+        "NPCs": ["owner", "chief engineer", "shift boss", "guard", "laborer", "teamster"],
+        "TechCaps": {
+            "Crafting": 4,
+            "Potions": 1,
+            "Divine": 1,
+            "Arcane": 1,
+            "Items": 1,
+            "Lodging": 0
+        },
+        "Roles": [
+            { "Name": "none", "Start": 0.0, "Stop": 1.0}
+        ]
+    },
+        {
+        "Name": "Castle",
+        "Population": 3000,
+        "NPCs": ["priest","mage", "commander", "trader", "special crafter", "weapon smith", "armor smith", "stable-keep", "scout captain"],
+        "TechCaps": {
+            "Crafting": 3,
+            "Potions": 2,
+            "Divine": 2,
+            "Arcane": 2,
+            "Items": 1,
+            "Lodging": 1
+        },
+        "Roles": [
+            { "Name": "none", "Start": 0.0, "Stop": 1.0}
+        ]
+    }
+]
