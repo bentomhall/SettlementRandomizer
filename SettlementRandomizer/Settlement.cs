@@ -2,16 +2,16 @@
 
 namespace SettlementRandomizer
 {
-    internal class Settlement
+    public class Settlement
     {
-        internal string Name { get; set; }
-        internal List<NPCRandomizer.PersonData> NPCs { get; set; }
-        internal string Size { get; set; }
-        internal int Population { get; set; }
-        internal Dictionary<string, int> Demographics { get; set; }
-        internal string NearestCity { get; set; }
-        internal string Role { get; set; }
-        internal Dictionary<string, List<string>> AvailableItems { get; set; }
-        internal Dictionary<string, int> TechLevels { get; set; }
+        public string Name { get; set; }
+        public List<NPCRandomizer.PersonData> NPCs { get; set; }
+        public string Size { get; set; }
+        public int Population { get; set; }
+        public Dictionary<string, int> Demographics { get; set; }
+        public string NearestCity { get; set; }
+        public string Role { get; set; }
+        public Dictionary<string, List<string>> AvailableItems { get; set; }
+        public Dictionary<string, int> TechLevels { get; set; }
     }
 }

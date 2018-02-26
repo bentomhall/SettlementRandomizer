@@ -1,0 +1,63 @@
+body {
+    background: #bbb;
+}
+
+table, div, p {
+    box-shadow: 4px 2px 2px grey;
+    padding: 4px;
+    background: white;
+}
+.container {
+    
+    width: 80%;
+    margin-left: 10%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(2em, auto);
+    grid-gap: 4px;
+}
+
+.transparent {
+    background: rgba(0,0,0,0);
+    box-shadow: unset;
+}
+
+h1 {
+    background: white;
+    grid-column: 1/5;
+    text-align: center;
+    padding: 4px;
+    margin: 0px;
+}
+
+h2 {
+    padding: 4px;
+    margin: 0px;
+}
+.general {
+    text-align: center;
+    padding: 4px;
+    margin: 0px;
+}
+
+.lg-block{
+    grid-row: 3;
+    grid-column: span 2;
+}
+
+.block {
+    height: 100%;
+}
+
+ul {
+    margin: 10px;
+    padding: 0px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.span {
+    grid-column: span 2;
+}

@@ -27,7 +27,15 @@ namespace SettlementRandomizer
 
         private void CreateTemplatedOutput()
         {
-            throw new NotImplementedException();
+            foreach (Settlement s in generatedSettlements)
+            {
+                var filename = s.Name.Replace(' ','_').Replace('\'', '-') + ".html";
+                var template = new SettlementOutput(s, true);
+                var text = template.TransformText();
+                System.IO.File.WriteAllText(filename, text);
+                Console.WriteLine($"Wrote file: {filename}");
+            }
+
         }
 
         internal Settlement GenerateSettlement(string size, string nearestCity)
@@ -44,7 +52,7 @@ namespace SettlementRandomizer
             foreach (KeyValuePair<string,int> kv in tech)
             {
                 var data = items.First(x => x.Category == kv.Key);
-                sItems[kv.Key] = data.AvailableItems(kv.Value).Select(x => x.Name).ToList();
+                sItems[kv.Key+$":{data.Subcategory}"] = data.AvailableItems(kv.Value).Select(x => x.Name).ToList();
             }
             return new Settlement()
             {

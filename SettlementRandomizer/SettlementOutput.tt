@@ -1,0 +1,138 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="NPCRandomizer" #>
+<#@ output extension=".html" #>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Random Settlement</title>
+        <link href="settlement.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container transparent">
+            <h1>Name</h1>
+            <p class="general">Size: <#= Settle.Size #></p>
+            <p class="general">Population: <#= Settle.Population #></p>
+            <p class="general span">Oblast: <#= Settle.NearestCity #></p>
+            <div class="lg-block">
+                <h2>Demographics</h2>
+                <ul>
+                    <# foreach (KeyValuePair<string, int> kvp in Settle.Demographics) { #>
+                        <li><#= kvp.Key #>: <#= kvp.Value #></li>
+                    <# } #>
+                </ul>
+            </div>
+            <div class="lg-block">
+                <h2>Tech Levels</h2>
+                <ul>
+                    <# foreach (KeyValuePair<string, int> kvp in Settle.TechLevels) { #>
+                        <li><#= kvp.Key #>: <#= kvp.Value #></li>
+                    <# } #>
+                </ul>
+            </div>
+            <!-- list of NPC tables -->
+            <# foreach (PersonData npc in Settle.NPCs) { #>
+                <table class="block">
+                    <tr class="heading">
+                        <td><b><#= npc.Name #></b></td>
+                        <td></td>
+                    </tr>
+                    <tr class="demographics">
+                        <td><#= npc.Age #> <#= npc.Gender #></td>
+                        <td><#= npc.Race #> <#= npc.Subrace != ""? "(" + npc.Subrace + ")" : "" #> </td>
+                    </tr>
+                    <tr class="data">
+                        <td><#= npc.Religion #></td>
+                        <td><#= npc.Profession #></td>
+                    </tr>
+                    <tr class="data">
+                        <td><#= npc.Personality #></td>
+                    </tr>
+                </table>
+            <# } #>
+            <div class="items">
+                <h2>Weapons</h2>
+                <ul>
+                    <# foreach (string item in Settle.AvailableItems["Crafting:Weapons"]) { #>
+                        <li><#= item #></li>
+                    <# } #>
+                </ul>
+                <h2>Armor</h2>
+                <ul>
+                        <# foreach (string item in Settle.AvailableItems["Crafting:Armor"]) { #>
+                            <li><#= item #></li>
+                        <# } #>
+                </ul>
+                <h2>Ornamental</h2>
+                <ul>
+                        <# foreach (string item in Settle.AvailableItems["Crafting:Ornamental"]) { #>
+                            <li><#= item #></li>
+                        <# } #>
+                </ul>
+            </div>
+            <div class="items">
+                <h2>Arcane Spells</h2>
+                <ul>
+                        <# foreach (string item in Settle.AvailableItems["Arcane:Spells"]) { #>
+                            <li><#= item #></li>
+                        <# } #>
+                </ul>
+                <h2>Enchanting</h2>
+                <ul>
+                        <# foreach (string item in Settle.AvailableItems["Arcane:Enchanting"]) { #>
+                            <li><#= item #></li>
+                        <# } #>
+                </ul>
+            </div>
+            <div class="items">
+                <h2>Divine Spells</h2>
+                <ul>
+                        <# foreach (string item in Settle.AvailableItems["Divine:Spells"]) { #>
+                            <li><#= item #></li>
+                        <# } #>
+                </ul>
+                <h2>Potions</h2>
+                <ul>
+                        <# foreach (string item in Settle.AvailableItems["Potions:All"]) { #>
+                            <li><#= item #></li>
+                        <# } #>
+                </ul>
+            </div>
+            <div class="items">
+                <h2>Lodging</h2>
+                <ul>
+                        <# foreach (string item in Settle.AvailableItems["Lodging:All"]) { #>
+                            <li><#= item #></li>
+                        <# } #>
+                </ul>
+                <h2>Transport</h2>
+                <ul>
+                        <# foreach (string item in Settle.AvailableItems["Transport:All"]) { #>
+                            <li><#= item #></li>
+                        <# } #>
+                </ul>
+            </div>
+            <div class="items">
+                <h2>Specialty Items</h2>
+                <ul>
+                        <# foreach (string item in Settle.AvailableItems["Items:Specialty"]) { #>
+                            <li><#= item #></li>
+                        <# } #>
+                </ul>
+            </div>
+            <div class="items">
+                <ul>
+                    <# if (ShowCommonItems) { #>
+                    <# foreach (string item in Settle.AvailableItems["Items:General"]) { #>
+                            <li><#= item #></li>
+                    <# } } #>
+                </ul>
+            </div>
+
+            
+        </div>
+    </body>
+</html>

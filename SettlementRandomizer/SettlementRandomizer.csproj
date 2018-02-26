@@ -26,5 +26,17 @@
     <None Update="data\settlementTypes.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="SettlementOutput.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SettlementOutput.cs</LastGenOutput>
+    </None>
+    <None Update="settlement.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="SettlementOutput.cs">
+      <DependentUpon>SettlementOutput.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

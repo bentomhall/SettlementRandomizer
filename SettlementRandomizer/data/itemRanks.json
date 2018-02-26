@@ -107,7 +107,7 @@
     },
     {
         "Category": "Potions",
-        "Subcategory": "",
+        "Subcategory": "All",
         "Items": [
             {"Name": "Healing Kit", "Rank": 1},
             {"Name": "Common", "Rank": 1},
@@ -216,7 +216,7 @@
     },
     {
         "Category": "Lodging",
-        "Subcategory": "",
+        "Subcategory": "All",
         "Items": [
             {"Name": "Squalid", "Rank": 0},
             {"Name": "Poor", "Rank": 1},
@@ -227,7 +227,7 @@
     },
     {
         "Category": "Transportation",
-        "Subcategory": "",
+        "Subcategory": "All",
         "Items": [
             {"Name": "Runner", "Rank": 1},
             {"Name": "Mule", "Rank": 2},
