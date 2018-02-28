@@ -60,7 +60,12 @@
         },
         "Roles": [
             { "Name": "agriculture", "Start": 0.0, "Stop": 0.5},
-            { "Name": "extraction", "Start": 0.50, "Stop": 1.0},
+          {
+            "Name": "extraction",
+            "Start": 0.50,
+            "Stop": 0.75
+          },
+          {"Name":  "development", "Start": 0.75, "Stop": 1.0}
         ]
     },
     {

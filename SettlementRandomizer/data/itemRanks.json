@@ -86,10 +86,9 @@
         "Category": "Arcane",
         "Subcategory": "Enchanting",
         "Items": [
-            {"Name": "Arcane Focus", "Rank": 1},
-            {"Name": "Common", "Rank": 2},
-            {"Name": "Uncommon", "Rank": 3},
-            {"Name": "Rare", "Rank": 4},
+            {"Name": "Arcane Focus", "Rank": 2},
+            {"Name": "Common", "Rank": 3},
+            {"Name": "Uncommon", "Rank": 4}
         ]
     },
     {
@@ -120,7 +119,7 @@
         "Category": "Items",
         "Subcategory": "General",
         "Items": [
-            {"Name": "Abacus", "Rank": 3},
+            {"Name": "Abacus", "Rank": 1},
             {"Name": "Arrows (20)", "Rank": 0},
             {"Name": "Blowgun needles (50)", "Rank": 0},
             {"Name": "Crossbow Bolts (20)", "Rank": 1},
