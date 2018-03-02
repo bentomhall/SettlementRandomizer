@@ -25,6 +25,11 @@ namespace SettlementRandomizer
             CreateTemplatedOutput();
         }
 
+        internal IEnumerable<string> GetPossibleSettlementTypes()
+        {
+            return settlements.Select(x => x.Name);
+        }
+
         private void CreateTemplatedOutput()
         {
             foreach (Settlement s in generatedSettlements)

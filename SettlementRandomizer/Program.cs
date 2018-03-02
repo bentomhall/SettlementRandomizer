@@ -7,10 +7,13 @@ namespace SettlementRandomizer
     {
         static void Main(string[] args)
         {
-            var gen = new SettlementGenerator();/*
+            var gen = new SettlementGenerator();
             Console.WriteLine("Welcome to the random settlement generator");
             Console.WriteLine("Please select a size of city to generate");
-            Console.Write("Valid sizes are Isolated, Hamlet, Thorpe, Village, Town, Shrine, or Castle: ");
+            var types = gen.GetPossibleSettlementTypes();
+            Console.WriteLine("Valid sizes are: ");
+            Console.WriteLine(FormatTypes(types));
+            Console.Write("> ");
             var size = Console.ReadLine();
             Console.Write("Enter the number of settlements to generate: ");
             var nInput = Console.ReadLine();
@@ -20,9 +23,15 @@ namespace SettlementRandomizer
             }
             Console.Write("What is the nearest city? ");
             var nearest = Console.ReadLine();
-            gen.Create(size, number, nearest);*/
-            gen.Create("thorpe", 1, "Kaelthia");
-        }   
+            gen.Create(size, number, nearest);
+            Console.WriteLine("Press any key to contine...");
+            Console.Read();
+        }
+
+        static string FormatTypes(IEnumerable<string> types)
+        {
+            return String.Join(Environment.NewLine, types);
+        }
     }
 
     public static class Extension

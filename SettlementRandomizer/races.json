@@ -1,211 +1,222 @@
 [
-    {
-        "Race": "human",
-        "Nation": "Council",
-        "Culture": "wall-builder",
-        "Gender": {
-          "male":  0.5,
-          "female": 0.5
-        },
-        "Religiosity": ["devout", "casual"],
-        "Subrace": {
-          "N/A": 0.9,
-          "tiefling": 0.05,
-          "aasimar": 0.05
-        }
+  {
+    "Race": "human",
+    "Nation": "Council",
+    "Culture": "wall-builder",
+    "Gender": {
+      "male": 0.5,
+      "female": 0.5
     },
-    {
-        "Race": "halfling",
-        "Nation": "Council",
-        "Culture": "wall-builder",
-        "Gender": {
-          "male": 0.15,
-          "female": 0.45,
-          "kliba": 0.4
-        },
-        "Religiosity": ["devout", "casual"],
-        "Subrace": {}
-    },
-    {
-        "Race": "high elf",
-        "Nation": "Council",
-        "Culture": "gwerin",
-        "Gender": {
-          "male": 0.5,
-          "female": 0.5
-        },
-        "Religiosity": ["casual", "ancestor worshiper"],
-        "Subrace": {}
-    },
-    {
-        "Race": "wood elf",
-        "Nation": "Council",
-        "Culture": "puun ihmisia",
-        "Gender": {
-          "male": 0.5,
-          "female": 0.5
-        },
-        "Religiosity": ["casual", "animist"],
-        "Subrace": {}
-    },
-    {
-        "Race": "half-elf",
-        "Nation": "Council",
-        "Culture": "wall-builder",
-        "Gender": {
-          "male": 0.5,
-          "female": 0.5
-        },
-        "Religiosity": ["devout", "casual", "ancestor worshiper", "animist"],
-        "Subrace": {
-          "earth kin": 0.5,
-          "traveller": 0.3,
-          "sharp-ear": 0.2
-        }
-    },
-    {
-        "Race": "half-elf",
-        "Nation": "Stone Throne",
-        "Culture": "fang-kin",
-        "Gender": {
-          "male": 0.5,
-          "female": 0.5
-        },
-        "Religiosity": ["devout", "casual"],
-        "Subrace": {}
-    },
-    {
-        "Race": "half-elf",
-        "Nation": "Byssia",
-        "Culture": "night's children",
-      "Gender": {
-        "male": 0.45,
-        "female": 0.55
-      },
-        "Religiosity": ["ancestor worshiper", "animist", "atheist"],
-        "Subrace": {}
-    },
-    {
-        "Race": "human",
-        "Nation": "Byssia",
-        "Culture": "night's children",
-      "Gender": {
-        "male": 0.4,
-        "female": 0.6
-      },
-        "Religiosity": ["ancestor worshiper", "atheist"],
-        "Subrace": {
-            "N/A": 0.9,
-            "fire genasi": 0.01,
-            "water genasi": 0.04,
-            "earth genasi": 0.04,
-            "air genasi": 0.01
-          }
-    },
-    {
-        "Race": "wood elf",
-        "Nation": "Byssia",
-        "Culture": "night's children",
-      "Gender": {
-        "male": 0.5,
-        "female": 0.5
-      },
-        "Religiosity": ["animist", "atheist"],
-        "Subrace": {}
-    },
-    {
-        "Race": "human",
-        "Nation": "Stone Throne",
-        "Culture": "fang-kin",
-      "Gender": {
-        "male": 0.51,
-        "female": 0.49
-      },
-        "Religiosity": ["devout", "casual", "devil contractor"],
-        "Subrace": {
-          "N/A": 0.9,
-          "tiefling": 0.1
-        }
-    },
-    {
-        "Race": "yuan-ti",
-        "Nation": "Stone Throne",
-        "Culture": "fang-kin",
-        "Gender": {
-          "male": 0.3,
-          "female": 0.3,
-          "neuter": 0.4
-        },
-        "Religiosity": ["animist", "devout", "casual", "devil contractor"],
-        "Subrace": {
-          "pureblood": 0.8,
-          "malison": 0.2
-        }
-    },
-    {
-        "Race": "dragonborn",
-        "Nation": "Dynasty",
-        "Culture": "dragonborn",
-      "Gender": {
-        "male": 0.5,
-        "female": 0.5
-      },
-        "Religiosity": ["devout", "casual", "ancestor worshiper"],
-        "Subrace": {
-          "red": 0.15,
-          "gold": 0.1,
-          "silver": 0.1,
-          "white": 0.05,
-          "black": 0.15,
-          "bronze": 0.15,
-          "green": 0.2,
-          "brass": 0.1
-        }
-    },
-    {
-        "Race": "orc",
-        "Nation": "Dynasty",
-        "Culture": "orc",
-      "Gender": {
-        "male": 0.5,
-        "female": 0.5
-      },
-        "Religiosity": ["casual", "ancestor worshiper", "animist"],
-        "Subrace": {}
-    },
-    {
-        "Race": "goblin",
-        "Nation": "Dynasty",
-        "Culture": "goblin",
-        "Gender": {
-          "male": 0.4,
-          "female": 0.4,
-          "hob": 0.15,
-          "bugbear": 0.05
-        },
-        "Religiosity": ["atheist", "animist"],
-        "Subrace": {}
-    },
-    {
-        "Race": "dwarf",
-        "Nation": "Council",
-        "Culture": "dwarf",
-      "Gender": {
-        "male": 0.5,
-        "female": 0.5
-      },
-        "Religiosity": ["devout", "ancestor worshiper"],
-        "Subrace": {}
-    },
-        {
-        "Race": "dwarf",
-        "Nation": "Stone Throne",
-        "Culture": "dwarf",
-          "Gender": {
-            "male": 0.5,
-            "female": 0.5
-          },
-        "Religiosity": ["devout", "ancestor worshiper"],
-        "Subrace": {}
+    "Religiosity": [ "devout", "casual" ],
+    "Subrace": {
+      "N/A": 0.9,
+      "tiefling": 0.05,
+      "aasimar": 0.05
     }
+  },
+  {
+    "Race": "halfling",
+    "Nation": "Council",
+    "Culture": "wall-builder",
+    "Gender": {
+      "male": 0.15,
+      "female": 0.45,
+      "kliba": 0.4
+    },
+    "Religiosity": [ "devout", "casual" ],
+    "Subrace": {}
+  },
+  {
+    "Race": "high elf",
+    "Nation": "Council",
+    "Culture": "gwerin",
+    "Gender": {
+      "male": 0.5,
+      "female": 0.5
+    },
+    "Religiosity": [ "casual", "ancestor worshiper" ],
+    "Subrace": {}
+  },
+  {
+    "Race": "wood elf",
+    "Nation": "Council",
+    "Culture": "puun ihmisia",
+    "Gender": {
+      "male": 0.5,
+      "female": 0.5
+    },
+    "Religiosity": [ "casual", "animist" ],
+    "Subrace": {}
+  },
+  {
+    "Race": "half-elf",
+    "Nation": "Council",
+    "Culture": "wall-builder",
+    "Gender": {
+      "male": 0.5,
+      "female": 0.5
+    },
+    "Religiosity": [ "devout", "casual", "ancestor worshiper", "animist" ],
+    "Subrace": {
+      "earth kin": 0.5,
+      "traveller": 0.3,
+      "sharp-ear": 0.2
+    }
+  },
+  {
+    "Race": "half-elf",
+    "Nation": "Stone Throne",
+    "Culture": "fang-kin",
+    "Gender": {
+      "male": 0.5,
+      "female": 0.5
+    },
+    "Religiosity": [ "devout", "casual" ],
+    "Subrace": {}
+  },
+  {
+    "Race": "half-elf",
+    "Nation": "Byssia",
+    "Culture": "night's children",
+    "Gender": {
+      "male": 0.45,
+      "female": 0.55
+    },
+    "Religiosity": [ "ancestor worshiper", "animist", "atheist" ],
+    "Subrace": {}
+  },
+  {
+    "Race": "human",
+    "Nation": "Byssia",
+    "Culture": "night's children",
+    "Gender": {
+      "male": 0.4,
+      "female": 0.6
+    },
+    "Religiosity": [ "ancestor worshiper", "atheist" ],
+    "Subrace": {
+      "N/A": 0.9,
+      "fire genasi": 0.01,
+      "water genasi": 0.04,
+      "earth genasi": 0.04,
+      "air genasi": 0.01
+    }
+  },
+  {
+    "Race": "wood elf",
+    "Nation": "Byssia",
+    "Culture": "night's children",
+    "Gender": {
+      "male": 0.5,
+      "female": 0.5
+    },
+    "Religiosity": [ "animist", "atheist" ],
+    "Subrace": {}
+  },
+  {
+    "Race": "human",
+    "Nation": "Stone Throne",
+    "Culture": "fang-kin",
+    "Gender": {
+      "male": 0.51,
+      "female": 0.49
+    },
+    "Religiosity": [ "devout", "casual", "devil contractor" ],
+    "Subrace": {
+      "N/A": 0.9,
+      "tiefling": 0.1
+    }
+  },
+  {
+    "Race": "half elf",
+    "Nation": "Stone Throne",
+    "Culture": "fang-kin",
+    "Gender": {
+      "male": 0.50,
+      "female": 0.50
+    },
+    "Religiosity": [ "devout", "casual", "devil contractor" ],
+    "Subrace": {}
+  },
+  {
+    "Race": "yuan-ti",
+    "Nation": "Stone Throne",
+    "Culture": "fang-kin",
+    "Gender": {
+      "male": 0.3,
+      "female": 0.3,
+      "neuter": 0.4
+    },
+    "Religiosity": [ "animist", "devout", "casual", "devil contractor" ],
+    "Subrace": {
+      "pureblood": 0.8,
+      "malison": 0.2
+    }
+  },
+  {
+    "Race": "dragonborn",
+    "Nation": "Dynasty",
+    "Culture": "dragonborn",
+    "Gender": {
+      "male": 0.5,
+      "female": 0.5
+    },
+    "Religiosity": [ "devout", "casual", "ancestor worshiper" ],
+    "Subrace": {
+      "red": 0.15,
+      "gold": 0.1,
+      "silver": 0.1,
+      "white": 0.05,
+      "black": 0.15,
+      "bronze": 0.15,
+      "green": 0.2,
+      "brass": 0.1
+    }
+  },
+  {
+    "Race": "orc",
+    "Nation": "Dynasty",
+    "Culture": "orc",
+    "Gender": {
+      "male": 0.5,
+      "female": 0.5
+    },
+    "Religiosity": [ "casual", "ancestor worshiper", "animist" ],
+    "Subrace": {}
+  },
+  {
+    "Race": "goblin",
+    "Nation": "Dynasty",
+    "Culture": "goblin",
+    "Gender": {
+      "male": 0.4,
+      "female": 0.4,
+      "hob": 0.15,
+      "bugbear": 0.05
+    },
+    "Religiosity": [ "atheist", "animist" ],
+    "Subrace": {}
+  },
+  {
+    "Race": "dwarf",
+    "Nation": "Council",
+    "Culture": "dwarf",
+    "Gender": {
+      "male": 0.5,
+      "female": 0.5
+    },
+    "Religiosity": [ "devout", "ancestor worshiper" ],
+    "Subrace": {}
+  },
+  {
+    "Race": "dwarf",
+    "Nation": "Stone Throne",
+    "Culture": "dwarf",
+    "Gender": {
+      "male": 0.5,
+      "female": 0.5
+    },
+    "Religiosity": [ "devout", "ancestor worshiper" ],
+    "Subrace": {}
+  }
 ]
