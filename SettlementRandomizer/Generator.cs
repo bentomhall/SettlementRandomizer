@@ -44,7 +44,7 @@ namespace SettlementRandomizer
             var name = nearest.GetName();
             var sInfo = settlements.First(x => x.Name.ToLower() == size.ToLower());
             var pop = sInfo.GetPopulation(random.NextDouble());
-            var demographics = sInfo.GetDemographics(nearest, pop);
+            var demographics = nearest.GetDemographics(pop);
             var sNPCs = sInfo.GetNPCs(nearest, npcGenerator);
             var role = sInfo.GetRole(random.NextDouble());
             var tech = ApplyRole(sInfo, roles.First(x => x.Name.ToLower() == role.ToLower()));

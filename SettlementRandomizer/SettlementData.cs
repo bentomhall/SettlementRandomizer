@@ -9,11 +9,17 @@ namespace SettlementRandomizer
         public int Population { get; set; }
         public List<string> NPCs { get; set; }
         public Dictionary<string, int> TechCaps { get; set; }
-        public List<NPCRandomizer.NamedRange> Roles { get; set; }
+        public Dictionary<string, double> Roles { get; set; }
+
+        private NPCRandomizer.WeightedChoiceSet roles;
 
         public string GetRole(double x)
         {
-            return Roles.First(r => r.Start <= x && r.Stop > x).Name;
+            if (roles == null)
+            {
+                roles = new NPCRandomizer.WeightedChoiceSet(Roles);
+            }
+            return roles.Match(x);
         }
 
         public int GetPopulation(double x)
@@ -31,22 +37,6 @@ namespace SettlementRandomizer
                 var npc = gen.GenerateNPCforCity(nation);
                 npc.Profession = prof;
                 output.Add(npc);
-            }
-            return output;
-        }
-
-        public Dictionary<string, int> GetDemographics(CityData city, int population)
-        {
-            var basePercentages = new Dictionary<string, double>();
-            var output = new Dictionary<string, int>();
-            var p = new List<double>();
-            foreach (NPCRandomizer.NamedRange r in city.Races)
-            {
-                basePercentages[r.Name] = r.Stop - r.Start;
-            }
-            foreach (KeyValuePair<string, double> kvp in basePercentages)
-            {
-                output[kvp.Key] = (int)(kvp.Value * population);
             }
             return output;
         }

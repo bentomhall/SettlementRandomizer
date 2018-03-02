@@ -1,0 +1,38 @@
+[
+    {
+        "Name": "Council",
+        "Races": {
+          "human": 0.3,
+          "half-elf":  0.1,
+          "high elf": 0.05,
+          "wood elf": 0.2,
+          "halfling": 0.2,
+          "dwarf": 0.15
+        }
+    },
+    {
+        "Name": "Stone Throne",
+        "Races": {
+          "human": 0.35,
+          "half-elf": 0.3,
+          "yuan-ti": 0.3,
+          "dwarf": 0.05
+        }
+    },
+    {
+        "Name": "Dynasty",
+        "Races": {
+          "dragonborn": 0.3,
+          "orc": 0.3,
+          "goblin": 0.4
+        }
+    },
+    {
+        "Name": "Byssia",
+        "Races": {
+          "human": 0.4,
+          "half-elf": 0.35,
+          "wood elf": 0.25
+        }
+    }
+]

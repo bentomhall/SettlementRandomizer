@@ -6,33 +6,13 @@
     "Size": "City",
     "Region": "Frozen Coast",
     "Terrain": "Underground",
-    "Races": [
-      {
-        "Name": "dwarf",
-        "Start": 0.0,
-        "Stop": 0.6
-      },
-      {
-        "Name": "gnome",
-        "Start": 0.6,
-        "Stop": 0.8
-      },
-      {
-        "Name": "soul-forged",
-        "Start": 0.8,
-        "Stop": 0.96
-      },
-      {
-        "Name": "azer",
-        "Start": 0.96,
-        "Stop": 0.98
-      },
-      {
-        "Name": "deep gnome",
-        "Start": 0.98,
-        "Stop": 1.0
-      }
-    ],
+    "Races": {
+      "dwarf": 0.6,
+      "gnome": 0.2,
+      "soul-forged": 0.16,
+      "azer": 0.02,
+      "deep gnome": 0.02
+    },
     "Tech": 4,
     "Prefixes": [  ],
     "Infixes": [ "Ulaan", "Yagaan", "Ulbar Shar", "Shar", "Khuren", "Khokh", "Yagaan Khokh", "Nogoon", "Tsagaan" ],
@@ -46,23 +26,11 @@
     "Region": "Orc-Lands",
     "Terrain": "Forest",
     "Population": 800,
-    "Races": [
-      {
-        "Name": "wood elf",
-        "Start": 0.0,
-        "Stop": 0.8
-      },
-      {
-        "Name": "human",
-        "Start": 0.8,
-        "Stop": 0.95
-      },
-      {
-        "Name": "orc",
-        "Start": 0.95,
-        "Stop": 1.0
-      }
-    ],
+    "Races": {
+      "wood elf": 0.8,
+      "human": 0.15,
+      "orc": 0.05
+    },
     "Tech": 2,
     "Prefixes": [],
     "Infixes": [ "valkoinen", "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen", "vihreae", "harmaa", "ruskea" ],
@@ -76,28 +44,12 @@
     "Size": "Town",
     "Region": "Orc-Lands",
     "Terrain": "Mountains",
-    "Races": [
-      {
-        "Name": "human",
-        "Start": 0.0,
-        "Stop": 0.7
-      },
-      {
-        "Name": "wood elf",
-        "Start": 0.7,
-        "Stop": 0.85
-      },
-      {
-        "Name": "halfling",
-        "Start": 0.85,
-        "Stop": 0.9
-      },
-      {
-        "Name": "dwarf",
-        "Start": 0.9,
-        "Stop": 1.0
-      }
-    ],
+    "Races": {
+      "human": 0.7,
+      "wood elf": 0.15,
+      "halfling": 0.05,
+      "dwarf": 0.1
+    } ,
     "Tech": 2,
     "Prefixes": [],
     "Infixes": [ "Amity", "Calm", "Charity", "Clarity", "Clemency", "Constance", "Faith", "Fidelity", "Fortitude", "Honor", "Justice", "Loyalty", "Unity", "Truth" ],
@@ -111,23 +63,11 @@
     "Size": "City",
     "Region": "Orc-Lands",
     "Terrain": "Plain/Forest",
-    "Races": [
-      {
-        "Name": "orc",
-        "Start": 0.0,
-        "Stop": 0.7
-      },
-      {
-        "Name": "dragonborn",
-        "Start": 0.7,
-        "Stop": 0.95
-      },
-      {
-        "Name": "goblin",
-        "Start": 0.95,
-        "Stop": 1
-      }
-    ],
+    "Races": {
+      "orc": 0.7,
+      "dragonborn": 0.25,
+      "goblin": 0.05
+    },
     "Tech": 3,
     "Prefixes": [],
     "Infixes": [ "gor", "dubh", "geal", "ban", "fionn", "dearg", "ruadh", "buidhe", "gorm", "uaine", "glas", "donn", "liath" ],
@@ -141,23 +81,11 @@
     "Size": "City",
     "Terrain": "Forest/Mountains",
     "Population": 4000,
-    "Races": [
-      {
-        "Name": "human",
-        "Start": 0.0,
-        "Stop": 0.5
-      },
-      {
-        "Name": "wood elf",
-        "Start": 0.5,
-        "Stop": 0.9
-      },
-      {
-        "Name": "dwarf",
-        "Start": 0.9,
-        "Stop": 1.0
-      }
-    ],
+    "Races": {
+      "human": 0.5,
+      "wood elf": 0.4,
+      "dwarf": 0.1
+    },
     "Tech": 3,
     "Prefixes": [ "aber", "craig", "mont", "" ],
     "Infixes": [ "river", "ford", "brad", "carden", "white", "shep", "inver", "nath", "" ],
@@ -171,28 +99,12 @@
     "Size": "Capital",
     "Terrain": "Mountains",
     "Population": 20000,
-    "Races": [
-      {
-        "Name": "human",
-        "Start": 0.0,
-        "Stop": 0.4
-      },
-      {
-        "Name": "halfling",
-        "Start": 0.4,
-        "Stop": 0.7
-      },
-      {
-        "Name": "dwarf",
-        "Start": 0.7,
-        "Stop": 0.9
-      },
-      {
-        "Name": "high elf",
-        "Start": 0.9,
-        "Stop": 1.0
-      }
-    ],
+    "Races": {
+      "human": 0.4,
+      "halfling": 0.3,
+      "dwarf": 0.2,
+      "high elf": 0.1
+    },
     "Tech": 4,
     "Prefixes": [ "aber", "craig", "mont", "" ],
     "Infixes": [ "river", "ford", "brad", "carden", "white", "shep", "inver", "nath", "" ],
@@ -206,28 +118,12 @@
     "Region": "Sea of Grass",
     "Size": "Town",
     "Terrain": "Coast/Plain",
-    "Races": [
-      {
-        "Name": "human",
-        "Start": 0,
-        "Stop": 0.4
-      },
-      {
-        "Name": "halfling",
-        "Start": 0.4,
-        "Stop": 0.7
-      },
-      {
-        "Name": "high elf",
-        "Start": 0.7,
-        "Stop": 0.95
-      },
-      {
-        "Name": "goblin",
-        "Start": 0.95,
-        "Stop": 1.0
-      }
-    ],
+    "Races": {
+      "human": 0.4,
+      "halfling": 0.3,
+      "high elf": 0.25,
+      "goblin": 0.05
+    },
     "Tech": 3,
     "Prefixes": [ "aber", "craig", "mont", "" ],
     "Infixes": [ "river", "ford", "brad", "carden", "white", "shep", "inver", "nath", "" ],
@@ -241,28 +137,12 @@
     "Region": "Sea of Grass",
     "Size": "City",
     "Terrain": "Coast/Plain",
-    "Races": [
-      {
-        "Name": "human",
-        "Start": 0,
-        "Stop": 0.5
-      },
-      {
-        "Name": "halfling",
-        "Start": 0.5,
-        "Stop": 0.9
-      },
-      {
-        "Name": "half elf",
-        "Start": 0.9,
-        "Stop": 0.95
-      },
-      {
-        "Name": "dwarf",
-        "Start": 0.95,
-        "Stop": 1.0
-      }
-    ],
+    "Races": {
+      "human": 0.5,
+      "halfling": 0.8,
+      "half elf": 0.15,
+      "dwarf": 0.05
+    },
     "Tech": 4,
     "Prefixes": [ "aber", "craig", "mont", "" ],
     "Infixes": [ "river", "ford", "brad", "carden", "white", "shep", "inver", "nath", "" ],
@@ -276,33 +156,13 @@
     "Region": "Sea of Grass",
     "Size": "Town",
     "Terrain": "Hills",
-    "Races": [
-      {
-        "Name": "goblin",
-        "Start": 0,
-        "Stop": 0.8
-      },
-      {
-        "Name": "human",
-        "Start": 0.8,
-        "Stop": 0.85
-      },
-      {
-        "Name": "wood elf",
-        "Start": 0.85,
-        "Stop": 0.90
-      },
-      {
-        "Name": "dragonborn",
-        "Start": 0.9,
-        "Stop": 0.95
-      },
-      {
-        "Name": "high elf",
-        "Start": 0.95,
-        "Stop": 1.0
-      }
-    ],
+    "Races": {
+      "goblin": 0.8,
+      "human": 0.05,
+      "wood elf": 0.05,
+      "dragonborn": 0.05,
+      "high elf": 0.05
+    },
     "Tech": 3,
     "Prefixes": [ "sheep", "cattle", "grass", "river", "wind", "hill" ],
     "Infixes": [ "stink", "blow", "run", "giant" ],
@@ -316,23 +176,11 @@
     "Size": "City",
     "Region": "Sea of Grass",
     "Terrain": "Plain/Hills",
-    "Races": [
-      {
-        "Name": "goblin",
-        "Start": 0.0,
-        "Stop": 0.6
-      },
-      {
-        "Name": "dragonborn",
-        "Start": 0.6,
-        "Stop": 0.85
-      },
-      {
-        "Name": "orc",
-        "Start": 0.85,
-        "Stop": 1
-      }
-    ],
+    "Races": {
+      "goblin": 0.5,
+      "dragonborn": 0.35,
+      "orc": 0.15
+    },
     "Tech": 4,
     "Prefixes": [ "gor", "dubh", "geal", "ban", "fionn", "dearg", "ruadh", "buidhe", "gorm", "uaine", "glas", "donn", "liath", "valkoinen", "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen" ],
     "Suffixes": [ "dale", "holm", "mont", "inver", "lyn", "vihreae" ],
@@ -346,23 +194,11 @@
     "Size": "Capital",
     "Region": "Nocthian Plateau",
     "Terrain": "Mountains",
-    "Races": [
-      {
-        "Name": "dragonborn",
-        "Start": 0.0,
-        "Stop": 0.5
-      },
-      {
-        "Name": "orc",
-        "Start": 0.5,
-        "Stop": 0.75
-      },
-      {
-        "Name": "goblin",
-        "Start": 0.75,
-        "Stop": 1
-      }
-    ],
+    "Races": {
+      "dragonborn": 0.5,
+      "orc": 0.25,
+      "goblin": 0.25
+    },
     "Tech": 4,
     "Prefixes": [ "gor", "dubh", "geal", "ban", "fionn", "dearg", "ruadh", "buidhe", "gorm", "uaine", "glas", "donn", "liath", "valkoinen", "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen" ],
     "Suffixes": [ "dale", "holm", "mont", "inver", "lyn", "vihreae" ],
@@ -377,23 +213,11 @@
     "Size": "Capital",
     "Region": "Lost Coast",
     "Terrain": "Coast/Jungle",
-    "Races": [
-      {
-        "Name": "human",
-        "Start": 0.0,
-        "Stop": 0.33
-      },
-      {
-        "Name": "half elf",
-        "Start": 0.33,
-        "Stop": 0.66
-      },
-      {
-        "Name": "wood elf",
-        "Start": 0.66,
-        "Stop": 1
-      }
-    ],
+    "Races": {
+      "human": 0.33,
+      "wood elf": 0.33,
+      "half elf": 0.34
+    },
     "Tech": 3,
     "Prefixes": [ "musta", "punainen", "sininen", "keltainen", "kulta", "hopea", "kultainen", "hopeinen", "oranssi", "sinipunainen", "vihreae" ],
     "Infixes": [ "craig", "dale", "holm", "mont", "inver", "lyn", "", "", "", "", "", "" ],
@@ -407,28 +231,12 @@
     "Region": "Moon's Vengeance",
     "Size": "City",
     "Terrain": "Mountains/Underground",
-    "Races": [
-      {
-        "Name": "dwarf",
-        "Start": 0,
-        "Stop": 0.65
-      },
-      {
-        "Name": "human",
-        "Start": 0.65,
-        "Stop": 0.85
-      },
-      {
-        "Name": "halfling",
-        "Start": 0.85,
-        "Stop": 0.95
-      },
-      {
-        "Name": "orc",
-        "Start": 0.95,
-        "Stop": 1.0
-      }
-    ],
+    "Races": {
+      "dwarf": 0.65,
+      "human": 0.2,
+      "halfling": 0.1,
+      "orc": 0.05
+    },
     "Tech": 4,
     "Prefixes": [],
     "Infixes": [ "Ulaan", "Yagaan", "Ulbar Shar", "Shar", "Khuren", "Khokh", "Yagaan Khokh", "Nogoon", "Tsagaan" ],
@@ -442,23 +250,11 @@
     "Region": "Jungle of Fangs",
     "Size": "Capital",
     "Terrain": "Mountains",
-    "Races": [
-      {
-        "Name": "human",
-        "Start": 0,
-        "Stop": 0.45
-      },
-      {
-        "Name": "half elf",
-        "Start": 0.45,
-        "Stop": 0.95
-      },
-      {
-        "Name": "yuan-ti",
-        "Start": 0.95,
-        "Stop": 1.0
-      }
-    ],
+    "Races": {
+      "human": 0.45,
+      "half elf": 0.5,
+      "yuan-ti":  0.05
+    },
     "Tech": 2,
     "Prefixes": [ "Phoa", "Praa", "Meas", "Kha Maot", "So", "krohom", "kiev", "baitong", "teuk krewt", "svay" ],
     "Suffixes": [ "thnout", "brisot", "psa", "hvang" ],
@@ -472,28 +268,12 @@
     "Region": "Jungle of Fangs",
     "Size": "Village",
     "Terrain": "Jungle/Coast",
-    "Races": [
-      {
-        "Name": "human",
-        "Start": 0,
-        "Stop": 0.5
-      },
-      {
-        "Name": "half elf",
-        "Start": 0.5,
-        "Stop": 0.8
-      },
-      {
-        "Name": "yuan-ti",
-        "Start": 0.8,
-        "Stop": 0.995
-      },
-      {
-        "Name": "kobold",
-        "Start": 0.995,
-        "Stop": 1.0
-      }
-    ],
+    "Races": {
+      "human": 0.5,
+      "half elf": 0.3,
+      "yuan-ti": 0.195,
+      "kobold": 0.005
+    },
     "Tech": 1,
     "Prefixes": [ "Phoa", "Praa", "Meas", "Kha Maot", "So", "krohom", "kiev", "baitong", "teuk krewt", "svay" ],
     "Suffixes": [ "thnout", "brisot", "psa", "hvang" ],
@@ -507,23 +287,11 @@
     "Region": "Jungle of Fangs",
     "Size": "City",
     "Terrain": "Jungle",
-    "Races": [
-      {
-        "Name": "human",
-        "Start": 0,
-        "Stop": 0.4
-      },
-      {
-        "Name": "half elf",
-        "Start": 0.4,
-        "Stop": 0.8
-      },
-      {
-        "Name": "yuan-ti",
-        "Start": 0.8,
-        "Stop": 1.0
-      }
-    ],
+    "Races": {
+      "human": 0.4,
+      "half elf": 0.4,
+      "yuan-ti": 0.2
+    },
     "Tech": 3,
     "Prefixes": [ "Phoa", "Praa", "Meas", "Kha Maot", "So", "krohom", "kiev", "baitong", "teuk krewt", "svay" ],
     "Suffixes": [ "thnout", "brisot", "psa", "hvang" ],
@@ -537,23 +305,11 @@
     "Region": "Jungle of Fangs",
     "Size": "City",
     "Terrain": "Plains/Jungle",
-    "Races": [
-      {
-        "Name": "human",
-        "Start": 0,
-        "Stop": 0.5
-      },
-      {
-        "Name": "half elf",
-        "Start": 0.5,
-        "Stop": 0.9
-      },
-      {
-        "Name": "yuan-ti",
-        "Start": 0.9,
-        "Stop": 1.0
-      }
-    ],
+    "Races": {
+      "human": 0.5,
+      "half elf": 0.9,
+      "yuan-ti": 0.1
+    },
     "Tech": 4,
     "Prefixes": [ "Phoa", "Praa", "Meas", "Kha Maot", "So", "krohom", "kiev", "baitong", "teuk krewt", "svay" ],
     "Suffixes": [ "thnout", "brisot", "psa", "hvang" ],
@@ -567,28 +323,12 @@
     "Region": "Jungle of Fangs",
     "Size": "City",
     "Terrain": "Jungle/Mountains",
-    "Races": [
-      {
-        "Name": "human",
-        "Start": 0,
-        "Stop": 0.4
-      },
-      {
-        "Name": "half elf",
-        "Start": 0.4,
-        "Stop": 0.8
-      },
-      {
-        "Name": "dwarf",
-        "Start": 0.8,
-        "Stop": 0.85
-      },
-      {
-        "Name": "yuan-ti",
-        "Start": 0.85,
-        "Stop": 1.0
-      }
-    ],
+    "Races": {
+      "human": 0.4,
+      "half elf": 0.4,
+      "yuan-ti": 0.15,
+      "dwarf": 0.05
+    },
     "Tech": 3,
     "Prefixes": [ "Phoa", "Praa", "Meas", "Kha Maot", "So", "krohom", "kiev", "baitong", "teuk krewt", "svay" ],
     "Suffixes": [ "thnout", "brisot", "psa", "hvang" ],
