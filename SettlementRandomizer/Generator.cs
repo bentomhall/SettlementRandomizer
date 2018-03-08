@@ -17,6 +17,15 @@ namespace SettlementRandomizer
 
         internal void Create(string size, int n, string city)
         {
+            if (size.ToLower() == "all")
+            {
+                var valid = GetPossibleSettlementTypes();
+                foreach (var s in valid)
+                {
+                    Create(s, n, city);
+                }
+                return;
+            }
             for (int i = 0; i < n; i++)
             {
                 var s = GenerateSettlement(size, city);

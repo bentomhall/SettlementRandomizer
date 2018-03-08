@@ -11,7 +11,7 @@ namespace SettlementRandomizer
             Console.WriteLine("Welcome to the random settlement generator");
             Console.WriteLine("Please select a size of city to generate");
             var types = gen.GetPossibleSettlementTypes();
-            Console.WriteLine("Valid sizes are: ");
+            Console.WriteLine("Valid sizes are: (enter all for a full complement)");
             Console.WriteLine(FormatTypes(types));
             Console.Write("> ");
             var size = Console.ReadLine();
