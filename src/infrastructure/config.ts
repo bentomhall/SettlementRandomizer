@@ -14,7 +14,9 @@ interface ApiConfig {
 
 export interface AppConfig {
     db: DBConfig,
-    api: ApiConfig
+    api: ApiConfig,
+    quirks: string[],
+    occupations: string[]
 }
 
 export class ConfigurationError extends Error {
@@ -33,10 +35,22 @@ export async function readConfig(filepath: string): Promise<AppConfig> {
     if (!apiConfig) {
         throw new ConfigurationError('api')
     }
+    let quirksFile = raw.quirksLocation
+    let quirks = ["none"]
+    if (quirksFile) {
+        quirks = JSON.parse((await readFile(quirksFile)).toString())
+    }
+    let occupationsFile = raw.occupationsLocation
+    let occupations = ["child", "unemployed"]
+    if (occupationsFile) {
+        occupations = JSON.parse((await readFile(occupationsFile)).toString())
+    }
 
     return {
         db: parseDBConfig(dbConfig),
-        api: parseApiConfig(apiConfig)
+        api: parseApiConfig(apiConfig),
+        quirks,
+        occupations
     }
 }
 
@@ -46,8 +60,8 @@ function parseDBConfig(config: Record<string, string>): DBConfig {
     if (!host) { missing.push('db.host') }
     let username = coerceString(config.username)
     if (!username) { missing.push('db.username') }
-    let password = coerceString(config.password)
-    if (!password) { missing.push('db.password') }
+    let password = process.env.MYSQL_PASSWORD
+    if (!password) { missing.push('env.MYSQL_PASSWORD') }
     if (missing.length != 0) {
         throw new ConfigurationError(missing.join(', '))
     }
@@ -60,15 +74,14 @@ function parseApiConfig(config: Record<string, string|number>): ApiConfig {
     let missing = []
     let host = coerceString(config.host)
     if (!host) { missing.push('api.host') }
-    let port = coerceNumber(config.port)
-    if (!port) { missing.push('db.username') }
-    let key = coerceString(config.key)
-    if (!key) { missing.push('db.key') }
+    let key = process.env.API_KEY
+    if (!key) { missing.push('env.API_KEY') }
+    let port = coerceNumber(config.port) ?? 80
     if (missing.length != 0) {
         throw new ConfigurationError(missing.join(', '))
     }
     return {
-        host: host!, port: port!, key: key!
+        host: host!, port: port, key: key!
     }
 }
 

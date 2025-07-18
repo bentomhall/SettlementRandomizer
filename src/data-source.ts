@@ -1,9 +1,11 @@
 import { DataSource } from "typeorm";
 import { DBConfig } from "./infrastructure/config";
-import { CulturePersonNamePrevalence, PersonNameEntry } from "./dataTypes/PersonNameEntry";
+import { PersonNameEntry } from "./dataTypes/PersonNameEntry";
 import { CultureEntry } from "./dataTypes/CultureEntry";
-import { CultureDemographics, LineageEntry } from "./dataTypes/LineageEntry";
+import { LineageEntry } from "./dataTypes/LineageEntry";
+import { CultureDemographics } from "./dataTypes/CultureDemographics";
 import { SettlementNameEntry } from "./dataTypes/SettlementNameEntry";
+import { CulturePersonNamePrevalence } from "./dataTypes/CulturePersonNamePrevalence";
 
 export function createDataSource(config: DBConfig): DataSource {
     return new DataSource({
@@ -13,13 +15,14 @@ export function createDataSource(config: DBConfig): DataSource {
         username: config.username,
         password: config.password,
         database: "settlement_randomizer",
+        synchronize: true, //not really a production thing yet...
         entities: [
-            PersonNameEntry,
-            CultureEntry,
+            LineageEntry,
             CultureDemographics,
             CulturePersonNamePrevalence,
-            LineageEntry,
-            SettlementNameEntry
+            PersonNameEntry,
+            SettlementNameEntry,
+            CultureEntry,
         ]
     })
 }

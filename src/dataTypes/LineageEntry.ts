@@ -1,31 +1,28 @@
-import { Column, Entity, ForeignKey, ManyToMany, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import { CultureEntry } from "./CultureEntry";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { CultureDemographics } from "./CultureDemographics";
 
 @Entity()
 export class LineageEntry {
     @PrimaryGeneratedColumn()
-    id: number = 0
+    id: number
 
     @Column({nullable: false, unique: true})
-    name: string = ""
+    name: string
+
+    @Column("int", {nullable: false})
+    adultAge: number
+
+    @Column("int", {nullable: false})
+    maxAge: number
 
     @ManyToOne(() => CultureDemographics, (demo) => demo.lineage)
     public cultureDemographics: CultureDemographics
+
+    generateAge(occupation: string): number {
+        if (occupation == "child") {
+            return Math.floor(Math.random()*this.adultAge)
+        }
+        return Math.floor(Math.random()*(this.maxAge - this.adultAge + 1)) + this.adultAge;
+    }
 }
 
-@Entity()
-export class CultureDemographics {
-    @PrimaryColumn()
-    cultureId: number = 0
-    @PrimaryColumn()
-    lineageId: number = 0
-
-    @Column()
-    prevalence: number = 0
-
-    @OneToMany(() => CultureEntry, (culture) => culture.cultureDemographics)
-    public culture: CultureEntry
-
-    @OneToMany(() => LineageEntry, (lineage) => lineage.cultureDemographics)
-    public lineage: LineageEntry
-}

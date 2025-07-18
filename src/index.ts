@@ -13,18 +13,17 @@ let personController: PersonController;
     try {
         config = await readConfig('default.json')
         dataSource = createDataSource(config.db);
-
-        personController = new PersonController(dataSource);
+        await dataSource.initialize();
+        personController = new PersonController(dataSource, config.quirks, config.occupations);
         attachGenericRoutes(server);
         attachPersonRoutes(server, personController);
-        await dataSource.initialize();
     } catch (error) {
-        console.error(`Error during initialization ${JSON.stringify(error)}`)
+        console.error(`Error during initialization ${(error as Error).message}`)
         process.exit(1)
     }
     try {
         server.listen({port: config.api.port});
     } catch (error) {
-        console.error(`Error from api: ${JSON.stringify(error)}`);
+        console.error(`Error from api: ${error}`);
     }
 })()

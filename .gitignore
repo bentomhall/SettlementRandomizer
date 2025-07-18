@@ -261,4 +261,4 @@ __pycache__/
 *.pyc
 /nuget.config
 
-src/default.json
+**/default.json

@@ -1,0 +1,31 @@
+services:
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE=settlement_randomizer
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "exit | mysql -h localhost -P 3306 -u root -p$$MYSQL_ROOT_PASSWORD" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+  api:
+    build: .
+    environment:
+      - MYSQL_PASSWORD
+      - API_KEY
+    ports:
+      - "8080:80"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mysql_data:

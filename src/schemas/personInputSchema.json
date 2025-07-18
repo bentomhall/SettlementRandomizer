@@ -2,6 +2,8 @@
   "$id": "personInput",
   "type": "object",
   "properties": {
-    
+    "cultureId": {
+      "type": "number"
+    }
   }
 }

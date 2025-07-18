@@ -4,10 +4,10 @@ import { CultureEntry } from "./CultureEntry";
 @Entity()
 export class SettlementNameEntry {
     @PrimaryGeneratedColumn()
-    id: number = 0
+    id: number
     @Column("varchar", {nullable: false})
-    name: string = ""
+    name: string
 
     @ManyToMany(() => CultureEntry)
-    cultures: CultureEntry[] = []
+    cultures: CultureEntry[]
 }
