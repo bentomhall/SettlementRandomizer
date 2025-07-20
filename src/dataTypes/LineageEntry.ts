@@ -7,6 +7,9 @@ export class LineageEntry {
     id: number
 
     @Column({nullable: false, unique: true})
+    key: string
+
+    @Column({nullable: false, unique: true})
     name: string
 
     @Column("int", {nullable: false})

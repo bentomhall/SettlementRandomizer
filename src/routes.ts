@@ -1,5 +1,5 @@
 import fastify, { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { PersonController } from "./controllers/PersonController";
+import { CultureController } from "./controllers/CultureController";
 import { HttpError, HttpResponseCode, NotFoundError } from "./dataTypes/Errors";
 import { Person } from "./dataTypes/DTOs/Person";
 import { ApiResult, err, getError, getValue, ok } from "./dataTypes/Result";
@@ -22,7 +22,7 @@ export function attachGenericRoutes(server: FastifyInstance) {
   });
 }
 
-export function attachPersonRoutes(server: FastifyInstance, controller: PersonController) {
+export function attachPersonRoutes(server: FastifyInstance, controller: CultureController) {
   server.addSchema({
     $id: "createPersonInput",
     type: 'object',

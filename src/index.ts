@@ -1,20 +1,22 @@
 import fastify from "fastify";
 import { attachGenericRoutes, attachPersonRoutes } from "./routes";
-import { PersonController } from "./controllers/PersonController";
+import { CultureController } from "./controllers/CultureController";
 import { DataSource } from "typeorm";
 import { AppConfig, readConfig } from "./infrastructure/config";
 import { createDataSource } from "./data-source";
+import { CultureFactory, CultureSourceFactory } from "./domain/CultureService";
 const server = fastify();
 let dataSource: DataSource;
 let config: AppConfig;
-let personController: PersonController;
-
+let personController: CultureController;
+let cultureFactory: CultureFactory;
 (async () => {    
     try {
         config = await readConfig('default.json')
         dataSource = createDataSource(config.db);
         await dataSource.initialize();
-        personController = new PersonController(dataSource, config.quirks, config.occupations);
+        cultureFactory = new CultureSourceFactory(dataSource, config.quirks, config.occupations, true)
+        personController = new CultureController(cultureFactory);
         attachGenericRoutes(server);
         attachPersonRoutes(server, personController);
     } catch (error) {
