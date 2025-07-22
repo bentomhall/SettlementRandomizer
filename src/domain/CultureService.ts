@@ -1,13 +1,16 @@
 import { ok } from "../dataTypes/Result"
-import { Repository, DataSource } from "typeorm";
+import { Repository, DataSource, In } from "typeorm";
 import { CultureEntry } from "../dataTypes/CultureEntry";
 import { Gender, Person } from "../dataTypes/DTOs/Person";
 import { NotFoundError } from "../dataTypes/Errors";
 import { ApiResult, err } from "../dataTypes/Result";
 import { MockCultureSource } from "../test/Mocks";
+import { Culture } from "../dataTypes/DTOs/Culture";
 
 export interface CultureSource {
   generatePerson(cultureKey: string, occupation?: string, gender?: Gender): Promise<ApiResult<Person>>
+  getAllCultures(): Promise<ApiResult<Culture[]>>
+  getCulturesByKeys(keys: string[]): Promise<ApiResult<Culture[]>>
 }
 
 export interface CultureFactory {
@@ -48,5 +51,20 @@ export class CultureService implements CultureSource {
       }
       let person = new Person(nameEntry.name, lineageEntry.name, lineageEntry.generateAge(occupation), occupation, quirk, gender)
       return ok(person)
+    }
+
+    async getAllCultures(): Promise<ApiResult<Culture[]>> {
+      let cultures = await this.repo.find();
+      return ok(cultures.map(x => Culture.fromCultureEntry(x)))
+    }
+
+    async getCulturesByKeys(keys: string[]): Promise<ApiResult<Culture[]>> {
+      if (keys.length == 0) {
+        return err(new NotFoundError("No keys provided"))
+      }
+      let cultures = await this.repo.findBy({
+        key: In(keys),
+      })
+      return ok(cultures.map(x => Culture.fromCultureEntry(x)))
     }
 }

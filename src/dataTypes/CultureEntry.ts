@@ -11,6 +11,8 @@ export class CultureEntry {
     public id: number
     @Column({unique: true, nullable: false})
     public key: string
+    @Column({nullable: false})
+    public name: string
 
     @ManyToOne(() => CulturePersonNamePrevalence, (prev) => prev.culture)
     public prevalences: CulturePersonNamePrevalence[]
