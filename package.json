@@ -1,22 +1,25 @@
 {
-  "name": "custom-settlement-builder",
+  "name": "settlementrandomizer",
   "version": "1.0.0",
-  "description": "",
+  "description": "A way to randomly generate settlements and options in a setting-coherent way",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "start": "node src/index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "fastify": "^5.4.0",
-    "mysql2": "^3.14.2",
-    "typeorm": "^0.3.25"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bentomhall/SettlementRandomizer.git"
   },
+  "author": "Ben Hall",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bentomhall/SettlementRandomizer/issues"
+  },
+  "homepage": "https://github.com/bentomhall/SettlementRandomizer#readme",
   "devDependencies": {
-    "@types/node": "^24.0.13",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@nestjs/cli": "^11.0.7"
   }
 }
