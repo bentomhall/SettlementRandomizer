@@ -2,12 +2,30 @@ import { Age, AgeCategory } from "src/shared/Age";
 import { InvalidOperationError, InvalidParameterError } from "src/shared/CustomErrors";
 import { Name } from "src/shared/Name";
 import { keyFromName } from "src/shared/StringUtils";
+import { Gender, genderKeyMap } from "./Gender";
+import { WeightedOption } from "src/shared/choice";
 
 export interface LineageInput {
   name: string;
   adultAge: number;
   maximumAge: number;
-  elderlyFraction?: number;
+  elderlyAge: number;
+  genders: Map<Gender, number>
+}
+
+export class GenderFrequency implements WeightedOption<GenderFrequency> {
+  constructor(public key: string, public gender: string, private freq: number) {}
+  get value(): GenderFrequency {
+    return this
+  }
+
+  get frequency(): number {
+    return this.freq;
+  }
+
+  clone(): GenderFrequency {
+    return new GenderFrequency(this.key, this.gender, this.freq);
+  }
 }
 
 export class Lineage {
@@ -15,17 +33,25 @@ export class Lineage {
   #name: Name;
   #adultAge: Age;
   #maximumAge: Age;
-  #elderlyFraction: number = 0.8;
+  #elderlyAge: Age;
+  #genders: GenderFrequency[] = []
 
   constructor(input: LineageInput, id: number = -1) {
-    if (input.elderlyFraction != null && (input.elderlyFraction <= 0 || input.elderlyFraction >= 1)) {
-      throw new InvalidParameterError(`Lineage.elderlyFraction must be > 0 and < 1, got ${input.elderlyFraction}`);
+    if (input.elderlyAge <= input.adultAge || input.elderlyAge >= input.maximumAge) {
+      throw new InvalidParameterError(`Lineage.elderlyAge must be strictly between adultAge and maxAge, got ${input.elderlyAge}`);
+    }
+    if (input.adultAge >= input.maximumAge) {
+      throw new InvalidParameterError(`Lineage.adultAge must be strictly less than input.maximumAge`);
     }
     this.#id = id;
     this.#name = new Name(input.name);
     this.#adultAge = new Age(input.adultAge);
     this.#maximumAge = new Age(input.maximumAge);
-    this.#elderlyFraction = input.elderlyFraction ?? 0.8
+    this.#elderlyAge = new Age(input.elderlyAge);
+    let total = Array.from(input.genders.values()).reduce((p, c) => p+c);
+    for (let [key, v] of input.genders) {
+      this.#genders.push(new GenderFrequency(genderKeyMap.get(key)!, key, v/total));
+    }
   }
 
   public setId(value: number) {
@@ -47,12 +73,18 @@ export class Lineage {
     return keyFromName(this.#name);
   }
 
-  public ageCategory(age: Age): AgeCategory {
+  public ageCategory(age: Age): AgeCategory | null {
     if (age < this.#adultAge) {
       return AgeCategory.CHILD;
-    } else if (age.valueOf() > this.#elderlyFraction*this.#maximumAge.valueOf()) {
+    } else if (age.valueOf() >= this.#elderlyAge.valueOf()) {
       return AgeCategory.ELDERLY;
+    } else if (age.valueOf() >= this.#maximumAge.valueOf()) {
+      return null;
     }
     return AgeCategory.ADULT;
+  }
+
+  public get genders(): GenderFrequency[] {
+    return this.#genders.map(g => g.clone());
   }
 }
