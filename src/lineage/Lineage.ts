@@ -5,6 +5,28 @@ import { keyFromName } from "src/shared/StringUtils";
 import { Gender } from "./Gender";
 import { rescaleFrequencies, WeightedOption } from "src/shared/choice";
 
+export class LineageDto {
+  name: string
+  adultAge: number
+  maximumAge: number
+  elderlyAge: number
+  genders: Record<string, number>
+
+  toInput(): LineageInput {
+    let genderFrequencies: GenderFrequency[] = [];
+    for (let key in this.genders) {
+      genderFrequencies.push(GenderFrequency.fromRawInput(key, this.genders[key]))
+    }
+    return {
+      name: this.name,
+      adultAge: this.adultAge,
+      maximumAge: this.maximumAge,
+      elderlyAge: this.elderlyAge,
+      genders: genderFrequencies
+    }
+  }
+}
+
 export interface LineageInput {
   name: string;
   adultAge: number;
@@ -30,8 +52,12 @@ export class LineageOutput {
     this.genders = {}
     for (let gender of genders) {
       this.genders[gender.gender.key] = gender.frequency
+      }  
     }
-  }
+    
+    static fromLineage(l: Lineage): LineageOutput {
+      return new LineageOutput(l.id, l.name.valueOf(), l.adultAge, l.maximumAge, l.elderlyAge, l.genders)
+    }
 }
 
 export class GenderFrequency implements WeightedOption<Gender> {
@@ -50,6 +76,19 @@ export class GenderFrequency implements WeightedOption<Gender> {
 
   rescale(total: number): void {
     this.freq = this.freq / total;
+  }
+
+  public static fromRawInput(key: string, value: number): GenderFrequency {
+    switch (key) {
+    case Gender.maleKey:
+      return new GenderFrequency(Gender.male, value)
+    case Gender.femaleKey:
+      return new GenderFrequency(Gender.female, value)
+    case Gender.neuterKey:
+      return new GenderFrequency(Gender.neuter, value)
+    default:
+      return new GenderFrequency(Gender.other, value)
+  }
   }
 }
 

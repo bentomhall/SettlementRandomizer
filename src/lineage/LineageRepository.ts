@@ -55,6 +55,11 @@ export class LineageRepository {
     }
   }
 
+  async deleteById(id: number): Promise<void> {
+    let lineageQuery = `DELETE FROM lineage WHERE id=?;`
+    await this.pool.query(lineageQuery, [id]);
+  }
+
   private async insert(lineage:Lineage): Promise<Lineage> {
     let lineageQuery = `INSERT INTO lineage (name, adultAge, maximumAge, elderlyAge) VALUES (?, ?, ?, ?)`;
     let results = await this.pool.query<ResultSetHeader>(lineageQuery, [lineage.name, lineage.adultAge, lineage.maximumAge, lineage.elderlyAge]);

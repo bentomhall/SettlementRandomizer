@@ -1,61 +1,47 @@
-import { Controller, Get, Post, Body, HttpCode } from "@nestjs/common";
+import { Controller, Get, Post, Body, HttpCode, Delete, Param, NotFoundException, Put } from "@nestjs/common";
 import { LineageRepository } from "./lineage/LineageRepository";
-import { GenderFrequency, Lineage, LineageOutput } from "./lineage/Lineage";
-import { Gender } from "./lineage/Gender";
-
-class LineageDto {
-  name: string
-  adultAge: number
-  maximumAge: number
-  elderlyAge: number
-  genders: Record<string, number>
-}
+import { Lineage, LineageDto, LineageOutput } from "./lineage/Lineage";
 
 @Controller('lineages')
 export class LineageController {
   constructor(private repo: LineageRepository){}
   @Get()
   async findAll(): Promise<LineageOutput[]> {
-    return (await this.repo.getAll()).map(x => mapLineageToOutput(x))
+    return (await this.repo.getAll()).map(x => LineageOutput.fromLineage(x))
   }
 
   @Post()
   @HttpCode(200)
   async create(@Body() body: LineageDto): Promise<LineageOutput> {
-    let name = body.name;
-    let adultAge = body.adultAge;
-    let maximumAge = body.maximumAge;
-    let elderlyAge = body.elderlyAge;
-    let genders = body.genders;
-    let genderFrequencies: GenderFrequency[] = [];
-    for (let key in genders) {
-      genderFrequencies.push(parseGenderInput(key, genders[key]))
-    }
-    let lineage = new Lineage({
-      name,
-      adultAge,
-      maximumAge,
-      elderlyAge,
-      genders: genderFrequencies
-    });
+    let lineage = new Lineage(body.toInput());
     lineage = await this.repo.upsert(lineage);
-    return mapLineageToOutput(lineage)
+    return LineageOutput.fromLineage(lineage);
   }
-}
 
-function mapLineageToOutput(l: Lineage): LineageOutput {
-  return new LineageOutput(l.id, l.name.valueOf(), l.adultAge, l.maximumAge, l.elderlyAge, l.genders)
-}
+  @Get("/:id")
+  async findOneById(@Param() id: number): Promise<Lineage> {
+    let lineage = await this.repo.getOneById(id);
+    if (!lineage) {
+      throw new NotFoundException()
+    }
+    return lineage;
+  }
 
-function parseGenderInput(key: string, value: number): GenderFrequency {
-  switch (key) {
-    case Gender.maleKey:
-      return new GenderFrequency(Gender.male, value)
-    case Gender.femaleKey:
-      return new GenderFrequency(Gender.female, value)
-    case Gender.neuterKey:
-      return new GenderFrequency(Gender.neuter, value)
-    default:
-      return new GenderFrequency(Gender.other, value)
+  @Put("/:id")
+  async replaceLineage(@Body() body: LineageDto, @Param() id: number): Promise<Lineage> {
+    let lineage = await this.repo.getOneById(id);
+    if (!lineage) {
+      throw new NotFoundException();
+    }
+    await this.repo.deleteById(id);
+    lineage = new Lineage(body.toInput())
+    lineage = await this.repo.upsert(lineage);
+    return lineage;
+  }
+
+  @Delete("/:id")
+  async deleteLineage(@Param() id: number): Promise<void> {
+    await this.repo.deleteById(id);
+    return;
   }
 }

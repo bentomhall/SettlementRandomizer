@@ -11,3 +11,9 @@ export class InvalidOperationError extends HttpException {
     super(`Invalid operation: ${message}`, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }
+
+export class NotFoundError extends HttpException {
+  constructor(object: string) {
+    super(`${object} not found`, HttpStatus.NOT_FOUND);
+  }
+}
