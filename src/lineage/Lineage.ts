@@ -2,21 +2,42 @@ import { Age, AgeCategory } from "src/shared/Age";
 import { InvalidOperationError, InvalidParameterError } from "src/shared/CustomErrors";
 import { Name } from "src/shared/Name";
 import { keyFromName } from "src/shared/StringUtils";
-import { Gender, genderKeyMap } from "./Gender";
-import { WeightedOption } from "src/shared/choice";
+import { Gender } from "./Gender";
+import { rescaleFrequencies, WeightedOption } from "src/shared/choice";
 
 export interface LineageInput {
   name: string;
   adultAge: number;
   maximumAge: number;
   elderlyAge: number;
-  genders: Map<Gender, number>
+  genders: GenderFrequency[]
 }
 
-export class GenderFrequency implements WeightedOption<GenderFrequency> {
-  constructor(public key: string, public gender: string, private freq: number) {}
-  get value(): GenderFrequency {
-    return this
+export class LineageOutput {
+  id: number;
+  name: string
+  adultAge: number
+  maximumAge: number
+  elderlyAge: number
+  genders: Record<string, number>
+
+  constructor(id: number, name: string, adultAge: number, maximumAge: number, elderlyAge: number, genders: GenderFrequency[]) {
+    this.name = name;
+    this.id = id;
+    this.adultAge = adultAge;
+    this.maximumAge = maximumAge;
+    this.elderlyAge = elderlyAge;
+    this.genders = {}
+    for (let gender of genders) {
+      this.genders[gender.gender.key] = gender.frequency
+    }
+  }
+}
+
+export class GenderFrequency implements WeightedOption<Gender> {
+  constructor(public gender: Gender, private freq: number) {}
+  get value(): Gender {
+    return this.gender
   }
 
   get frequency(): number {
@@ -24,7 +45,11 @@ export class GenderFrequency implements WeightedOption<GenderFrequency> {
   }
 
   clone(): GenderFrequency {
-    return new GenderFrequency(this.key, this.gender, this.freq);
+    return new GenderFrequency(this.gender, this.freq);
+  }
+
+  rescale(total: number): void {
+    this.freq = this.freq / total;
   }
 }
 
@@ -48,10 +73,7 @@ export class Lineage {
     this.#adultAge = new Age(input.adultAge);
     this.#maximumAge = new Age(input.maximumAge);
     this.#elderlyAge = new Age(input.elderlyAge);
-    let total = Array.from(input.genders.values()).reduce((p, c) => p+c);
-    for (let [key, v] of input.genders) {
-      this.#genders.push(new GenderFrequency(genderKeyMap.get(key)!, key, v/total));
-    }
+    this.#genders = rescaleFrequencies(input.genders)
   }
 
   public setId(value: number) {
@@ -71,6 +93,18 @@ export class Lineage {
 
   public get key(): string {
     return keyFromName(this.#name);
+  }
+
+  public get adultAge(): number {
+    return this.#adultAge.valueOf();
+  }
+
+  public get maximumAge(): number {
+    return this.#maximumAge.valueOf();
+  }
+
+  public get elderlyAge(): number {
+    return this.#elderlyAge.valueOf();
   }
 
   public ageCategory(age: Age): AgeCategory | null {
