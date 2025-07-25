@@ -1,47 +1,33 @@
-import { Controller, Get, Post, Body, HttpCode, Delete, Param, NotFoundException, Put } from "@nestjs/common";
-import { LineageRepository } from "./lineage/LineageRepository";
-import { Lineage, LineageDto, LineageOutput } from "./lineage/Lineage";
+import { Controller, Get, Post, Body, HttpCode, Delete, Param, Put, Inject } from "@nestjs/common";
+import { LineageDto, LineageOutput } from "./lineage/Lineage";
+import { LineageService } from "./lineage/LineageService";
 
 @Controller('lineages')
 export class LineageController {
-  constructor(private repo: LineageRepository){}
+  constructor(private service: LineageService){}
   @Get()
   async findAll(): Promise<LineageOutput[]> {
-    return (await this.repo.getAll()).map(x => LineageOutput.fromLineage(x))
+    return (await this.service.findAll()).map(l => LineageOutput.fromLineage(l));
   }
 
   @Post()
   @HttpCode(200)
   async create(@Body() body: LineageDto): Promise<LineageOutput> {
-    let lineage = new Lineage(body.toInput());
-    lineage = await this.repo.upsert(lineage);
-    return LineageOutput.fromLineage(lineage);
+    return LineageOutput.fromLineage(await this.service.create(body));
   }
 
   @Get("/:id")
-  async findOneById(@Param() id: number): Promise<Lineage> {
-    let lineage = await this.repo.getOneById(id);
-    if (!lineage) {
-      throw new NotFoundException()
-    }
-    return lineage;
+  async findOneById(@Param() id: number): Promise<LineageOutput> {
+      return LineageOutput.fromLineage(await this.service.findById(id))
   }
 
   @Put("/:id")
-  async replaceLineage(@Body() body: LineageDto, @Param() id: number): Promise<Lineage> {
-    let lineage = await this.repo.getOneById(id);
-    if (!lineage) {
-      throw new NotFoundException();
-    }
-    await this.repo.deleteById(id);
-    lineage = new Lineage(body.toInput())
-    lineage = await this.repo.upsert(lineage);
-    return lineage;
+  async replaceLineage(@Body() body: LineageDto, @Param() id: number): Promise<LineageOutput> {
+    return LineageOutput.fromLineage(await this.service.replace(body, id))
   }
 
   @Delete("/:id")
   async deleteLineage(@Param() id: number): Promise<void> {
-    await this.repo.deleteById(id);
-    return;
+    return await this.service.deleteById(id);
   }
 }

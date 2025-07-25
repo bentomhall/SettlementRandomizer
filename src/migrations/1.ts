@@ -1,4 +1,4 @@
-import { PoolConnection, ResultSetHeader } from "mysql2/promise";
+import { Pool, ResultSetHeader } from "mysql2/promise";
 import { DataModelMigration } from "./Migration";
 
 export class BaseMigration implements DataModelMigration {
@@ -11,22 +11,22 @@ export class BaseMigration implements DataModelMigration {
   get path(): string {
     return `src/migrations/1.ts`;
   }
-  async up(conn: PoolConnection): Promise<void> {
+  async up(conn: Pool): Promise<void> {
     await this.createDatabase(conn);
     await this.createGenderTable(conn);
     await this.createLineageTables(conn);
     await this.createNameTables(conn);
     await this.createCultureTables(conn);
   }
-  async down(conn: PoolConnection): Promise<void> {
+  async down(conn: Pool): Promise<void> {
     await conn.query(`DROP DATABASE settlement_randomizer;`);
   }
 
-  private async createDatabase(conn: PoolConnection) {
+  private async createDatabase(conn: Pool) {
     await conn.query<ResultSetHeader>(`CREATE DATABASE settlement_randomizer`);
   }
 
-  private async createGenderTable(conn: PoolConnection) {
+  private async createGenderTable(conn: Pool) {
     await conn.query(`CREATE TABLE gender (
         id INT AUTO_INCREMENT PRIMARY KEY,
         key CHAR(1) NOT NULL UNIQUE,
@@ -42,7 +42,7 @@ export class BaseMigration implements DataModelMigration {
     );
   }
 
-  private async createLineageTables(conn: PoolConnection) {
+  private async createLineageTables(conn: Pool) {
     await conn.query(`CREATE TABLE lineage (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(200) NOT NULL UNIQUE,
@@ -62,7 +62,7 @@ export class BaseMigration implements DataModelMigration {
     );
   }
 
-  private async createNameTables(conn: PoolConnection) {
+  private async createNameTables(conn: Pool) {
     await conn.query(`CREATE TABLE name_type (
         id INT AUTO_INCREMENT PRIMARY KEY,
         value VARCHAR(25) NOT NULL UNIQUE
@@ -84,7 +84,7 @@ export class BaseMigration implements DataModelMigration {
     );
   }
 
-  private async createCultureTables(conn: PoolConnection) {
+  private async createCultureTables(conn: Pool) {
     await conn.query(`CREATE TABLE culture (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL UNIQUE,

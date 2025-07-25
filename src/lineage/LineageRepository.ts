@@ -1,11 +1,19 @@
 import { Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { GenderFrequency, Lineage } from "./Lineage";
 import { Gender } from "./Gender";
-import { InvalidOperationError } from "src/shared/CustomErrors";
 import { Inject, Injectable } from "@nestjs/common";
+import { DatabaseProvider } from "src/shared/dbProvider";
+
+export interface ILineageRepository {
+  getOneById(id: number): Promise<Lineage | null>
+  getAll(): Promise<Lineage[]>
+  upsert(lineage: Lineage): Promise<Lineage>
+  deleteById(id: number): Promise<void>
+}
+
 
 @Injectable()
-export class LineageRepository {
+export class LineageRepository implements ILineageRepository {
   private baseQuery = `SELECT 
       l.id, l.name, adultAge, maxAge, elderlyAge, 
       g.id as g_id, g.key as g_key, g.label as g_label,
@@ -15,7 +23,11 @@ export class LineageRepository {
         ON lg.lineage_id = l.id
       JOIN gender g
         ON g.id = lg.gender_id`
-  constructor(@Inject('POOL') private pool: Pool) {}
+  
+  private pool: Pool
+  constructor(provider: DatabaseProvider) {
+    this.pool = provider.pool;
+  }
   async getOneById(id: number): Promise<Lineage | null> {
     let query = `${this.baseQuery}
       WHERE id = ?
@@ -48,16 +60,24 @@ export class LineageRepository {
   }
 
   async upsert(lineage: Lineage): Promise<Lineage> {
-    if (lineage.id != -1) {
-      throw new InvalidOperationError(`Updates to lineages not supported at this time`);
-    } else {
-      return await this.insert(lineage);
-    }
+    if (lineage.id != -1 || await this.exists(lineage.name.valueOf())) {
+      await this.deleteById(lineage.id);
+    } 
+    return await this.insert(lineage);
+  
   }
 
   async deleteById(id: number): Promise<void> {
     let lineageQuery = `DELETE FROM lineage WHERE id=?;`
     await this.pool.query(lineageQuery, [id]);
+  }
+
+  private async exists(name: string): Promise<boolean> {
+    let result: {count: number}[] = await this.pool.query<RowDataPacket[]>(`SELECT COUNT(id) FROM lineage WHERE name=?`, [name])[0];
+    if (result.length == 0) {
+      return false
+    }
+    return result[0].count > 0
   }
 
   private async insert(lineage:Lineage): Promise<Lineage> {
@@ -83,12 +103,6 @@ interface LineageGenderRow {
   g_key: string,
   g_label: string,
   g_freq: number
-}
-
-interface GenderRow {
-  id: number,
-  key: string,
-  label: string
 }
 
 class LineageMapper {

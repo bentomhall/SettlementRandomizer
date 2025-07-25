@@ -1,14 +1,15 @@
-import { PoolConnection, QueryResult, RowDataPacket } from "mysql2/promise"
-import { type Logger } from "pino";
+import { Pool, PoolConnection, RowDataPacket } from "mysql2/promise"
+import { Injectable, Logger } from '@nestjs/common'
 import { BaseMigration } from "./1";
+import { DatabaseProvider } from "src/shared/dbProvider";
 
 export interface DataModelMigration {
   get sequence(): number
   get label(): string
   get path(): string
 
-  up(conn: PoolConnection): Promise<void>
-  down(conn: PoolConnection): Promise<void>
+  up(conn: Pool): Promise<void>
+  down(conn: Pool): Promise<void>
 }
 
 interface MigrationResult {
@@ -17,11 +18,16 @@ interface MigrationResult {
   applied: boolean
 }
 
+Injectable()
 export class MigrationRunner {
+  
   private migrations: Map<number, DataModelMigration> = new Map([
     [1, new BaseMigration()]
   ]);
-  constructor(private connection: PoolConnection, private logger: Logger) {}
+  private connection: Pool
+  constructor(private database: DatabaseProvider, private logger: Logger) {
+    this.connection = database.pool;
+  }
 
   /**
    * Attempts to apply the next migration in sequence. 
@@ -61,7 +67,7 @@ export class MigrationRunner {
   async synchronizeSchema(): Promise<void> {
     let result = await this.applyNext();
     if (!result.applied) {
-      this.logger.info({lastMigration: result.label})
+      this.logger.debug({lastMigration: result.label})
       return;
     }
     await this.synchronizeSchema();
