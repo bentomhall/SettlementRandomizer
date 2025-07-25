@@ -16,17 +16,17 @@ export class LineageController {
     return LineageOutput.fromLineage(await this.service.create(body));
   }
 
-  @Get("/:id")
+  @Get(":id")
   async findOneById(@Param() id: number): Promise<LineageOutput> {
       return LineageOutput.fromLineage(await this.service.findById(id))
   }
 
-  @Put("/:id")
+  @Put(":id")
   async replaceLineage(@Body() body: LineageDto, @Param() id: number): Promise<LineageOutput> {
     return LineageOutput.fromLineage(await this.service.replace(body, id))
   }
 
-  @Delete("/:id")
+  @Delete(":id")
   async deleteLineage(@Param() id: number): Promise<void> {
     return await this.service.deleteById(id);
   }
