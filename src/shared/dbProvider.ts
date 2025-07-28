@@ -57,3 +57,17 @@ export class DataFileProvider {
     return json;
   }
 }
+
+export interface IdentifiableRow {
+  id: number
+}
+
+export function groupRowsById<T extends IdentifiableRow>(rows: T[]): Map<number, T[]> {
+    let output = new Map<number, T[]>()
+    for (let row of rows) {
+      let group = output.get(row.id) ?? [];
+      group.push(row)
+      output.set(row.id, group)
+    }
+    return output;
+  }

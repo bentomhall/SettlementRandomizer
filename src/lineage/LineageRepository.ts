@@ -2,7 +2,7 @@ import { Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { GenderFrequency, Lineage } from "./Lineage";
 import { Gender } from "./Gender";
 import { Inject, Injectable } from "@nestjs/common";
-import { DatabaseProvider } from "src/shared/dbProvider";
+import { DatabaseProvider, groupRowsById, IdentifiableRow } from "src/shared/dbProvider";
 
 export interface ILineageRepository {
   getOneById(id: number): Promise<Lineage | null>
@@ -39,6 +39,24 @@ export class LineageRepository implements ILineageRepository {
     let genderFrequencies: GenderFrequency[] = lineages.map(x => LineageMapper.toGenderFrequency(x));
     let first = lineages[0];
     return LineageMapper.toLineage(first, genderFrequencies);
+  }
+
+  async getManyByIds(ids: number[]): Promise<Lineage[]> {
+    let query = `${this.baseQuery}
+      WHERE id in (?),
+      GROUP by l.id;
+    `
+    let lineages: LineageGenderRow[] = await this.pool.execute(query, [ids])[0]
+    if (lineages.length == 0) {
+      return []
+    }
+    let groupedRows = groupRowsById(lineages);
+    let output: Lineage[] = []
+    for (let [key, values] of groupedRows) {
+      let genderFrequencies = values.map(x => LineageMapper.toGenderFrequency(x));
+      output.push(LineageMapper.toLineage(values[0], genderFrequencies));
+    }
+    return output;
   }
 
   async getAll(): Promise<Lineage[]> {
@@ -93,7 +111,7 @@ export class LineageRepository implements ILineageRepository {
   }
 }
 
-interface LineageGenderRow {
+interface LineageGenderRow extends IdentifiableRow {
   id: number,
   name: string,
   adultAge: number,

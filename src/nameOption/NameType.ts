@@ -36,4 +36,8 @@ export class NameType {
                 return null;
         }
     }
+
+    public equals(type: string): boolean {
+        return this.value == type;
+    }
 }

@@ -49,4 +49,8 @@ export class NameOption {
     public get type(): NameType {
         return this.#type;
     }
+
+    public isType(type: string): boolean {
+        return this.#type.equals(type)
+    }
 }

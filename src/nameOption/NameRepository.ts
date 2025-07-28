@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
-import { DatabaseProvider } from "src/shared/dbProvider";
+import { DatabaseProvider, groupRowsById, IdentifiableRow } from "src/shared/dbProvider";
 import { NameOption } from "./NameOption";
 import { Name } from "src/shared/Name";
 import { NameType } from "./NameType";
@@ -40,6 +40,15 @@ export class NameRepository {
         }
         let row = rows[0];
         return NameMapper.toNameOption(row);
+    }
+
+    async getManyByIds(ids: number[]): Promise<NameOption[]> {
+        let query = `${this.baseQuery} WHERE n.id in (?);`;
+        let rows: NameRow[] = await this.pool.execute(query, [ids])[0]
+        if (rows.length == 0) {
+            return []
+        }
+        return rows.map(x => NameMapper.toNameOption(x));
     }
 
     async getByType(type: NameType): Promise<NameOption[]> {
@@ -99,7 +108,7 @@ export class NameRepository {
     }
 }
 
-interface NameRow {
+interface NameRow extends IdentifiableRow {
     id: number;
     value: string;
     type: string;
