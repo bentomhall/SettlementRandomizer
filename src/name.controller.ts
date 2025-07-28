@@ -1,6 +1,6 @@
-import { Controller, Get, Param, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Query } from "@nestjs/common";
 import { NameOptions, NameService } from "./nameOption/NameService";
-import { NameOutput } from "./nameOption/NameOption";
+import { NameInput, NameOption, NameOutput } from "./nameOption/NameOption";
 
 @Controller('names')
 export class NameController {
@@ -17,5 +17,22 @@ export class NameController {
             type = 'ALL';
         }
         return (await this.service.getAllByType(type)).map(x => NameOutput.fromName(x));
+    }
+
+     @Post('bulk')
+    async createBulk(@Body() body: NameInput[]): Promise<NameOutput[]> {
+        let options = body.map(n => NameOption.fromValues(n.value, n.type))
+        return (await this.service.bulkInsert(options)).map(n => NameOutput.fromName(n));   
+    }
+
+    @Post()
+    async create(@Body() body: NameInput): Promise<NameOutput> {
+        let option = NameOption.fromValues(body.value, body.type);
+        return NameOutput.fromName(await this.service.insertOne(option));
+    }
+
+    @Delete(':id')
+    async deleteById(@Param() id: number) {
+        await this.service.deleteById(id);
     }
 }

@@ -10,6 +10,10 @@ export class NameOutput {
     }
 }
 
+export class NameInput {
+    constructor(public readonly value: string, public readonly type: string) {}
+}
+
 export class NameOption {
     #id: number = -1;
     #value: Name;
