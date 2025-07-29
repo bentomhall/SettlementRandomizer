@@ -11,7 +11,8 @@ import { NameType } from "src/nameOption/NameType";
 @Injectable()
 export class CultureRepository {
   pool: Pool
-  constructor(db: DatabaseProvider, private nameRepo: NameRepository, private lineageRepo: LineageRepository, private logger: Logger) {
+  logger: Logger = new Logger(CultureRepository.name)
+  constructor(db: DatabaseProvider, private nameRepo: NameRepository, private lineageRepo: LineageRepository) {
     this.pool = db.pool;
   }
 

@@ -1,5 +1,5 @@
-import { Pool, PoolConnection, RowDataPacket } from "mysql2/promise"
-import { Injectable, Logger } from '@nestjs/common'
+import { Pool, RowDataPacket } from "mysql2/promise"
+import { Inject, Injectable, Logger } from '@nestjs/common'
 import { BaseMigration } from "./1";
 import { DatabaseProvider } from "src/shared/dbProvider";
 
@@ -25,8 +25,10 @@ export class MigrationRunner {
     [1, new BaseMigration()]
   ]);
   private connection: Pool
-  constructor(private database: DatabaseProvider, private logger: Logger) {
-    this.connection = database.pool;
+  private logger: Logger = new Logger(MigrationRunner.name);
+  constructor(@Inject(DatabaseProvider) private database: DatabaseProvider) {
+    this.logger.warn(`Got database: ${this.database}`);
+    this.connection = this.database.pool;
   }
 
   /**

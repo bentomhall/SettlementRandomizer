@@ -1,18 +1,25 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { readFile } from "fs/promises";
 import { createPool, Pool } from "mysql2/promise"
-import path from "path";
+import * as path from "path";
 
 @Injectable()
 export class DatabaseProvider {
   #pool: Pool
+  private logger: Logger = new Logger(DatabaseProvider.name);
 
-  constructor(@Inject() config: ConfigService) {
+  constructor(config: ConfigService) {
     let database = config.getOrThrow('DB_NAME');
     let username = config.getOrThrow('DB_USERNAME');
     let password = config.getOrThrow('DB_PASSWORD');
     let host = config.getOrThrow('DB_HOST');
+    this.logger.debug({
+      database,
+      username,
+      password,
+      host
+    }, `Database info`)
     this.#pool = createPool({
       host,
       database,
@@ -43,7 +50,7 @@ export class DataFileProvider {
 
   private dataCache: Map<DataFileType, string[]> = new Map();
 
-  constructor(@Inject() config: ConfigService) {
+  constructor(config: ConfigService) {
     this.dataDirectory = path.join(__dirname, config.getOrThrow('DATA_DIRECTORY'))
   }
 

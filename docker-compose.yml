@@ -4,8 +4,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD
       - MYSQL_DATABASE=settlement_randomizer
-      - MYSQL_USER=test
-      - MYSQL_PASSWORD
+      - MYSQL_USER=api
+      - MYSQL_PASSWORD=$$DB_PASSWORD
     ports:
       - "3306:3306"
     volumes:
@@ -18,11 +18,10 @@ services:
       start_period: 5s
   api:
     build: .
-    environment:
-      - MYSQL_PASSWORD
-      - API_KEY
+    env_file:
+      - .env
     ports:
-      - "8080:80"
+      - "8080:3000"
     depends_on:
       db:
         condition: service_healthy

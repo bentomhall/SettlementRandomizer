@@ -26,7 +26,8 @@ class CultureOutput{
 
 @Controller('cultures')
 export class CultureController{
-  constructor(private service: CultureService, private nameService: NameService, private lineageService: LineageService, private logger: Logger) {}
+  private logger: Logger = new Logger(CultureController.name)
+  constructor(private service: CultureService, private nameService: NameService, private lineageService: LineageService) {}
 
   @Get()
   async findAll(): Promise<CultureOutput[]> {
