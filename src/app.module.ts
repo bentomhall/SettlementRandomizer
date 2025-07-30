@@ -12,11 +12,10 @@ import { CultureRepository } from './culture/CultureRepository';
 import { CultureController } from './culture.controller';
 import { AuthGuard } from './admin/AuthGuard';
 import { DatabaseProvider, DataFileProvider } from './shared/dbProvider';
-import { AdminController } from './admin.controller';
 
 @Module({
   imports: [ConfigModule.forRoot()],
-  controllers: [LineageController, NameController, CultureController, AdminController],
+  controllers: [LineageController, NameController, CultureController],
   providers: [
     DatabaseProvider, 
     DataFileProvider, 

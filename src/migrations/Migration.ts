@@ -1,7 +1,6 @@
 import { Pool, RowDataPacket } from "mysql2/promise"
-import { Inject, Injectable, Logger } from '@nestjs/common'
 import { BaseMigration } from "./1";
-import { DatabaseProvider } from "src/shared/dbProvider";
+import { Logger } from "@nestjs/common";
 
 export interface DataModelMigration {
   get sequence(): number
@@ -18,17 +17,13 @@ interface MigrationResult {
   applied: boolean
 }
 
-Injectable()
 export class MigrationRunner {
   
   private migrations: Map<number, DataModelMigration> = new Map([
     [1, new BaseMigration()]
   ]);
-  private connection: Pool
   private logger: Logger = new Logger(MigrationRunner.name);
-  constructor(@Inject(DatabaseProvider) private database: DatabaseProvider) {
-    this.logger.warn(`Got database: ${this.database}`);
-    this.connection = this.database.pool;
+  constructor(private connection: Pool) {
   }
 
   /**

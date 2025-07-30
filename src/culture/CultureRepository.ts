@@ -17,7 +17,7 @@ export class CultureRepository {
   }
 
   private baseQuery = `SELECT
-      c.id, c.name, c.name_template
+      c.id, c.name, c.name_template,
       lf.lineage_id, lf.frequency as lineage_frequency,
       nf.name_id, nf.frequency as name_frequency
     FROM culture c

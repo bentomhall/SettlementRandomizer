@@ -5,7 +5,7 @@ services:
       - MYSQL_ROOT_PASSWORD
       - MYSQL_DATABASE=settlement_randomizer
       - MYSQL_USER=api
-      - MYSQL_PASSWORD=$$DB_PASSWORD
+      - MYSQL_PASSWORD=$DB_PASSWORD
     ports:
       - "3306:3306"
     volumes:
@@ -16,12 +16,18 @@ services:
       timeout: 5s
       retries: 5
       start_period: 5s
+    command:
+      - --require_secure_transport=OFF
+      - --bind-address=0.0.0.0
   api:
     build: .
     env_file:
       - .env
     ports:
       - "8080:3000"
+    volumes:
+      - $PWD/db/certs:/usr/src/app/certs
+    restart: always
     depends_on:
       db:
         condition: service_healthy

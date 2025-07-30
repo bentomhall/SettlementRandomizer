@@ -1,6 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { readFile } from "fs/promises";
+import { readFileSync } from "fs";
 import { createPool, Pool } from "mysql2/promise"
 import * as path from "path";
 
@@ -14,17 +15,11 @@ export class DatabaseProvider {
     let username = config.getOrThrow('DB_USERNAME');
     let password = config.getOrThrow('DB_PASSWORD');
     let host = config.getOrThrow('DB_HOST');
-    this.logger.debug({
-      database,
-      username,
-      password,
-      host
-    }, `Database info`)
     this.#pool = createPool({
       host,
       database,
       user: username,
-      password
+      password,
     })
   }
 
