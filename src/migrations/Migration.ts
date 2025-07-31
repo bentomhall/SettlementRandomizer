@@ -71,22 +71,22 @@ export class MigrationRunner {
   }
 
   private async getCurrentMigration(): Promise<number> {
+    await this.connection.query(`CREATE TABLE IF NOT EXISTS migration (
+        id INT PRIMARY KEY,
+        label VARCHAR(255) NOT NULL,
+        applied TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
+      );`
+    );
     const query = `SELECT MAX(id) as seq FROM migration;`
     let result = (await this.connection.query<RowDataPacket[]>(query))[0];
     if (result.length == 0) {
       return 0
     }
-    return result[1].seq;
+    return result[0].seq;
   }
 
   private async addMigrationEntry(m: DataModelMigration): Promise<void> {
-    await this.connection.query(`CREATE TABLE IF NOT EXISTS migration (
-        id INT PRIMARY KEY,
-        label VARCHAR NOT NULL,
-        applied TIMESTAMP DEFAULT NOW() 
-      );`
-    );
-    await this.connection.query(`INSERT INTO migration (id, label) VALUES (?, ? ,?);`,
+    await this.connection.query(`INSERT INTO migration (id, label) VALUES (?, ?);`,
       [m.sequence, m.label]
     );
   }

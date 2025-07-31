@@ -1,7 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { readFile } from "fs/promises";
-import { readFileSync } from "fs";
 import { createPool, Pool } from "mysql2/promise"
 import * as path from "path";
 

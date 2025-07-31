@@ -16,7 +16,7 @@ export interface ILineageRepository {
 export class LineageRepository implements ILineageRepository {
   private baseQuery = `SELECT 
       l.id, l.name, adultAge, maxAge, elderlyAge, 
-      g.id as g_id, g.key as g_key, g.label as g_label,
+      g.id as g_id, g.tag as g_key, g.label as g_label,
       lg.frequency as g_freq 
       FROM lineage l 
       JOIN lineage_gender_frequency lg
