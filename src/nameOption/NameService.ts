@@ -1,8 +1,9 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { NameRepository } from "./NameRepository";
 import { NameType } from "./NameType";
 import { NameOption } from "./NameOption";
 import { Name } from "src/shared/Name";
+import { InvalidParameterError } from "src/shared/CustomErrors";
 
 export const nameTypeOptions = {
     FAMILY: NameType.FAMILY,
@@ -18,10 +19,10 @@ export type NameOptions = keyof typeof nameTypeOptions
 @Injectable()
 export class NameService {
     constructor(private repo: NameRepository){}
-
+    private logger = new Logger('NameService');
     async getAllByType(type: NameOptions): Promise<NameOption[]> {
         let values: NameOption[] | Map<string, NameOption[]>;
-        switch (type) {
+        switch (type.toUpperCase()) {
             case "FAMILY":
                 values = await this.repo.getByType(NameType.family);
                 break;
@@ -40,6 +41,12 @@ export class NameService {
             case 'ALL':
                 values = await this.repo.getAll();
                 break;
+            default:
+                throw new InvalidParameterError(`Type ${type.toUpperCase()} not allowed.`)
+        }
+        this.logger.debug(`Got names: ${values}`);
+        if (!values) {
+            return []
         }
         if (Array.isArray(values)) {
             return values;

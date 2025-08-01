@@ -76,10 +76,7 @@ export function groupRowsById<T extends IdentifiableRow>(rows: T[]): Map<number,
 export async function executeQuery<T>(pool: Pool, query: string, params: any[], logger: Logger): Promise<T[]> {
   try {
       let result: T[] | undefined = await pool.execute(query, params)[0];
-    if (!result) {
-      return []
-    }
-    return result
+    return result ?? []
   } catch (error) {
     logger.error((error as Error).message, (error as Error).stack)
     return []
