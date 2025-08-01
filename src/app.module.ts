@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestMiddleware, NestModule } from '@nestjs/common';
 import { LineageController } from './lineage.controller';
 import { LineageRepository } from './lineage/LineageRepository';
 import { ConfigModule } from '@nestjs/config';
@@ -12,6 +12,15 @@ import { CultureRepository } from './culture/CultureRepository';
 import { CultureController } from './culture.controller';
 import { AuthGuard } from './admin/AuthGuard';
 import { DatabaseProvider, DataFileProvider } from './shared/dbProvider';
+import { Request, Response } from 'express';
+
+class LoggerMiddleware implements NestMiddleware {
+  use(req: Request, res: Response, next: Function) {
+    console.log('Request', req.method, req.originalUrl);
+    next();
+    console.log('Response', res.statusCode, res.statusMessage);
+  }
+}
 
 @Module({
   imports: [ConfigModule.forRoot()],
@@ -29,4 +38,10 @@ import { DatabaseProvider, DataFileProvider } from './shared/dbProvider';
     AuthGuard
   ],
 })
-export class AppModule {}
+export class AppModule  implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes('*')
+  }
+}

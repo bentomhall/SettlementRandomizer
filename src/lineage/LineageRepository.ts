@@ -1,8 +1,9 @@
 import { Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { GenderFrequency, Lineage } from "./Lineage";
 import { Gender } from "./Gender";
-import { Inject, Injectable } from "@nestjs/common";
-import { DatabaseProvider, groupRowsById, IdentifiableRow } from "src/shared/dbProvider";
+import { Inject, Injectable, Logger } from "@nestjs/common";
+import { DatabaseProvider, executeQuery, groupRowsById, IdentifiableRow, insert } from "src/shared/dbProvider";
+import { InvalidOperationError } from "src/shared/CustomErrors";
 
 export interface ILineageRepository {
   getOneById(id: number): Promise<Lineage | null>
@@ -25,14 +26,15 @@ export class LineageRepository implements ILineageRepository {
         ON g.id = lg.gender_id`
   
   private pool: Pool
+  private logger = new Logger('LineageRepository')
   constructor(provider: DatabaseProvider) {
     this.pool = provider.pool;
   }
   async getOneById(id: number): Promise<Lineage | null> {
     let query = `${this.baseQuery}
       WHERE id = ?
-      GROUP BY l.id;`
-    let lineages: LineageGenderRow[] = await this.pool.execute<RowDataPacket[]>(query, [id])[0];
+      GROUP BY l.id, g.id;`
+    let lineages: LineageGenderRow[] = await executeQuery(this.pool, query, [id], this.logger);
     if (lineages.length == 0) {
       return null;
     }
@@ -44,9 +46,9 @@ export class LineageRepository implements ILineageRepository {
   async getManyByIds(ids: number[]): Promise<Lineage[]> {
     let query = `${this.baseQuery}
       WHERE id in (?),
-      GROUP by l.id;
+      GROUP by l.id, g.id;
     `
-    let lineages: LineageGenderRow[] = await this.pool.execute(query, [ids])[0]
+    let lineages: LineageGenderRow[] = await executeQuery(this.pool, query, [ids], this.logger);
     if (lineages.length == 0) {
       return []
     }
@@ -60,8 +62,8 @@ export class LineageRepository implements ILineageRepository {
   }
 
   async getAll(): Promise<Lineage[]> {
-    let query = `${this.baseQuery} WHERE 1 GROUP BY l.id`
-    let rows: LineageGenderRow[] = await this.pool.execute<RowDataPacket[]>(query)[0];
+    let query = `${this.baseQuery} WHERE 1 GROUP BY l.id, g.id`
+    let rows: LineageGenderRow[] = await executeQuery(this.pool, query, [], this.logger);
     let rowMap: Map<number, LineageGenderRow[]> = new Map()
     for (let row of rows) {
       let existing = rowMap.get(row.id) ?? []
@@ -91,7 +93,7 @@ export class LineageRepository implements ILineageRepository {
   }
 
   private async exists(name: string): Promise<boolean> {
-    let result: {count: number}[] = await this.pool.query<RowDataPacket[]>(`SELECT COUNT(id) FROM lineage WHERE name=?`, [name])[0];
+    let result: {count: number}[] = await executeQuery(this.pool, `SELECT COUNT(id) FROM lineage WHERE name=?`, [name], this.logger);
     if (result.length == 0) {
       return false
     }
@@ -100,14 +102,24 @@ export class LineageRepository implements ILineageRepository {
 
   private async insert(lineage:Lineage): Promise<Lineage> {
     let lineageQuery = `INSERT INTO lineage (name, adultAge, maximumAge, elderlyAge) VALUES (?, ?, ?, ?)`;
-    let results = await this.pool.query<ResultSetHeader>(lineageQuery, [lineage.name, lineage.adultAge, lineage.maximumAge, lineage.elderlyAge]);
-    let id = results[0].insertId
-    lineage.setId(id)
-    let genderQuery = `INSERT INTO lineage_gender_frequency (lineage_id, gender_id, frequency) VALUES (?, ?, ?);`
-    for (let g of lineage.genders) {
-      await this.pool.query(genderQuery, [id, g.gender.id, g.frequency])
+    await this.pool.beginTransaction()
+    try {
+          let id = await insert(this.pool, lineageQuery, [lineage.name, lineage.adultAge, lineage.maximumAge, lineage.elderlyAge], this.logger);
+      if (!id) {
+        throw new InvalidOperationError(`Insert failed`)
+      }
+      lineage.setId(id)
+      let genderQuery = `INSERT INTO lineage_gender_frequency (lineage_id, gender_id, frequency) VALUES (?, ?, ?);`
+      for (let g of lineage.genders) {
+        await insert(this.pool, genderQuery, [id, g.gender.id, g.frequency], this.logger);
+      }
+      await this.pool.commit()
+      return lineage
+    } catch (error) {
+      this.logger.error((error as Error).message, (error as Error).stack);
+      await this.pool.rollback()
+      throw error
     }
-    return lineage
   }
 }
 

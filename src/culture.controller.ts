@@ -31,7 +31,13 @@ export class CultureController{
 
   @Get()
   async findAll(): Promise<CultureOutput[]> {
-    return (await this.service.findAll()).map(x => CultureOutput.fromCulture(x))
+    try {
+      return (await this.service.findAll()).map(x => CultureOutput.fromCulture(x))
+    } catch (error) {
+      this.logger.error((error as Error).message ?? error, (error as Error).stack ?? 'no stack')
+      throw error
+    }
+    
   }
 
   @Get(':id')

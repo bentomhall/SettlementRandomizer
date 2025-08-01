@@ -2,11 +2,12 @@ import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { FieldPacket, Pool, ResultSetHeader } from "mysql2/promise";
 import { LineageRepository } from "src/lineage/LineageRepository";
 import { NameRepository } from "src/nameOption/NameRepository";
-import { DatabaseProvider, groupRowsById, IdentifiableRow } from "src/shared/dbProvider";
+import { DatabaseProvider, executeQuery, groupRowsById, IdentifiableRow, insert } from "src/shared/dbProvider";
 import { Culture, CultureDto, LineageFrequency, NameFrequency } from "./Culture";
 import { NameOption } from "src/nameOption/NameOption";
 import { Lineage } from "src/lineage/Lineage";
 import { NameType } from "src/nameOption/NameType";
+import { InvalidOperationError } from "src/shared/CustomErrors";
 
 @Injectable()
 export class CultureRepository {
@@ -29,7 +30,7 @@ export class CultureRepository {
 
   async getById(id: number): Promise<Culture> {
     let query = `${this.baseQuery} WHERE c.id = ?;`;
-    let rows: CultureRow[] = await this.pool.execute(query, [id])[0];
+    let rows: CultureRow[] = await executeQuery(this.pool, query, [id], this.logger);
     if (rows.length == 0) {
       throw new NotFoundException(`No culture with id ${id} found`);
     }
@@ -41,9 +42,10 @@ export class CultureRepository {
   }
 
   async getAll(): Promise<Culture[]> {
-    let query = `${this.baseQuery} WHERE 1 GROUP BY c.id;`
-    let rows: CultureRow[] = await this.pool.execute(query)[0];
+    let query = `${this.baseQuery} WHERE 1 GROUP BY c.id, lf.lineage_id, nf.name_id;`
+    let rows: CultureRow[] = await executeQuery(this.pool, query, [], this.logger);
     if (rows.length == 0) {
+      this.logger.debug(`No cultures to get, returning early`);
       return [];
     }
     let groups = groupRowsById(rows);
@@ -66,36 +68,45 @@ export class CultureRepository {
       await this.deleteById(culture.id);
     }
     await this.pool.beginTransaction()
-    let query = `INSERT INTO culture (id, name, name_template) VALUES (?, ?, ?);`
-    let result: ResultSetHeader = await this.pool.query<ResultSetHeader>(query, [culture.id == -1 ? null : culture.id, culture.name, culture.nameTemplate])[0]
-    if (culture.id != -1 && result.insertId != culture.id) {
-      this.logger.error(`Insert id ${result.insertId} did not match original id ${culture.id}`,`CultureRepository.upsert`, `CultureRepository`);
+    try {
+      let query = `INSERT INTO culture (id, name, name_template) VALUES (?, ?, ?);`
+      let id = await insert(this.pool, query, [culture.id == -1 ? null : culture.id, culture.name, culture.nameTemplate], this.logger)
+      if (!id) {
+        throw new InvalidOperationError('Insert failed');
+      }
+      if (culture.id != -1 && id != culture.id) {
+        throw new InvalidOperationError(`Insert id ${id} did not match original id ${culture.id}`)
+      }
+      let nameInsertQuery = `INSERT INTO culture_name_frequency (culture_id, name_id, frequency) VALUES (?, ?, ?)`
+      for (let nameFrequency of culture.personNames) {
+        await insert(this.pool, nameInsertQuery, [id, nameFrequency.value.id, nameFrequency.frequency], this.logger);
+      }
+      let lineageQuery = `INSERT INTO culture_lineage_frequency (culture_id, lineage_id, frequency) VALUES(?, ?, ?)`
+      for (let LineageFrequency of culture.demographics) {
+        await insert(this.pool, lineageQuery, [id, LineageFrequency.value.id, LineageFrequency.frequency], this.logger);
+      }
+      await this.pool.commit();
+      if (culture.id == -1) {
+        culture.id = id;
+      }
+      return culture;
+    } catch (error) {
+      let err = error as Error;
+      this.logger.error(`Insert failed: ${err.message}`, err.stack);
       await this.pool.rollback();
+      throw error;
     }
-    let nameInsertQuery = `INSERT INTO culture_name_frequency (culture_id, name_id, frequency) VALUES (?, ?, ?)`
-    for (let nameFrequency of culture.personNames) {
-      await this.pool.query(nameInsertQuery, [result.insertId, nameFrequency.value.id, nameFrequency.frequency]);
-    }
-    let lineageQuery = `INSERT INTO culture_lineage_frequency (culture_id, lineage_id, frequency) VALUES(?, ?, ?)`
-    for (let LineageFrequency of culture.demographics) {
-      await this.pool.query(lineageQuery, [result.insertId, LineageFrequency.value.id, LineageFrequency.frequency]);
-    }
-    await this.pool.commit();
-    if (culture.id == -1) {
-      culture.id = result.insertId;
-    }
-    return culture;
   }
 
   async addName(name: NameFrequency, cultureId: number): Promise<Culture> {
     let nameInsertQuery = `INSERT INTO culture_name_frequency (culture_id, name_id, frequency) VALUES (?, ?, ?)`
-    await this.pool.query(nameInsertQuery, [cultureId, name.value.id, name.frequency]);
+    await insert(this.pool, nameInsertQuery, [cultureId, name.value.id, name.frequency], this.logger);
     return await this.getById(cultureId);
   }
 
   async exists(id: number): Promise<boolean> {
-    let result: {count: number} = await this.pool.query(`SELECT COUNT(id) as count FROM culture WHERE id = ?`, [id])[0];
-    return result.count == 1;
+    let result: {count: number}[] = await executeQuery(this.pool, `SELECT COUNT(id) as count FROM culture WHERE id = ?`, [id], this.logger);
+    return result.length > 0 && result[0].count == 1;
   }
 }
 

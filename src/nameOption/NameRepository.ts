@@ -1,10 +1,12 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
-import { DatabaseProvider, groupRowsById, IdentifiableRow } from "src/shared/dbProvider";
+import { DatabaseProvider, executeQuery, groupRowsById, IdentifiableRow, insert } from "src/shared/dbProvider";
 import { NameOption } from "./NameOption";
 import { Name } from "src/shared/Name";
 import { NameType } from "./NameType";
 import { Logger } from "@nestjs/common";
+import { exec } from "child_process";
+import { InvalidOperationError } from "src/shared/CustomErrors";
 
 @Injectable()
 export class NameRepository {
@@ -24,7 +26,7 @@ export class NameRepository {
 
     async getOneById(id: number): Promise<NameOption> {
         let query = `${this.baseQuery} WHERE n.id=?`;
-        let rows: NameRow[] = await this.pool.execute<RowDataPacket[]>(query, [id])[0]
+        let rows: NameRow[] = await executeQuery(this.pool, query, [id], this.logger);
         if (rows.length == 0) {
             throw new NotFoundException(`No name options found with id ${id}`)
         }
@@ -34,7 +36,7 @@ export class NameRepository {
 
     async getOneByValue(value: Name): Promise<NameOption | null> {
         let query = `${this.baseQuery} where n.value = ?`;
-        let rows: NameRow[] = await this.pool.execute<RowDataPacket[]>(query, [value.value])[0]
+        let rows: NameRow[] = await executeQuery(this.pool, query, [value.value], this.logger);
         if (rows.length == 0) {
             return null;
         }
@@ -44,8 +46,8 @@ export class NameRepository {
 
     async getManyByIds(ids: number[]): Promise<NameOption[]> {
         let query = `${this.baseQuery} WHERE n.id in (?);`;
-        let rows: NameRow[] = await this.pool.execute(query, [ids])[0]
-        if (rows.length == 0) {
+        let rows: NameRow[] = await executeQuery(this.pool, query, [ids], this.logger);
+        if (!rows || rows.length == 0) {
             return []
         }
         return rows.map(x => NameMapper.toNameOption(x));
@@ -53,26 +55,28 @@ export class NameRepository {
 
     async getByType(type: NameType): Promise<NameOption[]> {
         let query = `${this.baseQuery} WHERE t.id = ?`;
-        let rows: NameRow[] = await this.pool.execute<RowDataPacket[]>(query, [type.id])[0];
+        let rows: NameRow[] = await executeQuery(this.pool, query, [type.id], this.logger);
         return rows.map(r => NameMapper.toNameOption(r))
     }
 
     async getAll(): Promise<NameOption[]> {
-        let rows: NameRow[] = await this.pool.execute<RowDataPacket[]>(`${this.baseQuery} WHERE 1;`)[0];
+        let rows: NameRow[] = await executeQuery(this.pool, `${this.baseQuery} WHERE 1;`, [], this.logger);
         return rows.map(r => NameMapper.toNameOption(r))
     }
 
     async insertOne(name: NameOption): Promise<NameOption> {
         let query = `INSERT INTO name_option (value, type_id) VALUES (?, ?)`;
-        let result = await this.pool.query<ResultSetHeader>(query, [name.value, name.type.id])
-        let id = result[0].insertId;
+        let id = await insert(this.pool, query, [name.value, name.type.id], this.logger);
+        if (id == null) {
+            throw new InvalidOperationError(`Insert failed`);
+        }
         name.id = id;
         return name;
     }
 
     async getPersonNames(): Promise<Map<string, NameOption[]>> {
-        let query = `${this.baseQuery} WHERE t.id > 1 GROUP BY type;`
-        let rows: NameRow[] = await this.pool.execute<RowDataPacket[]>(query)[0];
+        let query = `${this.baseQuery} WHERE t.id > 1 ORDER BY type;`
+        let rows: NameRow[] = await executeQuery(this.pool, query, [], this.logger);
         let output = new Map<string, NameOption[]>(
             [
                 [NameType.FAMILY, []],
@@ -86,7 +90,7 @@ export class NameRepository {
 
     async getSettlementNames(): Promise<NameOption[]> {
         let query = `${this.baseQuery} WHERE t.id = 1`;
-        let rows: NameRow[] = await this.pool.execute<RowDataPacket[]>(query)[0];
+        let rows: NameRow[] = await executeQuery(this.pool, query, [], this.logger);
         return rows.map(n => NameMapper.toNameOption(n));
     }
 
