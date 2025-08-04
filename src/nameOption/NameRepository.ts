@@ -1,20 +1,22 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
-import { DatabaseProvider, executeQuery, groupRowsById, IdentifiableRow, insert } from "src/shared/dbProvider";
+import { Pool } from "mysql2/promise";
+import { DatabaseProvider, executeQuery, IdentifiableRow, insert } from "src/shared/dbProvider";
 import { NameOption } from "./NameOption";
 import { Name } from "src/shared/Name";
 import { NameType } from "./NameType";
 import { Logger } from "@nestjs/common";
-import { exec } from "child_process";
 import { InvalidOperationError } from "src/shared/CustomErrors";
 
 @Injectable()
 export class NameRepository {
     private baseQuery = `SELECT
-        n.id, n.value, t.value as type
+        n.id, n.value, t.value as type,
+        g.key as gender_key
         FROM name_option n
         JOIN name_type t
             ON t.id = n.type_id
+        JOIN gender g
+            on g.id = n.gender_id
         `;
     
     private pool: Pool;
@@ -65,8 +67,8 @@ export class NameRepository {
     }
 
     async insertOne(name: NameOption): Promise<NameOption> {
-        let query = `INSERT INTO name_option (value, type_id) VALUES (?, ?)`;
-        let id = await insert(this.pool, query, [name.value, name.type.id], this.logger);
+        let query = `INSERT INTO name_option (value, type_id, gender_id) VALUES (?, ?, ?)`;
+        let id = await insert(this.pool, query, [name.value, name.type.id, name.gender?.id], this.logger);
         if (id == null) {
             throw new InvalidOperationError(`Insert failed`);
         }
@@ -116,13 +118,13 @@ interface NameRow extends IdentifiableRow {
     id: number;
     value: string;
     type: string;
+    gender_id: number;
+    gender_key: string
 }
 
 class NameMapper {
     static toNameOption(n: NameRow) {
-        let name = new Name(n.value);
-        let type = NameType.parse(n.type) ?? NameType.given
-        return new NameOption(name, type, n.id);
+        return NameOption.fromValues(n.type, n.value, n.gender_key, n.id);
     }
 
     static collateNameOptions(rows: NameRow[], intoMap: Map<string, NameOption[]>) {

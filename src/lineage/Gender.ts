@@ -21,4 +21,17 @@ export class Gender {
   public static get other(): Gender {
     return new Gender(4, this.otherKey, 'other');
   }
+
+  public static fromKey(key: string): Gender {
+    switch(key) {
+      case Gender.maleKey:
+        return Gender.male
+      case Gender.femaleKey:
+        return Gender.female
+      case Gender.neuterKey:
+        return Gender.neuter
+      default:
+        return Gender.other
+    }
+  }
 }

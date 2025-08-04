@@ -74,7 +74,9 @@ export class BaseMigration implements DataModelMigration {
         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
         value VARCHAR(255) NOT NULL,
         type_id INT NOT NULL,
-        FOREIGN KEY fk_name_type (type_id) REFERENCES name_type(id) 
+        gender_id INT NULL,
+        FOREIGN KEY fk_name_type (type_id) REFERENCES name_type(id),
+        FOREIGN KEY fk_name_gender (gender_id) REFERENCES gender(id)
       );`
     );
   }
