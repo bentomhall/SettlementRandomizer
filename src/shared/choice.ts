@@ -1,3 +1,5 @@
+import { InvalidParameterError } from "./CustomErrors";
+
 export interface WeightedOption<T> {
   get value(): T
   get frequency(): number
@@ -29,4 +31,11 @@ export function rescaleFrequencies<T extends WeightedOption<any>>(items: T[]): T
     item.rescale(total)
   }
   return items;
+}
+
+export function randomBetween(min: number, max: number): number {
+  if (max <= min) {
+    throw new InvalidParameterError(`Minimum value ${min} must be strictly lower than maximum value ${max}`);
+  }
+  return Math.floor(Math.random() * (max - min + 1)) + min;  
 }

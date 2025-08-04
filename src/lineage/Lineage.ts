@@ -3,7 +3,7 @@ import { InvalidOperationError, InvalidParameterError } from "src/shared/CustomE
 import { Name } from "src/shared/Name";
 import { keyFromName } from "src/shared/StringUtils";
 import { Gender } from "./Gender";
-import { rescaleFrequencies, WeightedOption } from "src/shared/choice";
+import { randomBetween, rescaleFrequencies, weightedChoice, WeightedOption } from "src/shared/choice";
 
 export class LineageDto {
   name: string
@@ -159,5 +159,19 @@ export class Lineage {
 
   public get genders(): GenderFrequency[] {
     return this.#genders.map(g => g.clone());
+  }
+
+  public randomMember(minAge: number = 1, maxAge: number = this.maximumAge - 1): {age: Age, category: AgeCategory, gender: Gender} {
+    if (minAge < 1 || maxAge >= this.maximumAge) {
+      throw new InvalidParameterError(`Ages provided are out of bounds, must be (1, ${this.maximumAge})`)
+    }
+    let age = new Age(randomBetween(minAge, maxAge));
+    let category = this.ageCategory(age)!;
+    let gender = weightedChoice(this.#genders);
+    return {
+      age,
+      category,
+      gender
+    }
   }
 }

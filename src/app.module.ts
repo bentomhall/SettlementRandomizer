@@ -13,6 +13,8 @@ import { CultureController } from './culture.controller';
 import { AuthGuard } from './admin/AuthGuard';
 import { DatabaseProvider, DataFileProvider } from './shared/dbProvider';
 import { Request, Response } from 'express';
+import { PersonService } from './person/PersonService';
+import { PersonController } from './person.controller';
 
 class LoggerMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: Function) {
@@ -24,7 +26,7 @@ class LoggerMiddleware implements NestMiddleware {
 
 @Module({
   imports: [ConfigModule.forRoot()],
-  controllers: [LineageController, NameController, CultureController],
+  controllers: [LineageController, NameController, CultureController, PersonController],
   providers: [
     DatabaseProvider, 
     DataFileProvider, 
@@ -35,7 +37,8 @@ class LoggerMiddleware implements NestMiddleware {
     NameService, 
     CultureService, 
     CultureRepository,
-    AuthGuard
+    AuthGuard,
+    PersonService
   ],
 })
 export class AppModule  implements NestModule {
