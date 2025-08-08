@@ -12,7 +12,7 @@ export class NameOutput {
 }
 
 export class NameInput {
-    constructor(public readonly value: string, public readonly type: string) {}
+    constructor(public readonly value: string, public readonly type: string, public readonly gender: string) {}
 }
 
 export class NameOption {

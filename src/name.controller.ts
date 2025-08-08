@@ -21,13 +21,13 @@ export class NameController {
 
      @Post('bulk')
     async createBulk(@Body() body: NameInput[]): Promise<NameOutput[]> {
-        let options = body.map(n => NameOption.fromValues(n.value, n.type))
+        let options = body.map(n => NameOption.fromValues(n.value, n.type, n.gender))
         return (await this.service.bulkInsert(options)).map(n => NameOutput.fromName(n));   
     }
 
     @Post()
     async create(@Body() body: NameInput): Promise<NameOutput> {
-        let option = NameOption.fromValues(body.value, body.type);
+        let option = NameOption.fromValues(body.value, body.type, body.gender);
         return NameOutput.fromName(await this.service.insertOne(option));
     }
 
