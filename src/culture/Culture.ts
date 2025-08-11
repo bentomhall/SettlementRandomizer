@@ -7,20 +7,22 @@ import { InvalidOperationError } from "src/shared/CustomErrors"
 export class CultureDto {
     constructor(
         public name: string,
-        public settlementNameFrequencies: Record<number, number>,
-        public personNameFrequencies: Record<number, number>,
+        public settlementNameFrequencies: string[],
+        public personNameFrequencies: Record<string, number> | string[],
         public personNameTemplate: string,
-        public demographics: Record<number, number>,
+        public demographics: Record<string, number>,
     ){}
 
     nameFrequencies(allNames: NameOption[]): {settlement: NameFrequency[], person: NameFrequency[]} {
         let settlement: NameFrequency[] = []
         let person: NameFrequency[] = []
         for (let name of allNames) {
-            if (this.settlementNameFrequencies[name.id] != undefined) {
-                settlement.push(new NameFrequency(name, this.settlementNameFrequencies[name.id]!))
-            } else if (this.personNameFrequencies[name.id] != undefined) {
-                person.push(new NameFrequency(name, this.personNameFrequencies[name.id]))
+            if (this.settlementNameFrequencies.includes(name.value)) {
+                settlement.push(new NameFrequency(name, 1))
+            } else if (Array.isArray(this.personNameFrequencies) && this.personNameFrequencies.includes(name.value)) {
+                person.push(new NameFrequency(name, 1))
+            } else if (this.personNameFrequencies[name.value] != undefined) {
+                person.push(new NameFrequency(name, this.personNameFrequencies[name.value]!))
             }
         }
         return {settlement, person}
@@ -29,8 +31,8 @@ export class CultureDto {
     demographicFrequencies(allLineages: Lineage[]): WeightedOption<Lineage>[] {
         let output: LineageFrequency[] = [];
         for (let lineage of allLineages) {
-            if (this.demographics[lineage.id]) {
-                output.push(new LineageFrequency(lineage, this.demographics[lineage.id]))
+            if (this.demographics[lineage.name.value]) {
+                output.push(new LineageFrequency(lineage, this.demographics[lineage.name.value]))
             }
         }
         return output;
@@ -135,7 +137,7 @@ export class Culture {
         if (this.#personNameTemplate.includes('{{particle}}')) {
             particle = weightedChoice(this.#personNames.filter(n => n.value.type.value == NameType.PARTICLE)).value
         }
-        return this.#personNameTemplate.replace('{{given}}', givenName).replace('{{family}}', familyName).replace('{{particle}}', particle)
+        return this.#personNameTemplate.replace('{{given}}', givenName).replace('{{family}}', familyName).replaceAll('{{particle}}', particle)
     }
     getRandomLineage(): Lineage {
         return weightedChoice(this.#demographics);

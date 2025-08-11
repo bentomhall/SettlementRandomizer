@@ -18,5 +18,5 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false
   },
-  "include": ["src/**/*.ts", "utility/createNameInput.ts"]
+  "include": ["src/**/*.ts", "utility/createNameInput.ts", "utility/createNameFrequencies.ts"]
 }

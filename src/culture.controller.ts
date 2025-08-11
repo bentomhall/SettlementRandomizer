@@ -5,20 +5,20 @@ import { NameOptions, NameService, nameTypeOptions } from "./nameOption/NameServ
 import { LineageService } from "./lineage/LineageService";
 
 class CultureOutput{
-  constructor(public readonly id: number, public readonly name: string, public readonly nameTemplate: string, public readonly personNames: Record<number, number>, public readonly settlementNames: Record<number, number>, public lineages: Record<number, number>) {}
+  constructor(public readonly id: number, public readonly name: string, public readonly nameTemplate: string, public readonly personNames: Record<number, number>, public readonly settlementNames: string[], public lineages: Record<number, number>) {}
 
   public static fromCulture(c: Culture): CultureOutput {
-    let personNames: Record<number, number> = {}
+    let personNames: Record<string, number> = {}
     for (let name of c.personNames) {
-      personNames[name.value.id] = name.frequency;
+      personNames[name.value.value] = name.frequency;
     }
-    let settlementNames: Record<number, number> = {}
+    let settlementNames: string[] = []
     for (let name of c.settlementNames) {
-      settlementNames[name.value.id] = name.frequency;
+      settlementNames.push(name.value.value)
     }
-    let lineages: Record<number, number> = {}
+    let lineages: Record<string, number> = {}
     for (let lineage of c.demographics) {
-      lineages[lineage.value.id] = lineage.frequency;
+      lineages[lineage.value.name.value] = lineage.frequency;
     }
     return new CultureOutput(c.id, c.name, c.nameTemplate, personNames, settlementNames, lineages);
   } 

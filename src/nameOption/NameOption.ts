@@ -4,15 +4,15 @@ import { InvalidOperationError, InvalidParameterError } from "src/shared/CustomE
 import { Gender } from "src/lineage/Gender";
 
 export class NameOutput {
-    constructor(public readonly id: number, public readonly value: string, public readonly type: string) {}
+    constructor(public readonly id: number, public readonly value: string, public readonly type: string, public readonly gender: string | null) {}
 
     public static fromName(name: NameOption): NameOutput {
-        return new NameOutput(name.id, name.value, name.type.value);
+        return new NameOutput(name.id, name.value, name.type.value, name.gender?.key ?? null);
     }
 }
 
 export class NameInput {
-    constructor(public readonly value: string, public readonly type: string, public readonly gender: string) {}
+    constructor(public readonly value: string, public readonly type: string, public readonly gender: string | null) {}
 }
 
 export class NameOption {
@@ -30,12 +30,15 @@ export class NameOption {
         this.#gender = gender;
     }
 
-    static fromValues(type: string, value: string, genderKey: string, id?: number): NameOption {
+    static fromValues(type: string, value: string, genderKey: string | null, id?: number): NameOption {
         let nameType = NameType.parse(type);
         if (!nameType) {
             throw new InvalidParameterError(`Unrecognized name type: ${type}`);
         }
-        let gender = nameType.equals(NameType.SETTLEMENT) ? null : Gender.fromKey(genderKey);
+        if (genderKey == null && !nameType.equals(NameType.SETTLEMENT)) {
+            genderKey = "O"
+        }
+        let gender = nameType.equals(NameType.SETTLEMENT) ? null : Gender.fromKey(genderKey!);
         return new NameOption(new Name(value), nameType, gender, id)
     }
 
