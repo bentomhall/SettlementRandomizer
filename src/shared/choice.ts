@@ -6,8 +6,12 @@ export interface WeightedOption<T> {
   rescale(total: number): void
 }
 
-export function weightedChoice<T>(options: WeightedOption<T>[]): T {
+export function weightedChoice<T>(options: WeightedOption<T>[]): T | null {
+  if (options.length == 0) {
+    return null;
+  }
   let i: number;
+
   let weights = options.map(x => x.frequency)
   for (i = 1; i < weights.length; i++) {
     weights[i] += weights[i - 1];

@@ -1,7 +1,6 @@
-[
-  {
+{
     "name": "dwarf",
-    "personNameTemplate": "{{given}} {{family}}",
+    "personNameTemplate": "{{given}}",
     "settlementNameFrequencies": [
     "Jargalant",
     "Baruun-Urt",
@@ -2673,4 +2672,3 @@
       "halfling": 0.05
     }
   }
-]

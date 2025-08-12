@@ -1,8 +1,9 @@
+import { Gender } from "src/lineage/Gender"
 import { Lineage } from "src/lineage/Lineage"
 import { NameOption } from "src/nameOption/NameOption"
 import { NameType } from "src/nameOption/NameType"
 import { weightedChoice, WeightedOption } from "src/shared/choice"
-import { InvalidOperationError } from "src/shared/CustomErrors"
+import { InvalidOperationError, InvalidParameterError } from "src/shared/CustomErrors"
 
 export class CultureDto {
     constructor(
@@ -98,7 +99,16 @@ export class Culture {
 
     static fromDto(dto: CultureDto, allLineages: Lineage[], allNames: NameOption[]): Culture {
         let names = dto.nameFrequencies(allNames)
+        if (names.person.filter(x => x.value.isType(NameType.GIVEN)).length == 0) {
+            throw new InvalidParameterError(`Must give at least one given name`);
+        }
+        if (names.settlement.length == 0) {
+            throw new InvalidParameterError(`Must give at least one settlement name`);
+        }
         let demographics = dto.demographicFrequencies(allLineages)
+        if (demographics.length == 0) {
+            throw new InvalidParameterError(`Cultures must have at least one lineage`);
+        }
         return new Culture(dto.name, dto.personNameTemplate, names, demographics);
     }
 
@@ -127,19 +137,26 @@ export class Culture {
     }
 
     getRandomSettlementName(): NameOption {
-        return weightedChoice(this.#settlementNames)
+        return weightedChoice(this.#settlementNames)!
     }
 
-    getRandomPersonName(): string {
-        let givenName = weightedChoice(this.#personNames.filter(n => n.value.type.value == NameType.GIVEN)).value
-        let familyName = weightedChoice(this.#personNames.filter(n => n.value.type.value == NameType.FAMILY)).value
+    getRandomPersonName(gender: Gender): string {
+        let givenName = weightedChoice(this.#personNames.filter(n => n.value.type.value == NameType.GIVEN && gender.equals(n.value.gender)))!.value
+        let familyName = weightedChoice(this.#personNames.filter(n => n.value.type.value == NameType.FAMILY))?.value
         let particle = '';
         if (this.#personNameTemplate.includes('{{particle}}')) {
-            particle = weightedChoice(this.#personNames.filter(n => n.value.type.value == NameType.PARTICLE)).value
+            particle = weightedChoice(this.#personNames.filter(n => n.value.type.value == NameType.PARTICLE && gender.equals(n.value.gender)))?.value ?? ''
         }
-        return this.#personNameTemplate.replace('{{given}}', givenName).replace('{{family}}', familyName).replaceAll('{{particle}}', particle)
+        let name = this.#personNameTemplate.replace('{{given}}', givenName);
+        if (familyName) {
+            name = name.replace('{{family}}', familyName)
+        }
+        if (particle) {
+            name = name.replaceAll('{{particle}}', particle)
+        }
+        return name;
     }
     getRandomLineage(): Lineage {
-        return weightedChoice(this.#demographics);
+        return weightedChoice(this.#demographics)!;
     }
 }

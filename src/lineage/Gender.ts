@@ -34,4 +34,9 @@ export class Gender {
         return Gender.other
     }
   }
+
+  public equals(other: Gender | null, strict: boolean = false): boolean {
+    if (other == null) { return false; }
+    return strict ? other.id == this.id : other.id == this.id || other.key == Gender.otherKey;
+  }
 }

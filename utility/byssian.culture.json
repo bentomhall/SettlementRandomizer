@@ -1,6 +1,6 @@
 {
   "name": "byssian",
-  "personNameTemplate": "{{particle}} {{given}} {{family}}",
+  "personNameTemplate": "{{given}}",
   "settlementNameFrequencies": [
     "Valea Sosii",
     "General Berthelot",
