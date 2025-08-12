@@ -3,6 +3,8 @@ import { CultureService } from "./culture/CultureService";
 import { Culture, CultureDto } from "./culture/Culture";
 import { NameOptions, NameService, nameTypeOptions } from "./nameOption/NameService";
 import { LineageService } from "./lineage/LineageService";
+import { createSettlement, SettlementDto, SettlementInput } from "./settlement/Settlement";
+import { PersonDto, PersonService, PersonInput } from "./person/PersonService";
 
 class CultureOutput{
   constructor(public readonly id: number, public readonly name: string, public readonly nameTemplate: string, public readonly personNames: Record<number, number>, public readonly settlementNames: string[], public lineages: Record<number, number>) {}
@@ -27,7 +29,7 @@ class CultureOutput{
 @Controller('cultures')
 export class CultureController{
   private logger: Logger = new Logger(CultureController.name)
-  constructor(private service: CultureService, private nameService: NameService, private lineageService: LineageService) {}
+  constructor(private service: CultureService, private nameService: NameService, private lineageService: LineageService, private personService: PersonService) {}
 
   @Get()
   async findAll(): Promise<CultureOutput[]> {
@@ -57,5 +59,17 @@ export class CultureController{
     let newCulture = Culture.fromDto(dto, allLineages, allNames);
     newCulture = await this.service.create(newCulture);
     return CultureOutput.fromCulture(newCulture);
+  }
+
+  @Get(':id/settlement')
+  async createRandomSettlement(@Body() input: SettlementInput, @Param() id: number): Promise<SettlementDto> {
+    let culture = await this.service.findCulture(id);
+    return await createSettlement(culture, input.size, this.personService, input.name);
+  }
+
+  @Get(':id/person')
+  async createPerson(@Body() input: PersonInput, @Param() id: number): Promise<PersonDto> {
+    let culture = await this.service.findCulture(id);
+    return await this.personService.createPersonFromCulture(culture, input.occupation, input.ageRange)
   }
 }

@@ -1,5 +1,7 @@
 import { Injectable } from "@nestjs/common";
+import { Culture } from "src/culture/Culture";
 import { CultureService } from "src/culture/CultureService";
+import { SizeRange } from "src/settlement/settlementData";
 import { choice, randomBetween } from "src/shared/choice";
 import { DataFileProvider, DataFileType } from "src/shared/dbProvider";
 
@@ -7,13 +9,19 @@ export class PersonDto {
   public constructor(public name: string, public gender: string, public lineage: string, public age: number, public ageCategory: string, public occupation: string, public quirks: string[], public cultureName: string) {}
 }
 
+export class PersonInput {
+  public occupation?: string;
+  public ageRange: SizeRange;
+  public cultureId: number;
+}
+
 @Injectable()
 export class PersonService {
   private occupations: string[];
   private quirks: string[];
-  public constructor(private cultureService: CultureService, private dataProvider: DataFileProvider) {}
+  public constructor(private dataProvider: DataFileProvider) {}
 
-  async createPerson(cultureId: number, occupation?: string, requestedAgeRange?: [number, number]): Promise<PersonDto> {
+  public async createPersonFromCulture(culture: Culture, occupation?: string, requestedAgeRange?: SizeRange): Promise<PersonDto> {
     if (!occupation) {
       let occupations = await this.dataProvider.getData(DataFileType.OCCUPATIONS);
       if (!this.occupations) {
@@ -21,14 +29,14 @@ export class PersonService {
       }
       occupation = choice(occupations);
     }
-    let culture = await this.cultureService.findCulture(cultureId);
+    
     let allQuirks = await this.dataProvider.getData(DataFileType.QUIRKS);
     if (!this.quirks) {
       this.quirks = allQuirks;
     }
-    let name = culture.getRandomPersonName();
     let lineage = culture.getRandomLineage();
-    let individualInfo = requestedAgeRange ? lineage.randomMember(requestedAgeRange[0], requestedAgeRange[1]) : lineage.randomMember();
+    let individualInfo = requestedAgeRange ? lineage.randomMember(requestedAgeRange.min, requestedAgeRange.max) : lineage.randomMember();
+    let name = culture.getRandomPersonName(individualInfo.gender);
     let quirkCount = randomBetween(1, 4);
     let quirks: string[] = []
     for (let i=0;i<quirkCount;i++) {
