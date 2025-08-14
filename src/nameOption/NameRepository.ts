@@ -68,19 +68,7 @@ export class NameRepository {
 
     async insertOne(name: NameOption): Promise<NameOption> {
         let query = `INSERT INTO name_option (value, type_id, gender_id) VALUES (?, ?, ?)`;
-        let id: number | null = null;
-        let conn: PoolConnection | null = null;
-        try {
-            conn = await this.pool.getConnection();
-            let result: ResultSetHeader = await conn!.query(query, [name.value, name.type.id, name.gender?.id])[0];
-            this.logger.debug(`Result: ${result?.info ?? 'undefined'} ${result?.insertId ?? undefined}`);
-            id = result.insertId;
-        } catch(error) {
-            this.logger.error({err: error});
-        } finally {
-            conn?.release();
-        }
-        //let id = await insert(this.pool, query, [name.value, name.type.id, name.gender?.id], this.logger);
+        let id = await insert(this.pool, query, [name.value, name.type.id, name.gender?.id], this.logger);
         if (id == null) {
             throw new InvalidOperationError(`Insert failed`);
         }

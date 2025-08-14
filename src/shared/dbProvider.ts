@@ -76,7 +76,7 @@ export function groupRowsById<T extends IdentifiableRow>(rows: T[]): Map<number,
 
 export async function executeQuery<T>(pool: Pool, query: string, params: any[], logger: Logger): Promise<T[]> {
   try {
-      let result: T[] | undefined = await pool.execute<RowDataPacket[]>(query, params)[0];
+      let result: T[] | undefined = (await pool.execute<RowDataPacket[]>(query, params))[0] as T[];
       logger.debug(`Result: ${result}`);
     return result ?? []
   } catch (error) {
@@ -87,7 +87,7 @@ export async function executeQuery<T>(pool: Pool, query: string, params: any[], 
 
 export async function insert(pool: Pool, query: string, values: any[], logger: Logger): Promise<number | null> {
   try {
-    let result: ResultSetHeader = await pool.query<ResultSetHeader>(query, values)[0];
+    let result: ResultSetHeader = (await pool.query<ResultSetHeader>(query, values))[0];
     if (!result || result.insertId <= 0) {
       logger.error(`Insert failed ${result?.warningStatus ?? 'result was undefined'}`);
       return null
