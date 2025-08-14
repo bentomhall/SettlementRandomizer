@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { Pool, ResultSetHeader } from "mysql2/promise";
+import { Pool, PoolConnection, ResultSetHeader } from "mysql2/promise";
 import { DatabaseProvider, executeQuery, IdentifiableRow, insert } from "src/shared/dbProvider";
 import { NameOption } from "./NameOption";
 import { Name } from "src/shared/Name";
@@ -69,13 +69,16 @@ export class NameRepository {
     async insertOne(name: NameOption): Promise<NameOption> {
         let query = `INSERT INTO name_option (value, type_id, gender_id) VALUES (?, ?, ?)`;
         let id: number | null = null;
+        let conn: PoolConnection | null = null;
         try {
-            
-            let result: ResultSetHeader = await this.pool.query(query, [name.value, name.type.id, name.gender?.id])[0];
+            conn = await this.pool.getConnection();
+            let result: ResultSetHeader = await conn!.query(query, [name.value, name.type.id, name.gender?.id])[0];
             this.logger.debug(`Result: ${result?.info ?? 'undefined'} ${result?.insertId ?? undefined}`);
             id = result.insertId;
         } catch(error) {
             this.logger.error({err: error});
+        } finally {
+            conn?.release();
         }
         //let id = await insert(this.pool, query, [name.value, name.type.id, name.gender?.id], this.logger);
         if (id == null) {
