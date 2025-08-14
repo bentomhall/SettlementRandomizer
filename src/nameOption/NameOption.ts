@@ -30,7 +30,7 @@ export class NameOption {
         this.#gender = gender;
     }
 
-    static fromValues(type: string, value: string, genderKey: string | null, id?: number): NameOption {
+    static fromValues(value: string, type: string, genderKey: string | null, id?: number): NameOption {
         let nameType = NameType.parse(type);
         if (!nameType) {
             throw new InvalidParameterError(`Unrecognized name type: ${type}`);

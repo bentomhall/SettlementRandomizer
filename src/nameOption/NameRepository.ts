@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { Pool } from "mysql2/promise";
+import { Pool, ResultSetHeader } from "mysql2/promise";
 import { DatabaseProvider, executeQuery, IdentifiableRow, insert } from "src/shared/dbProvider";
 import { NameOption } from "./NameOption";
 import { Name } from "src/shared/Name";
@@ -11,7 +11,7 @@ import { InvalidOperationError } from "src/shared/CustomErrors";
 export class NameRepository {
     private baseQuery = `SELECT
         n.id, n.value, t.value as type,
-        g.key as gender_key
+        g.tag as gender_key
         FROM name_option n
         JOIN name_type t
             ON t.id = n.type_id
@@ -68,7 +68,16 @@ export class NameRepository {
 
     async insertOne(name: NameOption): Promise<NameOption> {
         let query = `INSERT INTO name_option (value, type_id, gender_id) VALUES (?, ?, ?)`;
-        let id = await insert(this.pool, query, [name.value, name.type.id, name.gender?.id], this.logger);
+        let id: number | null = null;
+        try {
+            
+            let result: ResultSetHeader = await this.pool.query(query, [name.value, name.type.id, name.gender?.id])[0];
+            this.logger.debug(`Result: ${result?.info ?? 'undefined'} ${result?.insertId ?? undefined}`);
+            id = result.insertId;
+        } catch(error) {
+            this.logger.error({err: error});
+        }
+        //let id = await insert(this.pool, query, [name.value, name.type.id, name.gender?.id], this.logger);
         if (id == null) {
             throw new InvalidOperationError(`Insert failed`);
         }
@@ -124,7 +133,7 @@ interface NameRow extends IdentifiableRow {
 
 class NameMapper {
     static toNameOption(n: NameRow) {
-        return NameOption.fromValues(n.type, n.value, n.gender_key, n.id);
+        return NameOption.fromValues(n.value, n.type, n.gender_key, n.id);
     }
 
     static collateNameOptions(rows: NameRow[], intoMap: Map<string, NameOption[]>) {

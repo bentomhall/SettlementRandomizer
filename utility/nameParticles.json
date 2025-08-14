@@ -1,14 +1,32 @@
 [
     {
-        "name": "of",
-        "cultures": ["wall-builder"]
+        "value": "of",
+        "gender": "O",
+        "type": "particle"
     },
     {
-        "name": "pe",
-        "cultures": ["fang-kin"]
+        "value": "pe",
+        "gender": "O",
+        "type": "particle"
     },
     {
-        "name": "sur",
-        "cultures": ["gwerin"]
+        "value": "sur",
+        "gender": "M",
+        "type": "particle"
+    },
+    {
+        "value": "sai",
+        "gender": "F",
+        "type": "particle"
+    },
+    {
+        "value": "ka",
+        "gender": "O",
+        "type": "particle"
+    },
+    {
+        "value": "vo",
+        "gender": "O",
+        "type": "particle"
     }
 ]

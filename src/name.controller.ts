@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Logger, Param, Post, Query } from "@nestjs/common";
 import { NameOptions, NameService } from "./nameOption/NameService";
 import { NameInput, NameOption, NameOutput } from "./nameOption/NameOption";
 
 @Controller('names')
 export class NameController {
+    private logger = new Logger('NameController');
     constructor(private service: NameService) {}
 
     @Get(':id')
@@ -16,7 +17,9 @@ export class NameController {
         if (!type) {
             type = 'ALL';
         }
-        return (await this.service.getAllByType(type)).map(x => NameOutput.fromName(x));
+        let names = await this.service.getAllByType(type);
+        this.logger.debug(`Got ${names.length} names`);
+        return names.map(x => NameOutput.fromName(x));
     }
 
      @Post('bulk')

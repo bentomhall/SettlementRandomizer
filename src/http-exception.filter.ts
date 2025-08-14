@@ -11,6 +11,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const status = exception.getStatus();
         if (status >= 500) {
             this.logger.warn({err: exception})
+        } else {
+            this.logger.debug({err: exception})
         }
         response
             .status(status)

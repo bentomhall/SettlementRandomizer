@@ -1,7 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { readFile } from "fs/promises";
-import { createPool, Pool, ResultSetHeader } from "mysql2/promise"
+import { createPool, Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise"
 import * as path from "path";
 
 @Injectable()
@@ -19,6 +19,7 @@ export class DatabaseProvider {
       database,
       user: username,
       password,
+      charset: 'utf8mb4_0900_ai_ci'
     })
   }
 
@@ -75,7 +76,8 @@ export function groupRowsById<T extends IdentifiableRow>(rows: T[]): Map<number,
 
 export async function executeQuery<T>(pool: Pool, query: string, params: any[], logger: Logger): Promise<T[]> {
   try {
-      let result: T[] | undefined = await pool.execute(query, params)[0];
+      let result: T[] | undefined = await pool.execute<RowDataPacket[]>(query, params)[0];
+      logger.debug(`Result: ${result}`);
     return result ?? []
   } catch (error) {
     logger.error((error as Error).message, (error as Error).stack)
