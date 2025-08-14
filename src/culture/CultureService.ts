@@ -35,9 +35,11 @@ export class CultureService {
 
   async getPersonInfo(cultureId: number): Promise<{name: string, lineage: Lineage}> {
     let culture = await this.repo.getById(cultureId);
+    let lineage = culture.getRandomLineage();
+    let info = lineage.randomMember();
     return {
-      name: culture.getRandomPersonName(),
-      lineage: culture.getRandomLineage()
+      name: culture.getRandomPersonName(info.gender),
+      lineage: lineage
     }
   }
 

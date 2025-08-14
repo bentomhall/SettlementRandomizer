@@ -167,7 +167,7 @@ export class Lineage {
     }
     let age = new Age(randomBetween(minAge, maxAge));
     let category = this.ageCategory(age)!;
-    let gender = weightedChoice(this.#genders);
+    let gender = weightedChoice(this.#genders)!;
     return {
       age,
       category,
