@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { Culture } from "src/culture/Culture";
-import { CultureService } from "src/culture/CultureService";
 import { SizeRange } from "src/settlement/settlementData";
 import { choice, randomBetween } from "src/shared/choice";
 import { DataFileProvider, DataFileType } from "src/shared/dbProvider";
@@ -11,8 +10,8 @@ export class PersonDto {
 
 export class PersonInput {
   public occupation?: string;
-  public ageRange: SizeRange;
-  public cultureId: number;
+  public ageMax: number;
+  public ageMin: number;
 }
 
 @Injectable()

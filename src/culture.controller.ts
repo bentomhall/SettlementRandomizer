@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Logger, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Logger, Param, Post, Query } from "@nestjs/common";
 import { CultureService } from "./culture/CultureService";
 import { Culture, CultureDto } from "./culture/Culture";
-import { NameOptions, NameService, nameTypeOptions } from "./nameOption/NameService";
+import { NameService } from "./nameOption/NameService";
 import { LineageService } from "./lineage/LineageService";
-import { createSettlement, SettlementDto, SettlementInput } from "./settlement/Settlement";
-import { PersonDto, PersonService, PersonInput } from "./person/PersonService";
+import { createSettlement, SettlementDto } from "./settlement/Settlement";
+import { PersonDto, PersonService } from "./person/PersonService";
+import { SettlementBracket } from "./settlement/settlementData";
 
 class CultureOutput{
   constructor(public readonly id: number, public readonly name: string, public readonly nameTemplate: string, public readonly personNames: Record<number, number>, public readonly settlementNames: string[], public lineages: Record<number, number>) {}
@@ -62,14 +63,14 @@ export class CultureController{
   }
 
   @Get(':id/settlement')
-  async createRandomSettlement(@Body() input: SettlementInput, @Param() id: number): Promise<SettlementDto> {
+  async createRandomSettlement(@Query('size') size: SettlementBracket, @Query('name') name: string | undefined, @Param() id: number): Promise<SettlementDto> {
     let culture = await this.service.findCulture(id);
-    return await createSettlement(culture, input.size, this.personService, input.name);
+    return await createSettlement(culture, size, this.personService, name);
   }
 
   @Get(':id/person')
-  async createPerson(@Body() input: PersonInput, @Param() id: number): Promise<PersonDto> {
+  async createPerson(@Param() id: number, @Query('occupation') occupation: string | undefined, @Query('ageMax') ageMax: number = 200, @Query('ageMin') ageMin: number = 1): Promise<PersonDto> {
     let culture = await this.service.findCulture(id);
-    return await this.personService.createPersonFromCulture(culture, input.occupation, input.ageRange)
+    return await this.personService.createPersonFromCulture(culture, occupation, {min: ageMin, max: ageMax})
   }
 }

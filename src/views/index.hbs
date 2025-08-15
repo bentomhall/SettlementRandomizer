@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settlement Randomizer</title>
+</head>
+<body>
+  <h1>Settlement Randomizer v1.0</h1>
+  <p>Welcome to the culture-aware fantasy settlement (and person) generator. Select one of the cultures below, a settlement size, and hit "Random Settlement!". If you just want an npc, hit "Random Person!"</p>
+  <div>
+    <select id="culture-select">
+      <option value="" selected>--Please choose an option--</option>
+      {{~#each cultures}}
+        <option value="{{id}}">{{name}}</option>
+      {{~/each}}
+    </select>
+    <select id="size-select">
+      <option value="random" selected>Surprise me</option>
+      <option value="hamlet">Hamlet (2 - 100)</option>
+      <option value="estate">Estate (50 - 500)</option>
+      <option value="village">Village (100 - 500)</option>
+      <option value="small town">Small Town (500 - 1 000)</option>
+      <option value="large town">Large Town (1 000 - 1 500)</option>
+      <option value="city">City (1 500 - 15 000)</option>
+      <option value="metropolis">Metropolis (15 000 - 1 000 000)</option>
+    </select>
+    <button type="button" id="get-settlement">Random Settlement!</button>
+    <button type="button" id="get-person">Random Person!</button>
+  </div>
+  <script src="/public/main.js"></script>
+</body>
+</html>
