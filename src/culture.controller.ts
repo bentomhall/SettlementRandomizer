@@ -44,32 +44,34 @@ export class CultureController{
   }
 
   @Get(':id')
-  async findOne(@Param() id: number): Promise<CultureOutput> {
+  async findOne(@Param('id') id: number): Promise<CultureOutput> {
     return CultureOutput.fromCulture(await this.service.findCulture(id))
   }
 
   @Delete(':id')
-  async deleteCulture(@Param() id: number): Promise<void> {
+  async deleteCulture(@Param('id') id: number): Promise<void> {
     await this.service.deleteById(id);
   }
 
   @Post()
   async createCulture(@Body() dto: CultureDto): Promise<CultureOutput> {
+    
     let allNames = await this.nameService.getAllByType('ALL')
     let allLineages = await this.lineageService.findAll()
+
     let newCulture = Culture.fromDto(dto, allLineages, allNames);
     newCulture = await this.service.create(newCulture);
     return CultureOutput.fromCulture(newCulture);
   }
 
   @Get(':id/settlement')
-  async createRandomSettlement(@Query('size') size: SettlementBracket, @Query('name') name: string | undefined, @Param() id: number): Promise<SettlementDto> {
+  async createRandomSettlement(@Query('size') size: SettlementBracket, @Query('name') name: string | undefined, @Param('id') id: number): Promise<SettlementDto> {
     let culture = await this.service.findCulture(id);
     return await createSettlement(culture, size, this.personService, name);
   }
 
   @Get(':id/person')
-  async createPerson(@Param() id: number, @Query('occupation') occupation: string | undefined, @Query('ageMax') ageMax: number = 200, @Query('ageMin') ageMin: number = 1): Promise<PersonDto> {
+  async createPerson(@Param('id') id: number, @Query('occupation') occupation: string | undefined, @Query('ageMax') ageMax: number = 200, @Query('ageMin') ageMin: number = 1): Promise<PersonDto> {
     let culture = await this.service.findCulture(id);
     return await this.personService.createPersonFromCulture(culture, occupation, {min: ageMin, max: ageMax})
   }

@@ -32,7 +32,7 @@ export class CatchEverythingFilter implements ExceptionFilter {
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
       error: JSON.stringify(exception)
     };
-    this.logger.error({err: JSON.stringify((exception as Error).message), responseBody})
+    this.logger.error({err: JSON.stringify((exception as Error).message), stack: JSON.stringify((exception as Error).stack ?? 'no stack'), responseBody})
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
   }
 }

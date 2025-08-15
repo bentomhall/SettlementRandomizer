@@ -1,5 +1,5 @@
 import { Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { FieldPacket, Pool, ResultSetHeader } from "mysql2/promise";
+import { FieldPacket, Pool, ResultSetHeader, PoolConnection } from "mysql2/promise";
 import { LineageRepository } from "src/lineage/LineageRepository";
 import { NameRepository } from "src/nameOption/NameRepository";
 import { DatabaseProvider, executeQuery, groupRowsById, IdentifiableRow, insert } from "src/shared/dbProvider";
@@ -34,10 +34,13 @@ export class CultureRepository {
     if (rows.length == 0) {
       throw new NotFoundException(`No culture with id ${id} found`);
     }
-    let lineageIds = rows.map(r => r.lineage_id);
+    this.logger.debug(`Row 0: ${JSON.stringify(rows[0])}`);
+    let lineageIds = Array.from(new Set(rows.map(r => r.lineage_id)));
     let lineages = await this.lineageRepo.getManyByIds(lineageIds);
-    let nameIds = rows.map(r => r.name_id);
+    this.logger.debug(`Got ${lineages.length} lineages`);
+    let nameIds = Array.from(new Set(rows.map(r => r.name_id)));
     let nameOptions = await this.nameRepo.getManyByIds(nameIds);
+    this.logger.debug(`Got ${nameOptions.length} names`);
     return CultureMapper.toCulture(rows, lineages, nameOptions);
   }
 
@@ -67,10 +70,11 @@ export class CultureRepository {
     if (culture.id == -1) {
       await this.deleteById(culture.id);
     }
-    await this.pool.beginTransaction()
+    let conn: PoolConnection = await this.pool.getConnection();
     try {
+      await conn.beginTransaction();
       let query = `INSERT INTO culture (id, name, name_template) VALUES (?, ?, ?);`
-      let id = await insert(this.pool, query, [culture.id == -1 ? null : culture.id, culture.name, culture.nameTemplate], this.logger)
+      let id = await insert(conn, query, [culture.id == -1 ? null : culture.id, culture.name, culture.nameTemplate], this.logger)
       if (!id) {
         throw new InvalidOperationError('Insert failed');
       }
@@ -79,13 +83,13 @@ export class CultureRepository {
       }
       let nameInsertQuery = `INSERT INTO culture_name_frequency (culture_id, name_id, frequency) VALUES (?, ?, ?)`
       for (let nameFrequency of culture.personNames) {
-        await insert(this.pool, nameInsertQuery, [id, nameFrequency.value.id, nameFrequency.frequency], this.logger);
+        await conn.query(nameInsertQuery, [id, nameFrequency.value.id, nameFrequency.frequency]);
       }
       let lineageQuery = `INSERT INTO culture_lineage_frequency (culture_id, lineage_id, frequency) VALUES(?, ?, ?)`
       for (let LineageFrequency of culture.demographics) {
-        await insert(this.pool, lineageQuery, [id, LineageFrequency.value.id, LineageFrequency.frequency], this.logger);
+        await conn.query(lineageQuery, [id, LineageFrequency.value.id, LineageFrequency.frequency]);
       }
-      await this.pool.commit();
+      await conn.commit();
       if (culture.id == -1) {
         culture.id = id;
       }
@@ -93,8 +97,10 @@ export class CultureRepository {
     } catch (error) {
       let err = error as Error;
       this.logger.error(`Insert failed: ${err.message}`, err.stack);
-      await this.pool.rollback();
+      await conn.rollback();
       throw error;
+    } finally {
+      conn.release();
     }
   }
 
@@ -124,7 +130,7 @@ class CultureMapper {
       }
       lineageFrequencies.push(new LineageFrequency(lineage!, row.lineage_frequency));
       let nameFreq = new NameFrequency(name, row.name_frequency);
-      if (name.isType(NameType.SETTLEMENT)) {
+      if (name.type == NameType.settlement) {
         settlementNameFrequencies.push(nameFreq)
       } else {
         peopleNameFrequencies.push(nameFreq);
@@ -132,7 +138,7 @@ class CultureMapper {
     }
     return new Culture(first.name, first.name_template, {
       settlement: settlementNameFrequencies, person: peopleNameFrequencies
-    }, lineageFrequencies);
+    }, lineageFrequencies, first.id);
   }
 }
 

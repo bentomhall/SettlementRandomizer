@@ -1,5 +1,5 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { Lineage, LineageDto } from "./Lineage";
+import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
+import { createLineageInput, Lineage, LineageDto } from "./Lineage";
 import { LineageRepository } from "./LineageRepository";
 
 export interface ReadOnlyLineageService {
@@ -10,7 +10,7 @@ export interface ReadOnlyLineageService {
 @Injectable()
 export class LineageService implements ReadOnlyLineageService {
     constructor(private repo: LineageRepository){}
-
+    private logger = new Logger('LineageService');
     async findAll(): Promise<Lineage[]> {
         return await this.repo.getAll()
     }
@@ -30,7 +30,7 @@ export class LineageService implements ReadOnlyLineageService {
     }
 
     async create(dto: LineageDto): Promise<Lineage> {
-        let lineage = new Lineage(dto.toInput())
+        let lineage = new Lineage(createLineageInput(dto));
         return await this.repo.upsert(lineage);
     }
 

@@ -47,12 +47,7 @@ export class NameRepository {
     }
 
     async getManyByIds(ids: number[]): Promise<NameOption[]> {
-        let query = `${this.baseQuery} WHERE n.id in (?);`;
-        let rows: NameRow[] = await executeQuery(this.pool, query, [ids], this.logger);
-        if (!rows || rows.length == 0) {
-            return []
-        }
-        return rows.map(x => NameMapper.toNameOption(x));
+        return (await this.getAll()).filter(x => ids.includes(x.id));
     }
 
     async getByType(type: NameType): Promise<NameOption[]> {
@@ -123,6 +118,7 @@ interface NameRow extends IdentifiableRow {
 }
 
 class NameMapper {
+    static logger = new Logger('NameMapper')
     static toNameOption(n: NameRow) {
         return NameOption.fromValues(n.value, n.type, n.gender_key, n.id);
     }

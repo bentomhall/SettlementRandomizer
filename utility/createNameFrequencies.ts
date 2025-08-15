@@ -11,16 +11,14 @@ interface RawName {
 }
 
 (async () => {
-  let input = await readFile(path.join(__dirname, 'names.json'))
-  let json: Record<string, RawName[]> = JSON.parse(input.toString());
-  let allNames: Record<string, Record<string, number>> = {};
+  let input = await readFile(path.join(__dirname, 'names_by_culture.json'))
+  let json: Record<string, string[]> = JSON.parse(input.toString());
+  let allNames: NameInput[] = []
   for (let key of Object.entries(json)) {
-    let subGroup: Record<string, number> = {}
-    let names: RawName[] = json[key[0]];
+    let names: string[] = json[key[0]];
     for (let name of names) {
-        subGroup[name.name] = name.frequency
+      allNames.push(new NameInput(name, 'settlement', null))
     }
-    allNames[key[0]] = subGroup
   }
-  await writeFile('nameInputs.json', JSON.stringify(allNames, undefined, 2))
+  await writeFile('city_names.json', JSON.stringify(allNames, undefined, 2))
 })()

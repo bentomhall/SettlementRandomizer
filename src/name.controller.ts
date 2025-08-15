@@ -35,7 +35,7 @@ export class NameController {
     }
 
     @Delete(':id')
-    async deleteById(@Param() id: number) {
+    async deleteById(@Param('id') id: number) {
         await this.service.deleteById(id);
     }
 }

@@ -26,7 +26,7 @@ export class LineageController {
   }
 
   @Get(":id")
-  async findOneById(@Param() id: number): Promise<LineageOutput> {
+  async findOneById(@Param('id') id: number): Promise<LineageOutput> {
       return LineageOutput.fromLineage(await this.service.findById(id))
   }
 
@@ -36,7 +36,7 @@ export class LineageController {
   }
 
   @Delete(":id")
-  async deleteLineage(@Param() id: number): Promise<void> {
+  async deleteLineage(@Param('id') id: number): Promise<void> {
     return await this.service.deleteById(id);
   }
 }

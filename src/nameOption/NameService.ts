@@ -44,7 +44,6 @@ export class NameService {
             default:
                 throw new InvalidParameterError(`Type ${type.toUpperCase()} not allowed.`)
         }
-        this.logger.debug(`Got names: ${values}`);
         if (!values) {
             return []
         }

@@ -11,20 +11,20 @@ export class LineageDto {
   maximumAge: number
   elderlyAge: number
   genders: Record<string, number>
+}
 
-  toInput(): LineageInput {
-    let genderFrequencies: GenderFrequency[] = [];
-    for (let key in this.genders) {
-      genderFrequencies.push(GenderFrequency.fromRawInput(key, this.genders[key]))
+export function createLineageInput(dto: LineageDto): LineageInput {
+  let genderFrequencies: GenderFrequency[] = [];
+    for (let key in dto.genders) {
+      genderFrequencies.push(GenderFrequency.fromRawInput(key, dto.genders[key]))
     }
     return {
-      name: this.name,
-      adultAge: this.adultAge,
-      maximumAge: this.maximumAge,
-      elderlyAge: this.elderlyAge,
+      name: dto.name,
+      adultAge: dto.adultAge,
+      maximumAge: dto.maximumAge,
+      elderlyAge: dto.elderlyAge,
       genders: genderFrequencies
     }
-  }
 }
 
 export interface LineageInput {
@@ -119,7 +119,7 @@ export class Lineage {
     if (this.id != -1) {
       throw new InvalidOperationError(`Cannot set id to ${value}, already set to ${this.id}`);
     }
-    this.#id = this.id;
+    this.#id = value;
   }
 
   public get id(): number {

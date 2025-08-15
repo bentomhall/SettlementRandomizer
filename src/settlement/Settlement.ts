@@ -5,6 +5,7 @@ import { Culture } from "src/culture/Culture"
 import { NameOption } from "src/nameOption/NameOption"
 import { NameType } from "src/nameOption/NameType"
 import { randomBetween } from "src/shared/choice"
+import { Logger } from "@nestjs/common"
 
 export class SettlementDto {
   public readonly name: string
@@ -25,7 +26,8 @@ export class SettlementInput {
   constructor(public size: SettlementBracket, public name?: string) {}
 }
 
-export async function createSettlement(culture: Culture, size: SettlementBracket, personService: PersonService, name?: string): Promise<SettlementDto> {
+export async function createSettlement(culture: Culture, size: SettlementBracket, personService: PersonService, name?: string, logger: Logger = new Logger('createSettlement')): Promise<SettlementDto> {
+  logger.debug(`culture has ${culture.settlementNames.length} settlement names and ${culture.personNames.length} person names`);
   let settlementName = name ?? culture.getRandomSettlementName().value
   let sizeRange = settlementSizeMap.get(size) ?? settlementSizeMap.get(SettlementBracket.VILLAGE)!
   let requiredOccupations = requiredOccupationMap.get(size) ?? [];

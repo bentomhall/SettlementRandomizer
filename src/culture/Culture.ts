@@ -13,31 +13,31 @@ export class CultureDto {
         public personNameTemplate: string,
         public demographics: Record<string, number>,
     ){}
+}
 
-    nameFrequencies(allNames: NameOption[]): {settlement: NameFrequency[], person: NameFrequency[]} {
-        let settlement: NameFrequency[] = []
-        let person: NameFrequency[] = []
-        for (let name of allNames) {
-            if (this.settlementNameFrequencies.includes(name.value)) {
-                settlement.push(new NameFrequency(name, 1))
-            } else if (Array.isArray(this.personNameFrequencies) && this.personNameFrequencies.includes(name.value)) {
-                person.push(new NameFrequency(name, 1))
-            } else if (this.personNameFrequencies[name.value] != undefined) {
-                person.push(new NameFrequency(name, this.personNameFrequencies[name.value]!))
-            }
+function nameFrequencies(dto: CultureDto, allNames: NameOption[]): {settlement: NameFrequency[], person: NameFrequency[]} {
+    let settlement: NameFrequency[] = []
+    let person: NameFrequency[] = []
+    for (let name of allNames) {
+        if (dto.settlementNameFrequencies.includes(name.value)) {
+            settlement.push(new NameFrequency(name, 1))
+        } else if (Array.isArray(dto.personNameFrequencies) && dto.personNameFrequencies.includes(name.value)) {
+            person.push(new NameFrequency(name, 1))
+        } else if (dto.personNameFrequencies[name.value] != undefined) {
+            person.push(new NameFrequency(name, dto.personNameFrequencies[name.value]!))
         }
-        return {settlement, person}
     }
+    return {settlement, person}
+}
 
-    demographicFrequencies(allLineages: Lineage[]): WeightedOption<Lineage>[] {
-        let output: LineageFrequency[] = [];
-        for (let lineage of allLineages) {
-            if (this.demographics[lineage.name.value]) {
-                output.push(new LineageFrequency(lineage, this.demographics[lineage.name.value]))
-            }
+function demographicFrequencies(dto: CultureDto, allLineages: Lineage[]) : WeightedOption<Lineage>[] {
+    let output: LineageFrequency[] = [];
+    for (let lineage of allLineages) {
+        if (dto.demographics[lineage.name.value]) {
+            output.push(new LineageFrequency(lineage, dto.demographics[lineage.name.value]))
         }
-        return output;
     }
+    return output;
 }
 
 export class LineageFrequency implements WeightedOption<Lineage> {
@@ -98,14 +98,14 @@ export class Culture {
     }
 
     static fromDto(dto: CultureDto, allLineages: Lineage[], allNames: NameOption[]): Culture {
-        let names = dto.nameFrequencies(allNames)
+        let names = nameFrequencies(dto, allNames)
         if (names.person.filter(x => x.value.isType(NameType.GIVEN)).length == 0) {
             throw new InvalidParameterError(`Must give at least one given name`);
         }
         if (names.settlement.length == 0) {
             throw new InvalidParameterError(`Must give at least one settlement name`);
         }
-        let demographics = dto.demographicFrequencies(allLineages)
+        let demographics = demographicFrequencies(dto, allLineages)
         if (demographics.length == 0) {
             throw new InvalidParameterError(`Cultures must have at least one lineage`);
         }

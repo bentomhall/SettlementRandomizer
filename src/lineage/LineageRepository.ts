@@ -44,21 +44,8 @@ export class LineageRepository implements ILineageRepository {
   }
 
   async getManyByIds(ids: number[]): Promise<Lineage[]> {
-    let query = `${this.baseQuery}
-      WHERE id in (?),
-      GROUP by l.id, g.id;
-    `
-    let lineages: LineageGenderRow[] = await executeQuery(this.pool, query, [ids], this.logger);
-    if (lineages.length == 0) {
-      return []
-    }
-    let groupedRows = groupRowsById(lineages);
-    let output: Lineage[] = []
-    for (let [key, values] of groupedRows) {
-      let genderFrequencies = values.map(x => LineageMapper.toGenderFrequency(x));
-      output.push(LineageMapper.toLineage(values[0], genderFrequencies));
-    }
-    return output;
+    let output = await this.getAll();
+    return output.filter(x => ids.includes(x.id));
   }
 
   async getAll(): Promise<Lineage[]> {
@@ -100,25 +87,29 @@ export class LineageRepository implements ILineageRepository {
     return result[0].count > 0
   }
 
-  private async insert(lineage:Lineage): Promise<Lineage> {
-    let lineageQuery = `INSERT INTO lineage (name, adultAge, maximumAge, elderlyAge) VALUES (?, ?, ?, ?)`;
-    await this.pool.beginTransaction()
+  private async insert(lineage: Lineage): Promise<Lineage> {
+    let lineageQuery = `INSERT INTO lineage (name, adultAge, maxAge, elderlyAge) VALUES (?, ?, ?, ?)`;
+    let conn = await this.pool.getConnection();
+    
     try {
-          let id = await insert(this.pool, lineageQuery, [lineage.name, lineage.adultAge, lineage.maximumAge, lineage.elderlyAge], this.logger);
+      await conn.beginTransaction()
+      let id = await insert(conn, lineageQuery, [lineage.name.value, lineage.adultAge, lineage.maximumAge, lineage.elderlyAge], this.logger);
       if (!id) {
         throw new InvalidOperationError(`Insert failed`)
       }
       lineage.setId(id)
       let genderQuery = `INSERT INTO lineage_gender_frequency (lineage_id, gender_id, frequency) VALUES (?, ?, ?);`
       for (let g of lineage.genders) {
-        await insert(this.pool, genderQuery, [id, g.gender.id, g.frequency], this.logger);
+        await conn.query(genderQuery, [id, g.gender.id, g.frequency]);
       }
-      await this.pool.commit()
+      await conn.commit()
       return lineage
     } catch (error) {
       this.logger.error((error as Error).message, (error as Error).stack);
-      await this.pool.rollback()
+      await conn.rollback()
       throw error
+    } finally {
+      conn.release();
     }
   }
 }
