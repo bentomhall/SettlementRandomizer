@@ -42,19 +42,20 @@ async function randomPerson() {
   return await response.json();
 }
 
+async function logResponse(f) {
+  try {
+    let output = await f();
+    console.log(JSON.stringify(output, undefined, 2));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 (function() {
-  document.getElementById('get-settlement').addEventListener('click', () => {
-    randomSettlement().then((data) => {
-      console.log(JSON.stringify(data, undefined, 2));
-    }).catch((reason) => {
-      console.error(reason);
-    });
-  });
-  document.getElementById('get-person').addEventListener('click', () => {
-    randomPerson().then((data => {
-      console.log(JSON.stringify(data, undefined, 2));
-    })).catch((reason) => {
-      console.error(reason);
-    })
-  })
+  document.getElementById('get-settlement').addEventListener('click', async () => {
+    await logResponse(randomSettlement);
+  }, false);
+  document.getElementById('get-person').addEventListener('click', async () => {
+    await logResponse(randomPerson);
+  }, false);
 })();
