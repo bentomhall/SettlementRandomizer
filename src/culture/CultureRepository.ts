@@ -18,15 +18,22 @@ export class CultureRepository {
   }
 
   private baseQuery = `SELECT
-      c.id, c.name, c.name_template,
-      lf.lineage_id, lf.frequency as lineage_frequency,
-      nf.name_id, nf.frequency as name_frequency
-    FROM culture c
-    JOIN culture_lineage_frequency lf
-      ON lf.culture_id = c.id
-    JOIN culture_name_frequency nf
-      ON nf.culture_id = c.id
+      c.id, c.name, c.name_template
+    FROM culture
+
   `;
+
+  private nameFrequencyQuery = `SELECT
+      culture_id, name_id, frequency
+    FROM culture_name_frequency
+      WHERE culture_id = ?;
+  `
+
+  private lineageFrequencyQuery = `SELECT
+      culture_id, lineage_id, frequency
+    FROM culture_lineage_frequency
+      WHERE culture_id = ?;
+  `
 
   async getById(id: number): Promise<Culture> {
     let query = `${this.baseQuery} WHERE c.id = ?;`;
@@ -34,14 +41,11 @@ export class CultureRepository {
     if (rows.length == 0) {
       throw new NotFoundException(`No culture with id ${id} found`);
     }
-    this.logger.debug(`Row 0: ${JSON.stringify(rows[0])}`);
-    let lineageIds = Array.from(new Set(rows.map(r => r.lineage_id)));
-    let lineages = await this.lineageRepo.getManyByIds(lineageIds);
-    this.logger.debug(`Got ${lineages.length} lineages`);
-    let nameIds = Array.from(new Set(rows.map(r => r.name_id)));
-    let nameOptions = await this.nameRepo.getManyByIds(nameIds);
-    this.logger.debug(`Got ${nameOptions.length} names`);
-    return CultureMapper.toCulture(rows, lineages, nameOptions);
+    let lineageIds: CultureLineageFrequencyRow[] = await executeQuery(this.pool, this.lineageFrequencyQuery, [id], this.logger);
+    let lineages = await this.lineageRepo.getManyByIds(lineageIds.map(x => x.lineage_id));
+    let nameIds: CultureNameFrequencyRow[] = await executeQuery(this.pool, this.nameFrequencyQuery, [id], this.logger);
+    let nameOptions = await this.nameRepo.getManyByIds(nameIds.map(x => x.name_id));
+    return CultureMapper.toCulture(rows[0], lineageIds, nameIds, lineages, nameOptions);
   }
 
   async getAll(): Promise<Culture[]> {
@@ -51,12 +55,13 @@ export class CultureRepository {
       this.logger.debug(`No cultures to get, returning early`);
       return [];
     }
-    let groups = groupRowsById(rows);
     let lineages = await this.lineageRepo.getAll();
     let names = await this.nameRepo.getAll();
     let output: Culture[] = [];
-    for (let [_, values] of groups) {
-      output.push(CultureMapper.toCulture(values, lineages, names))
+    for (let row of rows) {
+      let lineageRows: CultureLineageFrequencyRow[] = await executeQuery(this.pool, this.lineageFrequencyQuery, [row.id], this.logger);
+      let nameRows: CultureNameFrequencyRow[] = await executeQuery(this.pool, this.nameFrequencyQuery, [row.id], this.logger); 
+      output.push(CultureMapper.toCulture(row, lineageRows, nameRows, lineages, names))
     }
     return output;
   }
@@ -85,7 +90,7 @@ export class CultureRepository {
       for (let nameFrequency of culture.personNames) {
         await conn.query(nameInsertQuery, [id, nameFrequency.value.id, nameFrequency.frequency]);
       }
-      let lineageQuery = `INSERT INTO culture_lineage_frequency (culture_id, lineage_id, frequency) VALUES(?, ?, ?)`
+      let lineageQuery = `INSERT INTO culture_lineage_frequency (culture_id, lineage_id, frequency) VALUES (?, ?, ?)`
       for (let LineageFrequency of culture.demographics) {
         await conn.query(lineageQuery, [id, LineageFrequency.value.id, LineageFrequency.frequency]);
       }
@@ -117,25 +122,30 @@ export class CultureRepository {
 }
 
 class CultureMapper {
-  static toCulture(rows: CultureRow[], lineages: Lineage[], names: NameOption[]): Culture {
+  static toCulture(rows: CultureRow, lineageRows: CultureLineageFrequencyRow[], nameRows: CultureNameFrequencyRow[], lineages: Lineage[], names: NameOption[]): Culture {
     let first = rows[0];
     let lineageFrequencies: LineageFrequency[] = []
+    for (let row of lineageRows) {
+      let l = lineages.find(x => x.id == row.lineage_id);
+      if (!l) {
+        throw new InvalidOperationError(`Did not find required lineage with id ${row.lineage_id}!`);
+      }
+      lineageFrequencies.push(new LineageFrequency(l, row.frequency));
+    }
     let settlementNameFrequencies: NameFrequency[] = []
     let peopleNameFrequencies: NameFrequency[] = []
-    for (let row of rows) {
-      let lineage = lineages.find(x => x.id == row.lineage_id);
-      let name = names.find(x => x.id == row.name_id);
-      if (!lineage || !name) {
-        continue
+    for (let row of nameRows) {
+      let n = names.find(x => x.id == row.name_id);
+      if (!n) {
+        throw new InvalidOperationError(`Did not find required name with id ${row.name_id}`);
       }
-      lineageFrequencies.push(new LineageFrequency(lineage!, row.lineage_frequency));
-      let nameFreq = new NameFrequency(name, row.name_frequency);
-      if (name.type == NameType.settlement) {
-        settlementNameFrequencies.push(nameFreq)
+      if (n.isType(NameType.SETTLEMENT)) {
+        settlementNameFrequencies.push(new NameFrequency(n, row.frequency));
       } else {
-        peopleNameFrequencies.push(nameFreq);
+        peopleNameFrequencies.push(new NameFrequency(n, row.frequency));
       }
     }
+    
     return new Culture(first.name, first.name_template, {
       settlement: settlementNameFrequencies, person: peopleNameFrequencies
     }, lineageFrequencies, first.id);
@@ -146,8 +156,16 @@ interface CultureRow extends IdentifiableRow {
   id: number
   name: string
   name_template: string
+}
+
+interface CultureLineageFrequencyRow {
+  culture_id: number
   lineage_id: number
-  lineage_frequency: number
+  frequency: number
+}
+
+interface CultureNameFrequencyRow {
+  culture_id: number
   name_id: number
-  name_frequency: number
+  frequency: number
 }
