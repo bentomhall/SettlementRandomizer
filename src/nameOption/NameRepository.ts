@@ -15,7 +15,7 @@ export class NameRepository {
         FROM name_option n
         JOIN name_type t
             ON t.id = n.type_id
-        JOIN gender g
+        LEFT JOIN gender g
             on g.id = n.gender_id
         `;
     

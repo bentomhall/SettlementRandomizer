@@ -2,7 +2,7 @@ import { createPool } from "mysql2/promise";
 import { MigrationRunner } from "./Migration";
 
 let user='root'
-let rootPassword=process.env.MYSQL_ROOT_PASSWORD
+let rootPassword='test'
 let database = 'settlement_randomizer'
 let host = '127.0.0.1'
 if (!rootPassword) {

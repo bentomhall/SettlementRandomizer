@@ -162,8 +162,11 @@ export class Lineage {
   }
 
   public randomMember(minAge: number = 1, maxAge: number = this.maximumAge - 1): {age: Age, category: AgeCategory, gender: Gender} {
-    if (minAge < 1 || maxAge >= this.maximumAge) {
-      throw new InvalidParameterError(`Ages provided are out of bounds, must be (1, ${this.maximumAge})`)
+    if (minAge < 1) {
+      minAge = 1;
+    }
+    if (maxAge >= this.maximumAge) {
+      maxAge = this.maximumAge - 1;
     }
     let age = new Age(randomBetween(minAge, maxAge));
     let category = this.ageCategory(age)!;

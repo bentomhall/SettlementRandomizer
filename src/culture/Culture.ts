@@ -1,3 +1,4 @@
+import { Logger } from "@nestjs/common"
 import { Gender } from "src/lineage/Gender"
 import { Lineage } from "src/lineage/Lineage"
 import { NameOption } from "src/nameOption/NameOption"
@@ -15,16 +16,24 @@ export class CultureDto {
     ){}
 }
 
-function nameFrequencies(dto: CultureDto, allNames: NameOption[]): {settlement: NameFrequency[], person: NameFrequency[]} {
+function nameFrequencies(dto: CultureDto, allNames: NameOption[], logger: Logger): {settlement: NameFrequency[], person: NameFrequency[]} {
     let settlement: NameFrequency[] = []
     let person: NameFrequency[] = []
-    for (let name of allNames) {
-        if (dto.settlementNameFrequencies.includes(name.value)) {
-            settlement.push(new NameFrequency(name, 1))
-        } else if (Array.isArray(dto.personNameFrequencies) && dto.personNameFrequencies.includes(name.value)) {
-            person.push(new NameFrequency(name, 1))
+    let allSettlements = allNames.filter(x => x.type.id == 1);
+    logger.debug(`Got ${allSettlements.length} settlement names total, ${dto.settlementNameFrequencies.length} settlement names in dto`);
+    let allPersons = allNames.filter(x => !x.isType(NameType.SETTLEMENT));
+    for (let sName of allSettlements) {
+
+        if (dto.settlementNameFrequencies.includes(sName.value)) {
+            settlement.push(new NameFrequency(sName, 1));
+        }
+    }
+    let inputIsArray = Array.isArray(dto.personNameFrequencies);
+    for (let name of allPersons) {
+        if (inputIsArray && (dto.personNameFrequencies as string[]).includes(name.value)) {
+            person.push(new NameFrequency(name, 1));
         } else if (dto.personNameFrequencies[name.value] != undefined) {
-            person.push(new NameFrequency(name, dto.personNameFrequencies[name.value]!))
+            person.push(new NameFrequency(name, dto.personNameFrequencies[name.value]));
         }
     }
     return {settlement, person}
@@ -98,7 +107,7 @@ export class Culture {
     }
 
     static fromDto(dto: CultureDto, allLineages: Lineage[], allNames: NameOption[]): Culture {
-        let names = nameFrequencies(dto, allNames)
+        let names = nameFrequencies(dto, allNames, new Logger('Culture'))
         if (names.person.filter(x => x.value.isType(NameType.GIVEN)).length == 0) {
             throw new InvalidParameterError(`Must give at least one given name`);
         }

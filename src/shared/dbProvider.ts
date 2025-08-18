@@ -3,6 +3,7 @@ import { ConfigService } from "@nestjs/config";
 import { readFile } from "fs/promises";
 import { createPool, Pool, ResultSetHeader, RowDataPacket, PoolConnection } from "mysql2/promise"
 import * as path from "path";
+import { InvalidParameterError } from "./CustomErrors";
 
 @Injectable()
 export class DatabaseProvider {
@@ -46,7 +47,10 @@ export class DataFileProvider {
   private dataCache: Map<DataFileType, string[]> = new Map();
 
   constructor(config: ConfigService) {
-    this.dataDirectory = path.join(__dirname, config.getOrThrow('DATA_DIRECTORY'))
+    this.dataDirectory = config.getOrThrow('DATA_DIRECTORY');
+    if (!this.dataDirectory.startsWith('/')) {
+      throw new InvalidParameterError(`Got data directory of ${this.dataDirectory}, which isn't an absolute path`);
+    }
   }
 
   public async getData(type: DataFileType): Promise<string[]> {

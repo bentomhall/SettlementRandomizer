@@ -19,7 +19,7 @@ export class CultureRepository {
 
   private baseQuery = `SELECT
       c.id, c.name, c.name_template
-    FROM culture
+    FROM culture c
 
   `;
 
@@ -90,6 +90,14 @@ export class CultureRepository {
       for (let nameFrequency of culture.personNames) {
         await conn.query(nameInsertQuery, [id, nameFrequency.value.id, nameFrequency.frequency]);
       }
+      let i = 0;
+      for (let nameFrequency of culture.settlementNames) {
+        if (i%100 == 0) {
+          this.logger.debug(`${i}th settlement: ${nameFrequency.value.value} ${nameFrequency.value.type.value}`);
+        }
+        await conn.query(nameInsertQuery, [id, nameFrequency.value.id, nameFrequency.frequency]);
+        i += 1;
+      }
       let lineageQuery = `INSERT INTO culture_lineage_frequency (culture_id, lineage_id, frequency) VALUES (?, ?, ?)`
       for (let LineageFrequency of culture.demographics) {
         await conn.query(lineageQuery, [id, LineageFrequency.value.id, LineageFrequency.frequency]);
@@ -122,8 +130,7 @@ export class CultureRepository {
 }
 
 class CultureMapper {
-  static toCulture(rows: CultureRow, lineageRows: CultureLineageFrequencyRow[], nameRows: CultureNameFrequencyRow[], lineages: Lineage[], names: NameOption[]): Culture {
-    let first = rows[0];
+  static toCulture(row: CultureRow, lineageRows: CultureLineageFrequencyRow[], nameRows: CultureNameFrequencyRow[], lineages: Lineage[], names: NameOption[]): Culture {
     let lineageFrequencies: LineageFrequency[] = []
     for (let row of lineageRows) {
       let l = lineages.find(x => x.id == row.lineage_id);
@@ -146,9 +153,9 @@ class CultureMapper {
       }
     }
     
-    return new Culture(first.name, first.name_template, {
+    return new Culture(row.name, row.name_template, {
       settlement: settlementNameFrequencies, person: peopleNameFrequencies
-    }, lineageFrequencies, first.id);
+    }, lineageFrequencies, row.id);
   }
 }
 
