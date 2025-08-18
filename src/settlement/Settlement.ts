@@ -33,7 +33,7 @@ export async function createSettlement(culture: Culture, size: SettlementBracket
   let population = randomBetween(sizeRange.min, sizeRange.max);
   let people: PersonDto[] = []
   for (let occupation of requiredOccupations) {
-    people.push(await personService.createPersonFromCulture(culture, occupation));
+    people.push(await personService.createPersonFromCulture(culture, occupation, undefined, true));
   }
   return new SettlementDto(settlementName, culture, size, population, people);
 }

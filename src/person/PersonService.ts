@@ -20,7 +20,7 @@ export class PersonService {
   private quirks: string[];
   public constructor(private dataProvider: DataFileProvider) {}
 
-  public async createPersonFromCulture(culture: Culture, occupation?: string, requestedAgeRange?: SizeRange): Promise<PersonDto> {
+  public async createPersonFromCulture(culture: Culture, occupation?: string, requestedAgeRange?: SizeRange, requireAdult: boolean = false): Promise<PersonDto> {
     if (!occupation) {
       let occupations = await this.dataProvider.getData(DataFileType.OCCUPATIONS);
       if (!this.occupations) {
@@ -34,7 +34,7 @@ export class PersonService {
       this.quirks = allQuirks;
     }
     let lineage = culture.getRandomLineage();
-    let individualInfo = requestedAgeRange ? lineage.randomMember(requestedAgeRange.min, requestedAgeRange.max) : lineage.randomMember();
+    let individualInfo = requestedAgeRange ? lineage.randomMember(requireAdult, requestedAgeRange.min, requestedAgeRange.max) : lineage.randomMember(requireAdult);
     let name = culture.getRandomPersonName(individualInfo.gender);
     let quirkCount = randomBetween(1, 4);
     let quirks: string[] = []

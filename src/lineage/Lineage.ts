@@ -161,7 +161,11 @@ export class Lineage {
     return this.#genders.map(g => g.clone());
   }
 
-  public randomMember(minAge: number = 1, maxAge: number = this.maximumAge - 1): {age: Age, category: AgeCategory, gender: Gender} {
+  public randomMember( requireAdult: boolean = false, minAge: number = 1, maxAge: number = this.maximumAge - 1,): {age: Age, category: AgeCategory, gender: Gender} {
+    if (requireAdult) {
+      minAge = this.#adultAge.valueOf();
+      maxAge = this.#elderlyAge.valueOf() - 1;
+    }
     if (minAge < 1) {
       minAge = 1;
     }
@@ -169,7 +173,7 @@ export class Lineage {
       maxAge = this.maximumAge - 1;
     }
     let age = new Age(randomBetween(minAge, maxAge));
-    let category = this.ageCategory(age)!;
+    let category = requireAdult ? AgeCategory.ADULT : this.ageCategory(age)!;
     let gender = weightedChoice(this.#genders)!;
     return {
       age,
