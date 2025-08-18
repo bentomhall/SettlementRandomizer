@@ -26,8 +26,7 @@ export class SettlementInput {
   constructor(public size: SettlementBracket, public name?: string) {}
 }
 
-export async function createSettlement(culture: Culture, size: SettlementBracket, personService: PersonService, name?: string, logger: Logger = new Logger('createSettlement')): Promise<SettlementDto> {
-  logger.debug(`culture has ${culture.settlementNames.length} settlement names and ${culture.personNames.length} person names`);
+export async function createSettlement(culture: Culture, size: SettlementBracket, personService: PersonService, name?: string): Promise<SettlementDto> {
   let settlementName = name ?? culture.getRandomSettlementName().value
   let sizeRange = settlementSizeMap.get(size) ?? settlementSizeMap.get(SettlementBracket.VILLAGE)!
   let requiredOccupations = requiredOccupationMap.get(size) ?? [];

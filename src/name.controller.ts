@@ -18,7 +18,6 @@ export class NameController {
             type = 'ALL';
         }
         let names = await this.service.getAllByType(type);
-        this.logger.debug(`Got ${names.length} names`);
         return names.map(x => NameOutput.fromName(x));
     }
 

@@ -90,13 +90,8 @@ export class CultureRepository {
       for (let nameFrequency of culture.personNames) {
         await conn.query(nameInsertQuery, [id, nameFrequency.value.id, nameFrequency.frequency]);
       }
-      let i = 0;
       for (let nameFrequency of culture.settlementNames) {
-        if (i%100 == 0) {
-          this.logger.debug(`${i}th settlement: ${nameFrequency.value.value} ${nameFrequency.value.type.value}`);
-        }
         await conn.query(nameInsertQuery, [id, nameFrequency.value.id, nameFrequency.frequency]);
-        i += 1;
       }
       let lineageQuery = `INSERT INTO culture_lineage_frequency (culture_id, lineage_id, frequency) VALUES (?, ?, ?)`
       for (let LineageFrequency of culture.demographics) {

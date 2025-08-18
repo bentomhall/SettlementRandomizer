@@ -20,7 +20,6 @@ function nameFrequencies(dto: CultureDto, allNames: NameOption[], logger: Logger
     let settlement: NameFrequency[] = []
     let person: NameFrequency[] = []
     let allSettlements = allNames.filter(x => x.type.id == 1);
-    logger.debug(`Got ${allSettlements.length} settlement names total, ${dto.settlementNameFrequencies.length} settlement names in dto`);
     let allPersons = allNames.filter(x => !x.isType(NameType.SETTLEMENT));
     for (let sName of allSettlements) {
 

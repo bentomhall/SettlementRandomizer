@@ -47,12 +47,9 @@ export class NameService {
         if (!values) {
             return []
         }
-
         if (Array.isArray(values)) {
-            this.logger.debug(`Retrieved ${values.filter(x => x.type.id == 1).length} settlement names from repo`);
             return values;
         }
-
         return Array.from(values.values()).flat();
     }
 
