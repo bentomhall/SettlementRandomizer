@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { Pool, PoolConnection, ResultSetHeader } from "mysql2/promise";
-import { DatabaseProvider, executeQuery, IdentifiableRow, insert } from "src/shared/dbProvider";
+import { bulkSelect, DatabaseProvider, executeQuery, IdentifiableRow, insert } from "src/shared/dbProvider";
 import { NameOption } from "./NameOption";
 import { Name } from "src/shared/Name";
 import { NameType } from "./NameType";
@@ -47,7 +47,9 @@ export class NameRepository {
     }
 
     async getManyByIds(ids: number[]): Promise<NameOption[]> {
-        return (await this.getAll()).filter(x => ids.includes(x.id));
+        let query = `${this.baseQuery} WHERE n.id IN (?)`;
+        let rows: NameRow[] = await bulkSelect(this.pool, query, [ids], this.logger);
+        return rows.map(r => NameMapper.toNameOption(r));
     }
 
     async getByType(type: NameType): Promise<NameOption[]> {

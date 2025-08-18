@@ -88,6 +88,16 @@ export async function executeQuery<T>(pool: Pool, query: string, params: any[], 
   }
 }
 
+export async function bulkSelect<T>(pool: Pool, query: string, params: any[], logger: Logger): Promise<T[]> {
+  try {
+    let result: T[] | undefined = (await pool.query<RowDataPacket[]>(query, params))[0] as T[];
+    return result ?? []
+  } catch (error) {
+    logger.error((error as Error).message, (error as Error).stack)
+    return []
+  }
+}
+
 export async function insert(pool: Pool | PoolConnection, query: string, values: any[], logger: Logger): Promise<number | null> {
   try {
     let result: ResultSetHeader = (await pool.query<ResultSetHeader>(query, values))[0];
