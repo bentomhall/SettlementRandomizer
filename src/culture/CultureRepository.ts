@@ -35,11 +35,14 @@ export class CultureRepository {
       WHERE culture_id = ?;
   `
 
-  async getById(id: number): Promise<Culture> {
+  async getById(id: number, hydrate:boolean = true): Promise<Culture> {
     let query = `${this.baseQuery} WHERE c.id = ?;`;
     let rows: CultureRow[] = await executeQuery(this.pool, query, [id], this.logger);
     if (rows.length == 0) {
       throw new NotFoundException(`No culture with id ${id} found`);
+    }
+    if (!hydrate) {
+      return CultureMapper.toCulture(rows[0], [], [], [], []);
     }
     let lineageIds: CultureLineageFrequencyRow[] = await executeQuery(this.pool, this.lineageFrequencyQuery, [id], this.logger);
     let lineages = await this.lineageRepo.getManyByIds(lineageIds.map(x => x.lineage_id));
@@ -48,12 +51,15 @@ export class CultureRepository {
     return CultureMapper.toCulture(rows[0], lineageIds, nameIds, lineages, nameOptions);
   }
 
-  async getAll(): Promise<Culture[]> {
-    let query = `${this.baseQuery} WHERE 1 GROUP BY c.id, lf.lineage_id, nf.name_id;`
+  async getAll(hydrate: boolean = true): Promise<Culture[]> {
+    let query = `${this.baseQuery} WHERE 1;`
     let rows: CultureRow[] = await executeQuery(this.pool, query, [], this.logger);
     if (rows.length == 0) {
       this.logger.debug(`No cultures to get, returning early`);
       return [];
+    }
+    if (!hydrate) {
+      return rows.map(r => CultureMapper.toCulture(r, [], [], [], []));
     }
     let lineages = await this.lineageRepo.getAll();
     let names = await this.nameRepo.getAll();

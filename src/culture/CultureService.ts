@@ -17,6 +17,10 @@ export class CultureService {
     return await this.repo.getAll();
   }
 
+  async findAllIdsAndNames(): Promise<Culture[]> {
+    return await this.repo.getAll(false);
+  }
+
   async create(culture: Culture): Promise<Culture> {
     if (culture.id != -1) {
       throw new InvalidOperationError(`Cannot create culture with existing id`);

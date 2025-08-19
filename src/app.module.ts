@@ -12,20 +12,14 @@ import { CultureRepository } from './culture/CultureRepository';
 import { CultureController } from './culture.controller';
 import { AuthGuard } from './admin/AuthGuard';
 import { DatabaseProvider, DataFileProvider } from './shared/dbProvider';
-import { Request, Response } from 'express';
 import { PersonService } from './person/PersonService';
-
-class LoggerMiddleware implements NestMiddleware {
-  use(req: Request, res: Response, next: Function) {
-    console.log('Request', req.method, req.originalUrl);
-    next();
-    console.log('Response', res.statusCode, res.statusMessage);
-  }
-}
+import { ViewsController } from './views.controller';
 
 @Module({
-  imports: [ConfigModule.forRoot()],
-  controllers: [LineageController, NameController, CultureController],
+  imports: [
+    ConfigModule.forRoot()
+  ],
+  controllers: [LineageController, NameController, CultureController, ViewsController],
   providers: [
     DatabaseProvider, 
     DataFileProvider, 
@@ -40,10 +34,4 @@ class LoggerMiddleware implements NestMiddleware {
     PersonService
   ],
 })
-export class AppModule  implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggerMiddleware)
-      .forRoutes('*')
-  }
-}
+export class AppModule {};

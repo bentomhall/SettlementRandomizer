@@ -31,7 +31,8 @@ export class DatabaseProvider {
 
 export enum DataFileType {
   QUIRKS,
-  OCCUPATIONS
+  OCCUPATIONS,
+  FRONT_END_SCRIPT
 }
 
 @Injectable()
@@ -40,7 +41,8 @@ export class DataFileProvider {
   private locations: Map<DataFileType, string> = new Map(
     [
       [DataFileType.QUIRKS, 'quirks.json'],
-      [DataFileType.OCCUPATIONS, 'occupations.json']
+      [DataFileType.OCCUPATIONS, 'occupations.json'],
+      [DataFileType.FRONT_END_SCRIPT, 'main.js']
     ]
   );
 
@@ -53,12 +55,12 @@ export class DataFileProvider {
     }
   }
 
-  public async getData(type: DataFileType): Promise<string[]> {
+  public async getData(type: DataFileType, parseJSON: boolean = true): Promise<string[]> {
     if (this.dataCache.has(type)) {
       return this.dataCache.get(type)!
     }
     let data = await readFile(path.join(this.dataDirectory, this.locations.get(type)!))
-    let json = await JSON.parse(data.toString())
+    let json = parseJSON ? await JSON.parse(data.toString()) : data.toString();
     this.dataCache.set(type, json);
     return json;
   }

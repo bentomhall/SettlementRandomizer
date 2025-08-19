@@ -51,6 +51,32 @@ async function logResponse(f) {
   }
 }
 
+function createTextOutput(data) {
+  let header = ```
+    ==${data.name}==
+    A ${data.size} settlement of the ${data.cultureName} culture.
+    ===Demographics==
+    '''Population:''' ${data.population}
+    '''Breakdown:''' 
+  ```
+  let demo = ``;
+  for (let str of data.demographics) {
+    demo += `[*] ${str}\n`
+  }
+
+  let peopleChunk = '===Important People===\n'
+  for (let person of data.importantPeople) {
+    peopleChunk += ```
+    ====${person.name}===
+    '''Occupation:''' ${person.occupation}
+    '''Lineage:''' ${person.lineage}
+    '''Age:''' ${person.age} (${person.ageCategory})
+    '''Quirks:''' ${person.quirks.join(', ')}
+    ```
+  }
+  return [header, demo, peopleChunk].join('\n')
+}
+
 (function() {
   document.getElementById('get-settlement').addEventListener('click', async () => {
     await logResponse(randomSettlement);

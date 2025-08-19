@@ -1,11 +1,7 @@
 import { PersonDto, PersonService } from "src/person/PersonService"
 import { requiredOccupationMap, SettlementBracket, settlementSizeMap } from "./settlementData"
-import { Name } from "src/shared/Name"
 import { Culture } from "src/culture/Culture"
-import { NameOption } from "src/nameOption/NameOption"
-import { NameType } from "src/nameOption/NameType"
 import { randomBetween } from "src/shared/choice"
-import { Logger } from "@nestjs/common"
 
 export class SettlementDto {
   public readonly name: string
@@ -13,12 +9,14 @@ export class SettlementDto {
   public readonly population: number
   public readonly culture: string
   public readonly importantPeople: PersonDto[]
-  constructor(name: string, culture: Culture, size: SettlementBracket, population: number, people: PersonDto[]) {
+  public readonly demographics: string[]
+  constructor(name: string, culture: Culture, size: SettlementBracket, population: number, people: PersonDto[], demographics: string[]) {
     this.name = name;
     this.importantPeople = people;
     this.culture = culture.name;
     this.population = population;
     this.size = size;
+    this.demographics = demographics;
   }
 }
 
@@ -35,5 +33,6 @@ export async function createSettlement(culture: Culture, size: SettlementBracket
   for (let occupation of requiredOccupations) {
     people.push(await personService.createPersonFromCulture(culture, occupation, undefined, true));
   }
-  return new SettlementDto(settlementName, culture, size, population, people);
+  let demographics = culture.demographics.map(x => { return `${x.value.name}: ${Math.floor(population * x.frequency)}`})
+  return new SettlementDto(settlementName, culture, size, population, people, demographics);
 }
