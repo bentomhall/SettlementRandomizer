@@ -33,6 +33,6 @@ export async function createSettlement(culture: Culture, size: SettlementBracket
   for (let occupation of requiredOccupations) {
     people.push(await personService.createPersonFromCulture(culture, occupation, undefined, true));
   }
-  let demographics = culture.demographics.map(x => { return `${x.value.name}: ${Math.floor(population * x.frequency)}`})
+  let demographics = culture.demographics.map(x => { return `${x.value.name.value}: ${Math.floor(population * x.frequency)}`})
   return new SettlementDto(settlementName, culture, size, population, people, demographics);
 }

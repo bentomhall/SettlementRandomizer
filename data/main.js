@@ -10,6 +10,7 @@ class RandomSettlementInput {
 const sizes = ["hamlet", "estate", "village", "small town", "large town", "city", "metropolis"];
 const cultureDropdown = document.getElementById('culture-select');
 const sizeDropdown = document.getElementById('size-select');
+const outputBlock = document.getElementById('output-block');
 async function randomSettlement() {
   let cultureId = cultureDropdown.value;
   if (cultureId == '') {
@@ -46,19 +47,19 @@ async function logResponse(f) {
   try {
     let output = await f();
     console.log(JSON.stringify(output, undefined, 2));
+    outputBlock.innerText = createTextOutput(output);
   } catch (error) {
     console.error(error);
   }
 }
 
 function createTextOutput(data) {
-  let header = ```
-    ==${data.name}==
-    A ${data.size} settlement of the ${data.cultureName} culture.
-    ===Demographics==
-    '''Population:''' ${data.population}
-    '''Breakdown:''' 
-  ```
+  let header = `==${data.name}==
+A ${data.size} settlement of the ${data.culture} culture.
+===Demographics===
+'''Population:''' ${data.population}
+'''Breakdown:''' 
+  `
   let demo = ``;
   for (let str of data.demographics) {
     demo += `[*] ${str}\n`
@@ -66,13 +67,11 @@ function createTextOutput(data) {
 
   let peopleChunk = '===Important People===\n'
   for (let person of data.importantPeople) {
-    peopleChunk += ```
-    ====${person.name}===
-    '''Occupation:''' ${person.occupation}
-    '''Lineage:''' ${person.lineage}
-    '''Age:''' ${person.age} (${person.ageCategory})
-    '''Quirks:''' ${person.quirks.join(', ')}
-    ```
+    peopleChunk += `====${person.name}====
+'''Occupation:''' ${person.occupation}
+'''Lineage:''' ${person.lineage}
+'''Age:''' ${person.age} (${person.ageCategory})
+'''Quirks:''' ${person.quirks.join(', ')}\n`
   }
   return [header, demo, peopleChunk].join('\n')
 }
