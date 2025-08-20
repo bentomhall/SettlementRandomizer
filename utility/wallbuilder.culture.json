@@ -1,6 +1,6 @@
 {
   "name": "wall-builder",
-  "personNameTemplate": "{{gwerin}}",
+  "personNameTemplate": "{{given}}",
   "settlementNameFrequencies": [
     "Boonsboro",
     "Bryant",
