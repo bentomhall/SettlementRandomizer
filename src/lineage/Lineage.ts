@@ -164,7 +164,7 @@ export class Lineage {
   public randomMember( requireAdult: boolean = false, minAge: number = 1, maxAge: number = this.maximumAge - 1,): {age: Age, category: AgeCategory, gender: Gender} {
     if (requireAdult) {
       minAge = this.#adultAge.valueOf();
-      maxAge = this.#elderlyAge.valueOf() - 1;
+      maxAge = this.#maximumAge.valueOf() - 1;
     }
     if (minAge < 1) {
       minAge = 1;

@@ -1,7 +1,8 @@
 import { PersonDto, PersonService } from "src/person/PersonService"
 import { requiredOccupationMap, SettlementBracket, settlementSizeMap } from "./settlementData"
 import { Culture } from "src/culture/Culture"
-import { randomBetween } from "src/shared/choice"
+import { randomBetween, WeightedOption } from "src/shared/choice"
+import { Lineage } from "src/lineage/Lineage"
 
 export class SettlementDto {
   public readonly name: string
@@ -33,6 +34,26 @@ export async function createSettlement(culture: Culture, size: SettlementBracket
   for (let occupation of requiredOccupations) {
     people.push(await personService.createPersonFromCulture(culture, occupation, undefined, true));
   }
-  let demographics = culture.demographics.map(x => { return `${x.value.name.value}: ${Math.floor(population * x.frequency)}`})
-  return new SettlementDto(settlementName, culture, size, population, people, demographics);
+  let {adjusted, individuals} = getRandomizedPopulationDemographics(population, culture.demographics);
+  return new SettlementDto(settlementName, culture, size, adjusted, people, individuals);
+}
+
+export function getRandomizedPopulationDemographics(total: number, demographics: WeightedOption<Lineage>[], variation: number = 0.01): {adjusted: number, individuals: string[]}{
+  let output: string[] = [];
+  if (total < 1 || demographics.length == 0) {
+    return {adjusted: total, individuals: output};
+  }
+  let current = total;
+  let remaining = 1;
+  let runningSum = 0;
+  for (let l of demographics) {
+    let f = l.frequency / remaining;
+    remaining -= l.frequency;
+    let pop = Math.floor(f * current*(1 + variation*(Math.random() - 0.5)));
+    runningSum += pop
+    current -= pop;
+    output.push(`${l.value.name.value}: ${pop}`);
+  }
+
+  return {adjusted: runningSum, individuals: output};
 }

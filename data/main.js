@@ -34,7 +34,7 @@ async function randomPerson() {
   if (cultureId == '') {
     return;
   }
-  let response = await fetch(`/cultures/${cultureId}/settlement`, {
+  let response = await fetch(`/cultures/${cultureId}/person`, {
     headers: {
       'accept': 'application/json'
     },
@@ -43,14 +43,27 @@ async function randomPerson() {
   return await response.json();
 }
 
-async function logResponse(f) {
+async function logResponse(f, type) {
   try {
     let output = await f();
     console.log(JSON.stringify(output, undefined, 2));
-    outputBlock.innerText = createTextOutput(output);
+    if (type == "settlement") {
+      outputBlock.innerText = createTextOutput(output);
+    } else {
+      outputBlock.innerText = createPersonOutput(output);
+    }
+    
   } catch (error) {
     console.error(error);
   }
+}
+
+function createPersonOutput(person) {
+  return `====${person.name}====
+'''Occupation:''' ${person.occupation}
+'''Lineage:''' ${person.lineage}
+'''Age:''' ${person.age} (${person.ageCategory})
+'''Quirks:''' ${person.quirks.join(', ')}\n`
 }
 
 function createTextOutput(data) {
@@ -62,25 +75,22 @@ A ${data.size} settlement of the ${data.culture} culture.
   `
   let demo = ``;
   for (let str of data.demographics) {
-    demo += `[*] ${str}\n`
+    demo += `* ${str}\n`
   }
 
   let peopleChunk = '===Important People===\n'
   for (let person of data.importantPeople) {
-    peopleChunk += `====${person.name}====
-'''Occupation:''' ${person.occupation}
-'''Lineage:''' ${person.lineage}
-'''Age:''' ${person.age} (${person.ageCategory})
-'''Quirks:''' ${person.quirks.join(', ')}\n`
+    peopleChunk += createPersonOutput(person)
+    peopleChunk += "\n"
   }
   return [header, demo, peopleChunk].join('\n')
 }
 
 (function() {
   document.getElementById('get-settlement').addEventListener('click', async () => {
-    await logResponse(randomSettlement);
+    await logResponse(randomSettlement, 'settlement');
   }, false);
   document.getElementById('get-person').addEventListener('click', async () => {
-    await logResponse(randomPerson);
+    await logResponse(randomPerson, 'person');
   }, false);
 })();
