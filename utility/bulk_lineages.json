@@ -1,0 +1,123 @@
+[
+    {
+        "name": "human",
+        "adultAge": 18,
+        "maximumAge": 90,
+        "elderlyAge": 60,
+        "genders": {
+            "M": 0.5,
+            "F": 0.5
+        }
+    },
+    {
+        "name": "dwarf",
+        "adultAge": 30,
+        "maximumAge": 120,
+        "elderlyAge": 100,
+        "genders": {
+            "M": 0.5,
+            "F": 0.5
+        }
+    },
+    {
+        "name": "gwerin",
+        "adultAge": 25,
+        "maximumAge": 200,
+        "elderlyAge": 180,
+        "genders": {
+            "F": 0.51,
+            "M": 0.49
+        }
+    },
+    {
+        "name": "ihmisi",
+        "adultAge": 18,
+        "elderlyAge": 100,
+        "maximumAge": 110,
+        "genders": {
+            "F": 0.49,
+            "M": 0.51
+        }
+    },
+    {
+        "name": "halfling",
+        "adultAge": 11,
+        "elderlyAge": 45,
+        "maximumAge": 65,
+        "genders": {
+            "F": 0.4,
+            "M": 0.2,
+            "N": 0.4
+        }
+    },
+    {
+        "name": "dragonborn",
+        "adultAge": 18,
+        "elderlyAge": 60,
+        "maximumAge": 90,
+        "genders": {
+            "M": 0.5,
+            "F": 0.5
+        }
+    },
+    {
+        "name": "orc",
+        "adultAge": 15,
+        "elderlyAge": 55,
+        "maximumAge": 85,
+        "genders": {
+            "M": 0.5,
+            "F": 0.5
+        }
+    },
+    {
+        "name": "jazuu",
+        "adultAge": 22,
+        "elderlyAge": 70,
+        "maximumAge": 100,
+        "genders": {
+            "F": 0.5,
+            "M": 0.5
+        }
+    },
+    {
+        "name": "goblin",
+        "adultAge": 10,
+        "elderlyAge": 45,
+        "maximumAge": 70,
+        "genders": {
+            "F": 0.55,
+            "M": 0.45
+        }
+    },
+    {
+        "name": "ophidian",
+        "adultAge": 18,
+        "elderlyAge": 65,
+        "maximumAge": 90,
+        "genders": {
+            "F": 0.6,
+            "M": 0.4
+        }
+    },
+    {
+        "name": "half-elf",
+        "adultAge": 19,
+        "elderlyAge": 75,
+        "maximumAge": 95,
+        "genders": {
+            "F": 0.5,
+            "M": 0.5
+        }
+    },
+    {
+        "name": "sena'ka",
+        "adultAge": 16,
+        "elderlyAge": 60,
+        "maximumAge": 75,
+        "genders": {
+            "M": 0.6,
+            "F": 0.4
+        }
+    }
+]

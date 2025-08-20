@@ -1,0 +1,11 @@
+{
+    "db": {
+        "host": "db",
+        "username": "test"
+    },
+    "api": {
+        "host": "localhost"
+    },
+    "quirksLocation": "data/quirks.json",
+    "occupationsLocation": "data/occupations.json"
+}

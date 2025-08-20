@@ -1,0 +1,32 @@
+[
+    {
+        "value": "of",
+        "gender": "O",
+        "type": "particle"
+    },
+    {
+        "value": "pe",
+        "gender": "O",
+        "type": "particle"
+    },
+    {
+        "value": "sur",
+        "gender": "M",
+        "type": "particle"
+    },
+    {
+        "value": "sai",
+        "gender": "F",
+        "type": "particle"
+    },
+    {
+        "value": "ka",
+        "gender": "O",
+        "type": "particle"
+    },
+    {
+        "value": "vo",
+        "gender": "O",
+        "type": "particle"
+    }
+]

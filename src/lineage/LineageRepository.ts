@@ -1,0 +1,144 @@
+import { Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
+import { GenderFrequency, Lineage } from "./Lineage";
+import { Gender } from "./Gender";
+import { Inject, Injectable, Logger } from "@nestjs/common";
+import { DatabaseProvider, executeQuery, groupRowsById, IdentifiableRow, insert } from "src/shared/dbProvider";
+import { InvalidOperationError } from "src/shared/CustomErrors";
+
+export interface ILineageRepository {
+  getOneById(id: number): Promise<Lineage | null>
+  getAll(): Promise<Lineage[]>
+  upsert(lineage: Lineage): Promise<Lineage>
+  deleteById(id: number): Promise<void>
+}
+
+
+@Injectable()
+export class LineageRepository implements ILineageRepository {
+  private baseQuery = `SELECT 
+      l.id, l.name, adultAge, maxAge, elderlyAge, 
+      g.id as g_id, g.tag as g_key, g.label as g_label,
+      lg.frequency as g_freq 
+      FROM lineage l 
+      JOIN lineage_gender_frequency lg
+        ON lg.lineage_id = l.id
+      JOIN gender g
+        ON g.id = lg.gender_id`
+  
+  private pool: Pool
+  private logger = new Logger('LineageRepository')
+  constructor(provider: DatabaseProvider) {
+    this.pool = provider.pool;
+  }
+  async getOneById(id: number): Promise<Lineage | null> {
+    let query = `${this.baseQuery}
+      WHERE id = ?
+      GROUP BY l.id, g.id;`
+    let lineages: LineageGenderRow[] = await executeQuery(this.pool, query, [id], this.logger);
+    if (lineages.length == 0) {
+      return null;
+    }
+    let genderFrequencies: GenderFrequency[] = lineages.map(x => LineageMapper.toGenderFrequency(x));
+    let first = lineages[0];
+    return LineageMapper.toLineage(first, genderFrequencies);
+  }
+
+  async getManyByIds(ids: number[]): Promise<Lineage[]> {
+    let output = await this.getAll();
+    return output.filter(x => ids.includes(x.id));
+  }
+
+  async getAll(): Promise<Lineage[]> {
+    let query = `${this.baseQuery} WHERE 1 GROUP BY l.id, g.id`
+    let rows: LineageGenderRow[] = await executeQuery(this.pool, query, [], this.logger);
+    let rowMap: Map<number, LineageGenderRow[]> = new Map()
+    for (let row of rows) {
+      let existing = rowMap.get(row.id) ?? []
+      existing.push(row)
+      rowMap.set(row.id, existing)
+    }
+    let output: Lineage[] = []
+    for (let [key, rowsPerLineage] of rowMap) {
+      let first = rowsPerLineage[0]
+      let genders = rowsPerLineage.map(x => LineageMapper.toGenderFrequency(x))
+      output.push(LineageMapper.toLineage(first, genders));
+    }
+    return output;
+  }
+
+  async upsert(lineage: Lineage): Promise<Lineage> {
+    if (lineage.id != -1 || await this.exists(lineage.name.valueOf())) {
+      await this.deleteById(lineage.id);
+    } 
+    return await this.insert(lineage);
+  
+  }
+
+  async deleteById(id: number): Promise<void> {
+    let lineageQuery = `DELETE FROM lineage WHERE id=?;`
+    await this.pool.query(lineageQuery, [id]);
+  }
+
+  private async exists(name: string): Promise<boolean> {
+    let result: {count: number}[] = await executeQuery(this.pool, `SELECT COUNT(id) FROM lineage WHERE name=?`, [name], this.logger);
+    if (result.length == 0) {
+      return false
+    }
+    return result[0].count > 0
+  }
+
+  private async insert(lineage: Lineage): Promise<Lineage> {
+    let lineageQuery = `INSERT INTO lineage (name, adultAge, maxAge, elderlyAge) VALUES (?, ?, ?, ?)`;
+    let conn = await this.pool.getConnection();
+    
+    try {
+      await conn.beginTransaction()
+      let id = await insert(conn, lineageQuery, [lineage.name.value, lineage.adultAge, lineage.maximumAge, lineage.elderlyAge], this.logger);
+      if (!id) {
+        throw new InvalidOperationError(`Insert failed`)
+      }
+      lineage.setId(id)
+      let genderQuery = `INSERT INTO lineage_gender_frequency (lineage_id, gender_id, frequency) VALUES (?, ?, ?);`
+      for (let g of lineage.genders) {
+        await conn.query(genderQuery, [id, g.gender.id, g.frequency]);
+      }
+      await conn.commit()
+      return lineage
+    } catch (error) {
+      this.logger.error((error as Error).message, (error as Error).stack);
+      await conn.rollback()
+      throw error
+    } finally {
+      conn.release();
+    }
+  }
+}
+
+interface LineageGenderRow extends IdentifiableRow {
+  id: number,
+  name: string,
+  adultAge: number,
+  maxAge: number,
+  elderlyAge: number,
+  g_id: number,
+  g_key: string,
+  g_label: string,
+  g_freq: number
+}
+
+class LineageMapper {
+  static toLineage(l: LineageGenderRow, g: GenderFrequency[]): Lineage {
+    return new Lineage({
+      genders: g,
+      name: l.name,
+      adultAge: l.adultAge,
+      maximumAge: l.maxAge,
+      elderlyAge: l.elderlyAge
+    }, l.id)
+  }
+
+  static toGenderFrequency(l: LineageGenderRow): GenderFrequency {
+    let gender = new Gender(l.g_id, l.g_key, l.g_label);
+    return new GenderFrequency(gender, l.g_freq)
+  }
+}
