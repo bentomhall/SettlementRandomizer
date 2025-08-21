@@ -61,17 +61,18 @@ async function logResponse(f, type) {
 function createPersonOutput(person) {
   return `====${person.name}====
 '''Occupation:''' ${person.occupation}
-'''Lineage:''' ${person.lineage}
+
+'''Lineage:''' ${person.gender} ${person.lineage}
+
 '''Age:''' ${person.age} (${person.ageCategory})
+
 '''Quirks:''' ${person.quirks.join(', ')}\n`
 }
 
 function createTextOutput(data) {
   let header = `==${data.name}==
-A ${data.size} settlement of the ${data.culture} culture.
+A ${data.culture} ${data.size} with ${data.population} inhabitants.
 ===Demographics===
-'''Population:''' ${data.population}
-'''Breakdown:''' 
   `
   let demo = ``;
   for (let str of data.demographics) {
